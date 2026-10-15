@@ -1509,6 +1509,17 @@ f_b=\frac{2\times30\times10^{12}\times5}{3\times10^8}
 f_k=\frac{kF_s}{N_{\mathrm{FFT}}},\qquad
 R_k=\frac{cF_s}{2SN_{\mathrm{FFT}}}k.
 \]</div>
+<p>这里的换算分两步。DFT 的第 <span class="arithmatex">\(k\)</span> 行使用参考相位 <span class="arithmatex">\(2\pi kn/N_{\mathrm{FFT}}\)</span>，采样频率为 <span class="arithmatex">\(f\)</span> 的信号相位为 <span class="arithmatex">\(2\pi fn/F_s\)</span>。两者匹配时：</p>
+<div class="arithmatex">\[
+\frac{f}{F_s}=\frac{k}{N_{\mathrm{FFT}}}
+\quad\Longrightarrow\quad f_k=\frac{kF_s}{N_{\mathrm{FFT}}}.
+\]</div>
+<p>再把 <span class="arithmatex">\(f_k\)</span> 代入 <span class="arithmatex">\(R=cf_b/(2S)\)</span>，就得到 <span class="arithmatex">\(R_k\)</span>。相邻两格相减：</p>
+<div class="arithmatex">\[
+R_{k+1}-R_k
+=\frac{cF_s}{2SN_{\mathrm{FFT}}}\big[(k+1)-k\big]
+=\frac{cF_s}{2SN_{\mathrm{FFT}}}.
+\]</div>
 <p>未补零时，<span class="arithmatex">\(N_{\mathrm{FFT}}=N_s\)</span>。本例相邻距离格为：</p>
 <div class="arithmatex">\[
 \Delta R_{\mathrm{grid}}
@@ -1535,6 +1546,14 @@ X_r[k,m,p]=\sum_{n=0}^{N_s-1}x[n,m,p]w[n]e^{-j2\pi kn/N_s}.
 <p>采样时间为 <span class="arithmatex">\(T_{\mathrm{ADC}}=N_s/F_s\)</span>，覆盖带宽为 <span class="arithmatex">\(B_{\mathrm{ADC}}=ST_{\mathrm{ADC}}\)</span>。代入后，未补零的距离格间隔可写为：</p>
 <div class="arithmatex">\[
 \Delta R_{\mathrm{grid}}=\frac{c}{2B_{\mathrm{ADC}}}.
+\]</div>
+<p>具体约分过程是：</p>
+<div class="arithmatex">\[
+\Delta R_{\mathrm{grid}}
+=\frac{cF_s}{2SN_s}
+=\frac{c}{2S(N_s/F_s)}
+=\frac{c}{2ST_{\mathrm{ADC}}}
+=\frac{c}{2B_{\mathrm{ADC}}}.
 \]</div>
 <p>这也是矩形窗下常用的理想距离分辨尺度。本例有效带宽为 960 MHz，因此得到 0.15625 m。加窗会改变主瓣宽度，实际分开两个目标的能力还与信噪比和目标强弱有关。</p>
 <p>单个目标的距离可以用峰值插值估得更细，但“更精确地估计一个峰”与“分开两个峰”是两个问题。</p>
@@ -1647,6 +1666,8 @@ X_r[k,m,p]=\sum_{n=0}^{N_s-1}x[n,m,p]w[n]e^{-j2\pi kn/N_s}.
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
+      
+        <script src="../assets/javascripts/signal-labs.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

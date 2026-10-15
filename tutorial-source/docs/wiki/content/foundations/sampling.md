@@ -82,6 +82,28 @@ A:  1.000  1.000  1.000  1.000  1.000  1.000  1.000  1.000
 
 `1j` 是代码中的虚数单位，`np.exp` 和 `exp` 计算指数。I、Q 随时间变化，但两者合成的幅度保持为 1。
 
+### 逐点观察 I/Q
+
+把复数 $z[n]$ 画成从原点指向 $(I,Q)$ 的线段。相位增加时，线段旋转；它在横轴与纵轴上的投影分别给出 I 和 Q。下面仍使用 1 MHz 拍频和 8 MHz 采样率，幅度为 1。
+
+<section class="signal-lab" data-lab="iq" aria-label="I/Q 相位与采样点演示" hidden>
+  <label class="lab-range">采样点 n：<output data-view="sample">0</output>
+    <input type="range" min="0" max="8" step="1" value="0" aria-label="采样点编号" data-control="sample">
+  </label>
+  <div class="lab-controls">
+    <button type="button" data-action="previous">上一点</button>
+    <button type="button" data-action="next">下一点</button>
+    <button type="button" data-action="play">播放一周（慢放）</button>
+    <button type="button" data-action="reset">回到起点</button>
+  </div>
+  <p class="lab-result" data-view="result" aria-live="polite"></p>
+  <div class="lab-pair"><div data-view="circle"></div><div data-view="wave"></div></div>
+  <p class="lab-legend"><span class="lab-series-a">实线 / 圆点：I</span><span class="lab-series-b">虚线 / 方点：Q</span></p>
+  <p data-view="status">每次前进一个采样间隔 0.125 µs；播放仅用于慢放观察。</p>
+</section>
+
+第 2 点的相位为 90°，所以 $I=0,Q=1$；第 4 点为 180°，所以 $I=-1,Q=0$。演示额外显示第 8 点，它已经是下一周期的起点，与第 0 点数值相同。上面的代码只取一周期内的第 0～7 点。
+
 ## 量化
 
 ADC 不能保存无限精细的电压值，而是将电压映射到有限数量的数字等级，这一步叫量化。以有符号 16 位存储为例，一个整数可表示 −32768～32767。

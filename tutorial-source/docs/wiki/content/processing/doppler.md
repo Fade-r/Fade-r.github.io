@@ -76,13 +76,41 @@ disp([fAxis(index), round(v,3)]);
 
 ## 速度轴与无模糊范围
 
-移位后，频率格编号 $\ell$ 从 $-N_c/2$ 到 $N_c/2-1$。速度轴为：
+慢时间序列代入 DFT 后，初始相位与幅度可以提出求和号：
+
+\[
+\begin{aligned}
+D[\ell]
+&=\sum_{m=0}^{N_c-1}A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}
+e^{-j2\pi\ell m/N_c}\\
+&=A e^{j\phi_0}\sum_{m=0}^{N_c-1}
+e^{j2\pi m(f_DT_{\mathrm{slow}}-\ell/N_c)}.
+\end{aligned}
+\]
+
+当 $f_DT_{\mathrm{slow}}=\ell/N_c$ 时，每项指数都为 1，得到峰值 $N_cA e^{j\phi_0}$。于是：
+
+\[
+f_{D,\ell}=\frac{\ell}{N_cT_{\mathrm{slow}}},
+\qquad
+v_\ell=\frac{\lambda}{2}f_{D,\ell}
+=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
+\]
+
+移位后，对于偶数 $N_c$，有符号频率格编号 $\ell$ 从 $-N_c/2$ 到 $N_c/2-1$。速度轴为：
 
 \[
 v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
 \]
 
-相邻速度格间隔为 $\lambda/(2N_cT_{\mathrm{slow}})$。慢时间采样的频率范围是 $[-1/(2T_{\mathrm{slow}}),1/(2T_{\mathrm{slow}}))$，所以速度范围为：
+相邻速度格间隔为 $\lambda/(2N_cT_{\mathrm{slow}})$。无模糊范围也可以从相位增量理解。相邻观测间：
+
+\[
+\Delta\phi=2\pi f_DT_{\mathrm{slow}}
+=\frac{4\pi vT_{\mathrm{slow}}}{\lambda}.
+\]
+
+采样无法区分相差 $2\pi$ 整数倍的相位增量。采用 $[-\pi,\pi)$ 作为主值区间，把 $\Delta\phi$ 代入并乘以正数 $\lambda/(4\pi T_{\mathrm{slow}})$，得到：
 
 \[
 -\frac{\lambda}{4T_{\mathrm{slow}}}

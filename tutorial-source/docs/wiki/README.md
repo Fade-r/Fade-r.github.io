@@ -25,15 +25,17 @@ conda run -n radar-env python -m mkdocs build -f docs/wiki/mkdocs.yml --strict -
 conda run -n radar-env python docs/wiki/examples/tutorial_pipeline.py
 conda run -n radar-env python workbench/experiments/wiki-build/verify_tutorial.py
 conda run -n radar-env python workbench/experiments/wiki-build/verify_wiki.py
+node workbench/experiments/wiki-build/verify_signal_labs.cjs
 ```
 
-检查包括 Python 示例语法、源码摘录、下载副本一致性、本地链接和资源。MATLAB 新版脚本尚未实际运行，不能把 Python 检查视为 MATLAB 验证。
+检查包括 Python 示例语法、源码摘录、下载副本一致性、本地链接和资源，以及首页与左侧目录的分组、标题、顺序和链接一致性。交互模型用 Node.js 检查全部预设距离、采样点、矩阵索引和 DFT 行；按钮、播放和主题还需在浏览器检查。MATLAB 新版脚本尚未实际运行，不能把静态或 Python 检查视为 MATLAB 验证。
 
 ## 文件维护
 
 - `examples/tutorial_pipeline.py` 与 `.m`：完整教学代码；网页下载副本位于 `content/assets/downloads/`，修改后须同步。
 - `examples/make_lesson_figures.py`：生成解析信号教学图与对应 CSV，输出到 `content/assets/lessons/`；预览 PNG 位于 `workbench/cache/wiki-rebuild/`。
 - `content/assets/figures/`：原项目诊断图快照，与理想信号教学图分开。
+- `content/assets/javascripts/signal-labs.js`：回波延迟、I/Q 逐点播放、数据重排、DFT 矩阵演示。模型与页面渲染分开，图形使用当前模型值；不自动播放、不循环，页面隐藏时暂停。系统要求减少动态效果时只保留手动步进。
 - `workbench/archive/wiki-before-runoob-20261015/`：重构前的内容、示例和配置归档。
 - `references/tutorial-writing.md`：教学写法参考记录。
 

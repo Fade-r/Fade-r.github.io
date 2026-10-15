@@ -67,6 +67,21 @@ f_k=\frac{kF_s}{N_{\mathrm{FFT}}},\qquad
 R_k=\frac{cF_s}{2SN_{\mathrm{FFT}}}k.
 \]
 
+这里的换算分两步。DFT 的第 $k$ 行使用参考相位 $2\pi kn/N_{\mathrm{FFT}}$，采样频率为 $f$ 的信号相位为 $2\pi fn/F_s$。两者匹配时：
+
+\[
+\frac{f}{F_s}=\frac{k}{N_{\mathrm{FFT}}}
+\quad\Longrightarrow\quad f_k=\frac{kF_s}{N_{\mathrm{FFT}}}.
+\]
+
+再把 $f_k$ 代入 $R=cf_b/(2S)$，就得到 $R_k$。相邻两格相减：
+
+\[
+R_{k+1}-R_k
+=\frac{cF_s}{2SN_{\mathrm{FFT}}}\big[(k+1)-k\big]
+=\frac{cF_s}{2SN_{\mathrm{FFT}}}.
+\]
+
 未补零时，$N_{\mathrm{FFT}}=N_s$。本例相邻距离格为：
 
 \[
@@ -107,6 +122,16 @@ rangeCube = fft(frame.*window,ns,1);
 
 \[
 \Delta R_{\mathrm{grid}}=\frac{c}{2B_{\mathrm{ADC}}}.
+\]
+
+具体约分过程是：
+
+\[
+\Delta R_{\mathrm{grid}}
+=\frac{cF_s}{2SN_s}
+=\frac{c}{2S(N_s/F_s)}
+=\frac{c}{2ST_{\mathrm{ADC}}}
+=\frac{c}{2B_{\mathrm{ADC}}}.
 \]
 
 这也是矩形窗下常用的理想距离分辨尺度。本例有效带宽为 960 MHz，因此得到 0.15625 m。加窗会改变主瓣宽度，实际分开两个目标的能力还与信噪比和目标强弱有关。

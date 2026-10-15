@@ -22,12 +22,13 @@ FMCW 是“调频连续波”的缩写。它在一段时间内连续发射信号
 
 | 部分 | 内容 |
 | --- | --- |
-| 发射与接收 | [发射信号](foundations/transmit.md)、[回波与混频](foundations/echo-and-mixing.md) |
-| 数据采集 | [I/Q 与采样](foundations/sampling.md)、[雷达与采集卡](data/capture.md)、[数据读取](data/adc-iq-layout.md) |
-| 信号处理 | [FFT](foundations/signal-and-fft.md)、[距离](processing/range.md)、[速度](processing/doppler.md)、[检测](practice/detection.md)、[角度](processing/angle.md)、[微位移](processing/phase.md) |
-| 编程与实验 | [完整示例](practice/end-to-end.md)、[项目代码分析](code/code-map.md)、[实验验证](audit/validation-roadmap.md) |
+| 发射与接收 | [发射信号](foundations/transmit.md)、[回波与混频](foundations/echo-and-mixing.md)、[I/Q 与采样](foundations/sampling.md) |
+| 数据采集与读取 | [雷达与数据采集](data/capture.md)、[帧、通道与数组](orientation/learning-path.md)、[ADC 数据读取](data/adc-iq-layout.md) |
+| 信号处理 | [FFT 与频谱](foundations/signal-and-fft.md)、[距离测量](processing/range.md)、[速度测量](processing/doppler.md)、[目标检测](practice/detection.md)、[角度测量](processing/angle.md)、[微位移测量](processing/phase.md)、[完整处理示例](practice/end-to-end.md) |
+| 项目案例 | [项目参数对照](orientation/parameters-and-shapes.md)、[项目代码分析](code/code-map.md)、[原函数逐段说明](code/original-functions.md)、[实测结果分析](audit/scientific-audit.md)、[诊断图说明](reference/figure-atlas.md)、[实验验证](audit/validation-roadmap.md) |
+| 参考资料 | [MATLAB/Python 语法速查](foundations/arrays-and-languages.md)、[代码来源和参考资料](reference/sources.md) |
 
-编程示例使用数组、循环和函数；数学部分涉及三角函数、复数和求和。复数、频谱和数组维度会在使用时介绍。
+编程示例使用数组、循环和函数；数学部分会用到三角函数、复数、求和与基本微积分。复数、矩阵运算和检测所需的概率概念会在相应章节介绍。
 
 [^1]: Texas Instruments. [IWR1443 数据手册](https://www.ti.com/lit/ds/symlink/iwr1443.pdf).
 [^2]: Texas Instruments. [IWR1843 数据手册](https://www.ti.com/lit/ds/symlink/iwr1843.pdf).

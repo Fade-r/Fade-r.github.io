@@ -64,6 +64,40 @@ P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
 
 这里的 $P_{\mathrm{FA}}$ 是设定的单格虚警概率，不是某次有限数据上一定出现的误报比例。加窗、杂波和多通道积累会改变统计条件，需要相应调整检测器。
 
+### 虚警概率公式的推导
+
+设噪声功率的均值为 $\mu$，单个训练格 $P_i$ 的概率密度为 $p(u)=\mu^{-1}e^{-u/\mu}$，$u\ge0$。指数分布的尾概率为：
+
+\[
+\Pr(P_{\mathrm{CUT}}>h)
+=\int_h^\infty\frac1\mu e^{-u/\mu}\,du
+=e^{-h/\mu}.
+\]
+
+给定训练格功率后，阈值 $h=\alpha\sum_iP_i/N$ 已确定。再对训练格的随机取值求平均：
+
+\[
+\begin{aligned}
+P_{\mathrm{FA}}
+&=\mathbb E\left[\exp\left(-\frac{\alpha}{N\mu}\sum_{i=1}^N P_i\right)\right]\\
+&=\prod_{i=1}^N\mathbb E\left[e^{-\alpha P_i/(N\mu)}\right].
+\end{aligned}
+\]
+
+第二步利用了训练格相互独立。每一项期望都是同一个积分：
+
+\[
+\begin{aligned}
+\mathbb E\left[e^{-\alpha P_i/(N\mu)}\right]
+&=\int_0^\infty e^{-\alpha u/(N\mu)}\frac1\mu e^{-u/\mu}\,du\\
+&=\frac1\mu\int_0^\infty
+e^{-(1+\alpha/N)u/\mu}\,du\\
+&=\frac{1}{1+\alpha/N}.
+\end{aligned}
+\]
+
+$N$ 项相乘，即得到 $(1+\alpha/N)^{-N}$。例如 $N=4,\alpha=4$ 时，虚警概率为 $2^{-4}=1/16$。这个结论要求 CUT 与训练格也相互独立。
+
 ## 一个小例子
 
 两侧共 4 个训练格，功率均为 1，CUT 功率为 8。为了便于计算，取 $\alpha=4$，阈值就是 4，所以检测结果为真。

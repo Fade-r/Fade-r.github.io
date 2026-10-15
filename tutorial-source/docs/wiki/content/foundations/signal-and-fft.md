@@ -28,7 +28,25 @@ x[n]=e^{j2\pi\cdot2n/8}.
 x[n]e^{-j2\pi\cdot2n/8}=1.
 \]
 
-8 个 1 相加，所以 $X[2]=8$。其他整数频率格的结果为零。
+8 个 1 相加，所以 $X[2]=8$。为什么其他整数格为零？把信号代入 DFT，并合并指数：
+
+\[
+X[k]=\sum_{n=0}^{7}e^{j2\pi(2-k)n/8}.
+\]
+
+令 $r=e^{j2\pi(2-k)/8}$，就得到等比数列 $X[k]=1+r+\cdots+r^7$。当 $k\ne2$ 时，$r\ne1$，两边乘以 $r$ 再相减：
+
+\[
+\begin{aligned}
+rX[k]&=r+r^2+\cdots+r^8,\\
+(1-r)X[k]&=1-r^8,\\
+X[k]&=\frac{1-r^8}{1-r}.
+\end{aligned}
+\]
+
+整数 $k$ 满足 $r^8=e^{j2\pi(2-k)}=1$，所以分子为零，得到 $X[k]=0$。$k=2$ 时分母也为零，不能用这个分式，必须回到 8 个 1 的直接求和。
+
+这个推导也解释了频谱泄漏：频率不落在整数格时，$r^8$ 通常不等于 1，其他格的和就不再为零。
 
 ### Python
 
@@ -57,6 +75,59 @@ disp(k);
 频谱幅度为 `[0,0,8,0,0,0,0,0]`，峰位编号为 2。MATLAB 的第 3 个元素对应从 0 编号的第 2 格。浮点运算可能留下非常接近零的小数。
 
 <figure><img src="../assets/lessons/fft-eight.svg" alt="8点FFT幅度在第2格为8，其他格为零"><figcaption>横轴目前是频率格编号。给出采样率后，才能换算成 Hz。</figcaption></figure>
+
+## DFT 的矩阵形式
+
+把输入的每个采样点放进列向量，DFT 就是矩阵乘法 $\mathbf X=\mathbf F_N\mathbf x$。矩阵第 $k$ 行、第 $n$ 列是 $e^{-j2\pi kn/N}$：每一行负责一个频率格，每一列对应一个输入采样点。
+
+以 4 点为例，$e^{-j2\pi/4}=-j$，展开各次幂可得：
+
+\[
+\begin{bmatrix}X[0]\\X[1]\\X[2]\\X[3]\end{bmatrix}
+=
+\underbrace{\begin{bmatrix}
+1&1&1&1\\
+1&-j&-1&j\\
+1&-1&1&-1\\
+1&j&-1&-j
+\end{bmatrix}}_{\mathbf F_4}
+\begin{bmatrix}x[0]\\x[1]\\x[2]\\x[3]\end{bmatrix}.
+\]
+
+例如第二行乘以输入列向量，就是 $X[1]=x[0]-jx[1]-x[2]+jx[3]$。这里的乘法不是逐元素相乘：先将同一行和输入对应位置相乘，再把四个乘积相加。
+
+下面的图可以逐行选择频率格，查看每个乘积怎样相加。输入固定为 $\mathbf x=[1,j,-1,-j]^\mathsf T$，因此第 1 格的结果是 4，其余格为 0。
+
+<section class="signal-lab" data-lab="dft" aria-label="四点 DFT 矩阵乘法演示" hidden>
+  <label>频率格 k <select data-control="bin"><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></label>
+  <div data-view="matrix"></div>
+  <p class="lab-result" data-view="result" aria-live="polite"></p>
+</section>
+
+### Python
+
+```python
+import numpy as np
+n = np.arange(4)
+k = n[:, None]
+F = np.exp(-1j*2*np.pi*k*n/4)
+x = np.array([1, 1j, -1, -1j])
+print(np.round(F @ x, 6))
+assert np.allclose(F @ x, np.fft.fft(x))
+```
+
+### MATLAB
+
+```matlab
+n = 0:3;
+k = n.';
+F = exp(-1j*2*pi*k*n/4);
+x = [1; 1j; -1; -1j];
+disp(round(F*x,6));
+assert(max(abs(F*x-fft(x))) < 1e-12);
+```
+
+两种语言都得到 $[0,4,0,0]^\mathsf T$，数值误差内与 FFT 相同。显式构造 DFT 矩阵适合理解公式；数据较大时使用 FFT，不需要保存这个 $N\times N$ 矩阵。
 
 ## 频率轴
 

@@ -46,6 +46,19 @@ f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 
 <figure><img src="../assets/lessons/echo-frequency.svg" alt="局部频率图中发射信号与延迟0.1微秒的回波相差3 MHz"><figcaption>发射信号为实线，回波为虚线。横向相差 0.1 µs，纵向相差 3 MHz。这里只画扫频开始处的一小段；回波到达前没有该目标的回波曲线。</figcaption></figure>
 
+### 改变目标距离
+
+拖动距离滑块。斜率保持为 30 MHz/µs，虚线的起点随往返延迟向右移动；同一时刻两条线的高度差就是拍频。图中只显示扫频开始后的 0.5 µs。
+
+<section class="signal-lab" data-lab="echo" aria-label="距离、回波延迟与拍频演示" hidden>
+  <label class="lab-range">目标距离 R：<output data-view="distance">15 m</output>
+    <input type="range" min="5" max="30" step="5" value="15" aria-label="目标距离（米）" data-control="distance">
+  </label>
+  <p class="lab-result" data-view="result" aria-live="polite"></p>
+  <div data-view="plot"></div>
+  <p class="lab-legend"><span class="lab-series-a">实线：发射</span><span class="lab-series-b">虚线：回波</span><span>竖线：同一时刻的频率差</span></p>
+</section>
+
 ## 混频器怎样提取拍频
 
 混频器将回波与本机参考信号相乘。两个余弦相乘，可用积化和差公式展开：
@@ -62,18 +75,37 @@ f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 
 ## 拍频信号的相位
 
-用发射相位减去回波相位：
+先单独展开回波相位中的平方项：
+
+\[
+\begin{aligned}
+(t-\tau)^2&=t^2-2t\tau+\tau^2,\\
+f_0(t-\tau)+\frac{S(t-\tau)^2}{2}
+&=f_0t-f_0\tau+\frac{St^2}{2}-St\tau+\frac{S\tau^2}{2}.
+\end{aligned}
+\]
+
+用发射相位减去回波相位。相同的初始相位 $\phi_0$ 相消，括号前的减号要作用于回波展开式的每一项：
 
 \[
 \begin{aligned}
 \phi_b(t)
 &=2\pi\left[f_0t+\frac{St^2}{2}-f_0(t-\tau)-\frac{S(t-\tau)^2}{2}\right]\\
+&=2\pi\left[f_0t+\frac{St^2}{2}-f_0t+f_0\tau-\frac{St^2}{2}+St\tau-\frac{S\tau^2}{2}\right]\\
 &=2\pi\left[f_0\tau+St\tau-\frac{S\tau^2}{2}\right]\\
 &=2\pi f_bt+\phi_c.
 \end{aligned}
 \]
 
-第二行使用了 $(t-\tau)^2=t^2-2t\tau+\tau^2$。最后一行中 $f_b=S\tau$，$\phi_c=2\pi(f_0\tau-S\tau^2/2)$ 与时间无关。
+其中 $f_0t$ 和 $St^2/2$ 分别抵消。对静止目标，$\tau$ 不随时间变化，所以 $f_0\tau-S\tau^2/2$ 是常数，只有 $St\tau$ 随时间变化。最后一行将常数记为 $\phi_c=2\pi(f_0\tau-S\tau^2/2)$。
+
+相位对时间求导，再除以 $2\pi$，得到拍频：
+
+\[
+f_b=\frac{1}{2\pi}\frac{d\phi_b}{dt}
+=\frac{1}{2\pi}\,2\pi S\tau
+=S\tau=\frac{2SR}{c}.
+\]
 
 因此，一个静止目标在一次线性扫频内产生近似恒定频率的拍频信号。多个目标的回波叠加后，就会包含多个拍频分量。
 

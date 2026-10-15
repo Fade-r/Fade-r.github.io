@@ -38,7 +38,27 @@ z[p]=A e^{j(\phi_0+2\pi p d\sin\theta/\lambda)}.
 \theta=\arcsin\left(\frac{\lambda q}{dN_a}\right).
 \]
 
-半波长间距时，$\theta=\arcsin(2q/N_a)$。角度与 FFT 格编号不是线性关系。
+这一步来自空间相位与 DFT 参考相位的匹配。令 $\nu=d\sin\theta/\lambda$，它表示每增加一个通道的相位增加多少圈。补零到 $N_a$ 点后，只有原来 $P$ 个通道参与求和：
+
+\[
+\begin{aligned}
+Z[q]
+&=\sum_{p=0}^{P-1}A e^{j(\phi_0+2\pi p\nu)}e^{-j2\pi qp/N_a}\\
+&=A e^{j\phi_0}\sum_{p=0}^{P-1}e^{j2\pi p(\nu-q/N_a)}.
+\end{aligned}
+\]
+
+在 $\nu=q/N_a$ 处，各通道同相叠加。因此先解 $\sin\theta$，再取反正弦：
+
+\[
+\frac{d\sin\theta}{\lambda}=\frac{q}{N_a}
+\ \Longrightarrow\
+\sin\theta=\frac{\lambda q}{dN_a}
+\ \Longrightarrow\
+\theta=\arcsin\!\left(\frac{\lambda q}{dN_a}\right).
+\]
+
+半波长间距时，$\theta=\arcsin(2q/N_a)$。角度与 FFT 格编号不是线性关系。目标方向位于两个格之间时，最大格给出近似方向，补零只能加密这些候选格。
 
 ### Python 示例
 
@@ -81,6 +101,21 @@ disp([q(index) round(angle,1)]);
 \[
 z_{\mathrm{comp}}[p]=z[p]\exp(-j2\pi\widehat f_D\delta t_p).
 \]
+
+将原来的空间相位记为 $\phi_{\mathrm{space},p}$，补偿前后的乘积展开为：
+
+\[
+\begin{aligned}
+z_{\mathrm{comp}}[p]
+&=A e^{j\phi_{\mathrm{space},p}}
+e^{j2\pi f_D\delta t_p}
+e^{-j2\pi\widehat f_D\delta t_p}\\
+&=A e^{j\phi_{\mathrm{space},p}}
+e^{j2\pi(f_D-\widehat f_D)\delta t_p}.
+\end{aligned}
+\]
+
+估计准确时，后一个指数为 1，运动相位被抵消，空间相位保留。若多普勒估计有误差，残余相位会继续影响测角。
 
 3 路 TX 按 160 µs 间隔轮发，每路对应 4 个 RX，且通道按 TX 分组时：
 

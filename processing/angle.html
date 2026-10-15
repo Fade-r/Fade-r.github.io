@@ -1483,7 +1483,23 @@ z[p]=A e^{j(\phi_0+2\pi p d\sin\theta/\lambda)}.
 \qquad
 \theta=\arcsin\left(\frac{\lambda q}{dN_a}\right).
 \]</div>
-<p>半波长间距时，<span class="arithmatex">\(\theta=\arcsin(2q/N_a)\)</span>。角度与 FFT 格编号不是线性关系。</p>
+<p>这一步来自空间相位与 DFT 参考相位的匹配。令 <span class="arithmatex">\(\nu=d\sin\theta/\lambda\)</span>，它表示每增加一个通道的相位增加多少圈。补零到 <span class="arithmatex">\(N_a\)</span> 点后，只有原来 <span class="arithmatex">\(P\)</span> 个通道参与求和：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+Z[q]
+&amp;=\sum_{p=0}^{P-1}A e^{j(\phi_0+2\pi p\nu)}e^{-j2\pi qp/N_a}\\
+&amp;=A e^{j\phi_0}\sum_{p=0}^{P-1}e^{j2\pi p(\nu-q/N_a)}.
+\end{aligned}
+\]</div>
+<p>在 <span class="arithmatex">\(\nu=q/N_a\)</span> 处，各通道同相叠加。因此先解 <span class="arithmatex">\(\sin\theta\)</span>，再取反正弦：</p>
+<div class="arithmatex">\[
+\frac{d\sin\theta}{\lambda}=\frac{q}{N_a}
+\ \Longrightarrow\
+\sin\theta=\frac{\lambda q}{dN_a}
+\ \Longrightarrow\
+\theta=\arcsin\!\left(\frac{\lambda q}{dN_a}\right).
+\]</div>
+<p>半波长间距时，<span class="arithmatex">\(\theta=\arcsin(2q/N_a)\)</span>。角度与 FFT 格编号不是线性关系。目标方向位于两个格之间时，最大格给出近似方向，补零只能加密这些候选格。</p>
 <h3 id="python">Python 示例<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -1515,6 +1531,18 @@ z[p]=A e^{j(\phi_0+2\pi p d\sin\theta/\lambda)}.
 <div class="arithmatex">\[
 z_{\mathrm{comp}}[p]=z[p]\exp(-j2\pi\widehat f_D\delta t_p).
 \]</div>
+<p>将原来的空间相位记为 <span class="arithmatex">\(\phi_{\mathrm{space},p}\)</span>，补偿前后的乘积展开为：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+z_{\mathrm{comp}}[p]
+&amp;=A e^{j\phi_{\mathrm{space},p}}
+e^{j2\pi f_D\delta t_p}
+e^{-j2\pi\widehat f_D\delta t_p}\\
+&amp;=A e^{j\phi_{\mathrm{space},p}}
+e^{j2\pi(f_D-\widehat f_D)\delta t_p}.
+\end{aligned}
+\]</div>
+<p>估计准确时，后一个指数为 1，运动相位被抵消，空间相位保留。若多普勒估计有误差，残余相位会继续影响测角。</p>
 <p>3 路 TX 按 160 µs 间隔轮发，每路对应 4 个 RX，且通道按 TX 分组时：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mf">160e-6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">z_comp</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">fd_hat</span><span class="o">*</span><span class="n">offsets</span><span class="p">)</span>
@@ -1649,6 +1677,8 @@ P(\theta)=\left|\sum_p a_p^*(\theta)z[p]\right|^2.
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
+      
+        <script src="../assets/javascripts/signal-labs.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

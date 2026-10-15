@@ -1535,11 +1535,33 @@ z[m]=A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}.
 <figure><img src="../assets/lessons/doppler-peak.svg" alt="理想多普勒频谱对应的速度峰在约0.244米每秒处"><figcaption>零速度位于中央，正负速度分列两侧。示例以远离为正；实测符号应通过已知方向的运动确认。</figcaption></figure>
 
 <h2 id="_4">速度轴与无模糊范围<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>移位后，频率格编号 <span class="arithmatex">\(\ell\)</span> 从 <span class="arithmatex">\(-N_c/2\)</span> 到 <span class="arithmatex">\(N_c/2-1\)</span>。速度轴为：</p>
+<p>慢时间序列代入 DFT 后，初始相位与幅度可以提出求和号：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+D[\ell]
+&amp;=\sum_{m=0}^{N_c-1}A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}
+e^{-j2\pi\ell m/N_c}\\
+&amp;=A e^{j\phi_0}\sum_{m=0}^{N_c-1}
+e^{j2\pi m(f_DT_{\mathrm{slow}}-\ell/N_c)}.
+\end{aligned}
+\]</div>
+<p>当 <span class="arithmatex">\(f_DT_{\mathrm{slow}}=\ell/N_c\)</span> 时，每项指数都为 1，得到峰值 <span class="arithmatex">\(N_cA e^{j\phi_0}\)</span>。于是：</p>
+<div class="arithmatex">\[
+f_{D,\ell}=\frac{\ell}{N_cT_{\mathrm{slow}}},
+\qquad
+v_\ell=\frac{\lambda}{2}f_{D,\ell}
+=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
+\]</div>
+<p>移位后，对于偶数 <span class="arithmatex">\(N_c\)</span>，有符号频率格编号 <span class="arithmatex">\(\ell\)</span> 从 <span class="arithmatex">\(-N_c/2\)</span> 到 <span class="arithmatex">\(N_c/2-1\)</span>。速度轴为：</p>
 <div class="arithmatex">\[
 v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
 \]</div>
-<p>相邻速度格间隔为 <span class="arithmatex">\(\lambda/(2N_cT_{\mathrm{slow}})\)</span>。慢时间采样的频率范围是 <span class="arithmatex">\([-1/(2T_{\mathrm{slow}}),1/(2T_{\mathrm{slow}}))\)</span>，所以速度范围为：</p>
+<p>相邻速度格间隔为 <span class="arithmatex">\(\lambda/(2N_cT_{\mathrm{slow}})\)</span>。无模糊范围也可以从相位增量理解。相邻观测间：</p>
+<div class="arithmatex">\[
+\Delta\phi=2\pi f_DT_{\mathrm{slow}}
+=\frac{4\pi vT_{\mathrm{slow}}}{\lambda}.
+\]</div>
+<p>采样无法区分相差 <span class="arithmatex">\(2\pi\)</span> 整数倍的相位增量。采用 <span class="arithmatex">\([-\pi,\pi)\)</span> 作为主值区间，把 <span class="arithmatex">\(\Delta\phi\)</span> 代入并乘以正数 <span class="arithmatex">\(\lambda/(4\pi T_{\mathrm{slow}})\)</span>，得到：</p>
 <div class="arithmatex">\[
 -\frac{\lambda}{4T_{\mathrm{slow}}}
 \le v&lt;
@@ -1691,6 +1713,8 @@ v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
+      
+        <script src="../assets/javascripts/signal-labs.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

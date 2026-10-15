@@ -21,7 +21,7 @@ print(raw.size)
 
 ```matlab
 fid = fopen('capture.bin','r','ieee-le');
-assert(fid `= -1, 'Cannot open ADC file');
+assert(fid ~= -1, 'Cannot open ADC file');
 raw = fread(fid,Inf,'int16=>double');
 fclose(fid);
 disp(numel(raw));
@@ -106,6 +106,45 @@ assert(isequal(size(frame),[256 64 12]));
 ```
 
 `permute` 交换维度，作用相当于 NumPy 的多维 `transpose`。这里保留 RX 在虚拟通道编号中变化最快，两种语言最后得到相同的采样点归属。
+
+### 每个元素去了哪里
+
+下面将每个 chirp 缩小到 2 个采样点、每帧缩小到 2 轮，仍保留 3 TX、4 RX。原始整数用 `1,2,…,96` 标记位置，不代表真实回波。选择一个元素，可以同时看到它的 I/Q 来源和最终矩阵位置。
+
+<section class="signal-lab" data-lab="layout" aria-label="I/Q 与数组索引演示" hidden>
+  <div class="lab-controls">
+    <label>采样点 n <select data-control="n"><option value="0">0</option><option value="1">1</option></select></label>
+    <label>轮次 m <select data-control="m"><option value="0">0</option><option value="1">1</option></select></label>
+    <label>发射 TX <select data-control="tx"><option value="0">TX1</option><option value="1">TX2</option><option value="2">TX3</option></select></label>
+    <label>接收 RX <select data-control="rx"><option value="0">RX1</option><option value="1">RX2</option><option value="2">RX3</option><option value="3">RX4</option></select></label>
+  </div>
+  <p>同一采样时刻的八元组（先 I，后 Q）：</p>
+  <div class="lab-words" data-view="words"></div>
+  <p data-view="slice-title"></p>
+  <div class="lab-matrix" data-view="matrix"></div>
+  <p class="lab-result" data-view="result" aria-live="polite"></p>
+  <p data-view="indices"></p>
+</section>
+
+用从 0 开始的索引表示，设 TX 编号为 $a$、RX 编号为 $r$。到达第 $m$ 轮、第 $a$ 路 TX 之前，已经经过 $mN_{\mathrm{TX}}+a$ 个 chirp。每个 chirp 有 $N_s$ 个采样时刻，所以当前八元组的编号是：
+
+\[
+g=(mN_{\mathrm{TX}}+a)N_s+n.
+\]
+
+每组含 8 个整数，因此 I 与 Q 在原始序列中的位置分别是 $8g+r$、$8g+4+r$。合并 TX/RX 后，虚拟通道编号为 $p=4a+r$：
+
+\[
+x[n,m,4a+r]=\mathrm{raw}[8g+r]+j\,\mathrm{raw}[8g+4+r].
+\]
+
+例如选择 $n=1,m=1,\mathrm{TX2},\mathrm{RX3}$，则 $a=1,r=2$：
+
+\[
+g=(1\times3+1)\times2+1=9,\qquad p=4\times1+2=6.
+\]
+
+I、Q 的零起始位置为 74 和 78，对应标记值 75 和 79，所以 Python 的 `frame[1,1,6]` 和 MATLAB 的 `frame(2,2,7)` 都应为 `75+79j`。`reshape` 与 `transpose/permute` 的目的就是保留这个对应关系，而不是只凑出正确的尺寸。
 
 ## IWR1843 格式
 

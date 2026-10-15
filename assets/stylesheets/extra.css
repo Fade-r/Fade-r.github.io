@@ -8,6 +8,8 @@
 }
 .md-typeset h2 { margin-top: 1.8em; font-weight: 650; }
 .md-typeset h3 { line-height: 1.5; }
+/* Keep MathJax's screen-reader-only MathML from widening narrow pages. */
+.md-typeset mjx-assistive-mml { width: 1px !important; height: 1px !important; }
 .md-typeset code { font-size: 0.83em; }
 .md-typeset pre { line-height: 1.65; }
 .md-typeset .admonition, .md-typeset details {
@@ -27,4 +29,59 @@
   text-align: left;
   font-style: normal;
   color: var(--md-default-fg-color--light);
+}
+
+/* Interactive teaching examples; colors follow the selected Material palette. */
+.signal-lab {
+  --lab-a: #006b9b;
+  --lab-b: #a74900;
+  margin: 1.2rem 0;
+  padding: 0.8rem 0;
+  border-block: 1px solid var(--md-default-fg-color--lightest);
+}
+[data-md-color-scheme="slate"] .signal-lab { --lab-a: #67d2ff; --lab-b: #ffba83; }
+.signal-lab[hidden] { display: none; }
+.signal-lab .lab-controls, .signal-lab .lab-legend { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; }
+.signal-lab .lab-range { display: block; }
+.signal-lab input[type="range"] { display: block; width: 100%; height: 2rem; accent-color: var(--md-primary-fg-color); }
+.signal-lab output, .signal-lab .lab-result { font-variant-numeric: tabular-nums; }
+.signal-lab button, .signal-lab select {
+  font: inherit;
+  font-size: 0.8rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  border: 1px solid var(--md-default-fg-color--light);
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.55rem;
+  min-height: 2.2rem;
+}
+.signal-lab button:not(:disabled), .signal-lab select { cursor: pointer; }
+.signal-lab button:disabled { opacity: 0.45; }
+.signal-lab :is(button, select, input):focus-visible { outline: 3px solid var(--md-accent-fg-color); outline-offset: 3px; }
+.signal-lab svg { display: block; width: 100%; height: auto; }
+.signal-lab svg text { fill: var(--md-default-fg-color); font-size: 12px; font-family: sans-serif; }
+.signal-lab .lab-axis { stroke: var(--md-default-fg-color--light); stroke-width: 1; }
+.signal-lab .lab-grid { stroke: var(--md-default-fg-color--lightest); stroke-width: 1; }
+.signal-lab .lab-line-a { stroke: var(--lab-a); stroke-width: 2.4; }
+.signal-lab .lab-line-b { stroke: var(--lab-b); stroke-width: 2.4; stroke-dasharray: 6 4; }
+.signal-lab .lab-point-a { fill: var(--lab-a); }
+.signal-lab .lab-point-b { fill: var(--lab-b); }
+.signal-lab .lab-series-a { color: var(--lab-a); }
+.signal-lab .lab-series-b { color: var(--lab-b); }
+.signal-lab .lab-unit-circle { fill: none; stroke: var(--md-default-fg-color--light); stroke-width: 1; }
+.signal-lab .lab-difference, .signal-lab .lab-vector { stroke: var(--md-default-fg-color); stroke-width: 2; }
+.signal-lab .lab-projection { stroke: var(--md-default-fg-color--light); stroke-width: 1; stroke-dasharray: 3 3; }
+.signal-lab .lab-current { fill: var(--md-default-fg-color); }
+.signal-lab .lab-pair { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.6rem; }
+.signal-lab .lab-words { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0.4rem; }
+.signal-lab .lab-cell { padding: 0.3rem; border: 1px solid var(--md-default-fg-color--lightest); text-align: center; }
+.signal-lab .lab-cell span, .signal-lab .lab-cell strong, .signal-lab .lab-cell small { display: block; }
+.signal-lab .lab-cell span, .signal-lab .lab-cell small { font-size: 0.7rem; }
+.signal-lab .is-active { background: var(--md-accent-fg-color--transparent); outline: 2px solid var(--md-accent-fg-color); outline-offset: -2px; }
+.signal-lab table { width: 100%; margin: 0.8rem 0; border-collapse: collapse; font-size: 0.8rem; }
+.signal-lab th, .signal-lab td { padding: 0.35rem 0.2rem; text-align: center; border-bottom: 1px solid var(--md-default-fg-color--lightest); }
+.signal-lab .lab-product th, .signal-lab .lab-product td { border-top: 1px solid var(--md-default-fg-color--light); }
+@media (max-width: 650px) {
+  .signal-lab .lab-pair { grid-template-columns: minmax(0,1fr); }
+  .signal-lab .lab-result { overflow-wrap: anywhere; }
 }

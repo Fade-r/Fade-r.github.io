@@ -840,10 +840,27 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="CA-CFAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        虚警概率公式的推导
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         一个小例子
@@ -921,7 +938,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         静态杂波
@@ -932,7 +949,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         检测格与目标数
@@ -1461,10 +1478,27 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="CA-CFAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        虚警概率公式的推导
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         一个小例子
@@ -1542,7 +1576,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         静态杂波
@@ -1553,7 +1587,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         检测格与目标数
@@ -1618,7 +1652,33 @@ P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
 \alpha=N\left(P_{\mathrm{FA}}^{-1/N}-1\right).
 \]</div>
 <p>这里的 <span class="arithmatex">\(P_{\mathrm{FA}}\)</span> 是设定的单格虚警概率，不是某次有限数据上一定出现的误报比例。加窗、杂波和多通道积累会改变统计条件，需要相应调整检测器。</p>
-<h2 id="_4">一个小例子<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_4">虚警概率公式的推导<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>设噪声功率的均值为 <span class="arithmatex">\(\mu\)</span>，单个训练格 <span class="arithmatex">\(P_i\)</span> 的概率密度为 <span class="arithmatex">\(p(u)=\mu^{-1}e^{-u/\mu}\)</span>，<span class="arithmatex">\(u\ge0\)</span>。指数分布的尾概率为：</p>
+<div class="arithmatex">\[
+\Pr(P_{\mathrm{CUT}}&gt;h)
+=\int_h^\infty\frac1\mu e^{-u/\mu}\,du
+=e^{-h/\mu}.
+\]</div>
+<p>给定训练格功率后，阈值 <span class="arithmatex">\(h=\alpha\sum_iP_i/N\)</span> 已确定。再对训练格的随机取值求平均：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+P_{\mathrm{FA}}
+&amp;=\mathbb E\left[\exp\left(-\frac{\alpha}{N\mu}\sum_{i=1}^N P_i\right)\right]\\
+&amp;=\prod_{i=1}^N\mathbb E\left[e^{-\alpha P_i/(N\mu)}\right].
+\end{aligned}
+\]</div>
+<p>第二步利用了训练格相互独立。每一项期望都是同一个积分：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathbb E\left[e^{-\alpha P_i/(N\mu)}\right]
+&amp;=\int_0^\infty e^{-\alpha u/(N\mu)}\frac1\mu e^{-u/\mu}\,du\\
+&amp;=\frac1\mu\int_0^\infty
+e^{-(1+\alpha/N)u/\mu}\,du\\
+&amp;=\frac{1}{1+\alpha/N}.
+\end{aligned}
+\]</div>
+<p><span class="arithmatex">\(N\)</span> 项相乘，即得到 <span class="arithmatex">\((1+\alpha/N)^{-N}\)</span>。例如 <span class="arithmatex">\(N=4,\alpha=4\)</span> 时，虚警概率为 <span class="arithmatex">\(2^{-4}=1/16\)</span>。这个结论要求 CUT 与训练格也相互独立。</p>
+<h2 id="_5">一个小例子<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>两侧共 4 个训练格，功率均为 1，CUT 功率为 8。为了便于计算，取 <span class="arithmatex">\(\alpha=4\)</span>，阈值就是 4，所以检测结果为真。</p>
 <h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -1672,14 +1732,14 @@ P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">end</span>
 </span></code></pre></div>
 <p>MATLAB 版本可保存为 <code>ca_cfar.m</code>。两种实现的切片终点不同：Python 不包含右端点，MATLAB 包含。</p>
-<h2 id="_5">静态杂波<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_6">静态杂波<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>墙壁、地面等静止物体常在零多普勒附近形成强回波。若研究目标是运动物体，可以在慢时间维减去复数均值：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">moving</span> <span class="o">=</span> <span class="n">range_cube</span> <span class="o">-</span> <span class="n">range_cube</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">moving</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rangeCube</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">rangeCube</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 </span></code></pre></div>
 <p>减均值会压低零多普勒分量，也会削弱静止目标。它是针对测量目的的选择，不是每次处理都必须加入的步骤。</p>
-<h2 id="_6">检测格与目标数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">检测格与目标数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <p>一个目标的主瓣可能覆盖多个相邻格，因此检出三个格并不等于有三个目标。检测后通常还需要选局部峰值、合并邻近检测，并在时间上关联目标。</p>
 <p>实际距离—多普勒图常使用二维 CFAR。这里的一维实现用于说明训练格、保护格和阈值计算，不把它直接当作完整点云算法。</p>
 <p>原理参考：H. Rohling, “Radar CFAR Thresholding in Clutter and Multiple Target Situations,” IEEE TAES, 1983, <a href="https://doi.org/10.1109/TAES.1983.309350">doi:10.1109/TAES.1983.309350</a>。</p>
@@ -1790,6 +1850,8 @@ P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
+      
+        <script src="../assets/javascripts/signal-labs.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

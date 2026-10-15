@@ -18,7 +18,7 @@ GitHub 仓库页面不会直接运行 HTML。是否通过 GitHub Pages 上线，
 
 | 位置 | 内容 |
 | --- | --- |
-| [教程正文](tutorial-source/docs/wiki/content/index.md) | Markdown、教学图和原项目诊断图 |
+| [教程正文](tutorial-source/docs/wiki/content/index.md) | Markdown、教学图、交互演示和原项目诊断图 |
 | [教学示例](tutorial-source/docs/wiki/examples/) | 可独立运行的 MATLAB / Python 程序 |
 | [原处理代码](tutorial-source/project/src/) | 教程分析的两个 Python 文件 |
 | [参考索引](tutorial-source/references/README.md) | 上游代码、许可和资料核验记录 |
@@ -34,6 +34,7 @@ python -m mkdocs build -f docs/wiki/mkdocs.yml --strict --clean
 python workbench/experiments/wiki-build/verify_tutorial.py
 python workbench/experiments/wiki-build/verify_wiki.py
 python docs/wiki/examples/tutorial_pipeline.py
+node workbench/experiments/wiki-build/verify_signal_labs.cjs
 ```
 
 MATLAB 中运行 `tutorial-source/docs/wiki/examples/tutorial_pipeline.m`。新版 Python 示例已通过运行测试；MATLAB 版本尚未实际运行。构建后的网页位于 `tutorial-source/docs/wiki/site/`；发布更新时，将该目录的内容复制到分支根目录，保留 `tutorial-source/` 和本说明。
