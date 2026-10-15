@@ -1,0 +1,118 @@
+site_name: 毫米波雷达处理教程
+site_description: 代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程
+site_author: codex-radar research workspace
+docs_dir: content
+site_dir: site
+use_directory_urls: false
+strict: true
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: zh
+  font: false
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+    - search.share
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: 切换至深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: 切换至浅色模式
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/theme-toggle.js
+  - assets/javascripts/teaching-demos.js
+  - assets/javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+nav:
+  - 首页: index.md
+  - 数据采集:
+      - 从回波到数据文件: data/capture.md
+  - 开始学习:
+      - 先看懂一帧数据: orientation/learning-path.md
+      - 参数与三个动手例子: orientation/parameters-and-shapes.md
+  - 必要基础:
+      - 复数、采样和 FFT: foundations/signal-and-fft.md
+  - 数据入口:
+      - 把整数变成 I/Q 数据: data/adc-iq-layout.md
+  - 三维 FFT:
+      - 距离：一次扫频内的变化: processing/range.md
+      - 速度：多次观测之间的变化: processing/doppler.md
+      - 方向：天线之间的相位差: processing/angle.md
+  - 相位与微动:
+      - 用相位观察微小位移: processing/phase.md
+  - 自己实现:
+      - 检测与杂波处理: practice/detection.md
+      - 完整练习与检查点: practice/end-to-end.md
+  - 检查结果:
+      - 当前结果可信度: audit/scientific-audit.md
+      - 标定实验与修正路线: audit/validation-roadmap.md
+  - 参考:
+      - MATLAB/Python 语法速查: foundations/arrays-and-languages.md
+      - 项目文件和函数索引: code/code-map.md
+      - 逐张读懂现有图片: reference/figure-atlas.md
+      - 代码来源和参考资料: reference/sources.md
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: relative_to_docs
+    unrecognized_links: warn
+
+copyright: 基于本项目代码和采集数据编写；公式的适用条件见各章说明。

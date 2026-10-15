@@ -27,7 +27,7 @@
     
     
       
-        <title>虚拟阵列与角度 FFT - IWR1443 原始 ADC 科研 Wiki</title>
+        <title>方向：天线之间的相位差 - 毫米波雷达处理教程</title>
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#fft" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -116,7 +116,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../index.html" title="IWR1443 原始 ADC 科研 Wiki" class="md-header__button md-logo" aria-label="IWR1443 原始 ADC 科研 Wiki" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达处理教程" class="md-header__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -130,13 +130,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            IWR1443 原始 ADC 科研 Wiki
+            毫米波雷达处理教程
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              虚拟阵列与角度 FFT
+              方向：天线之间的相位差
             
           </span>
         </div>
@@ -263,6 +263,28 @@
     
     
       <li class="md-tabs__item">
+        <a href="../data/capture.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  数据采集
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../orientation/learning-path.html" class="md-tabs__link">
           
   
@@ -270,6 +292,28 @@
     
   
   开始学习
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../foundations/signal-and-fft.html" class="md-tabs__link">
+          
+  
+  
+    
+  
+  必要基础
 
         </a>
       </li>
@@ -353,13 +397,13 @@
     
     
       <li class="md-tabs__item">
-        <a href="../code/code-map.html" class="md-tabs__link">
+        <a href="../practice/detection.html" class="md-tabs__link">
           
   
   
     
   
-  代码导读
+  自己实现
 
         </a>
       </li>
@@ -381,7 +425,7 @@
   
     
   
-  科研审计
+  检查结果
 
         </a>
       </li>
@@ -397,7 +441,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../reference/figure-atlas.html" class="md-tabs__link">
+        <a href="../foundations/arrays-and-languages.html" class="md-tabs__link">
           
   
   
@@ -433,13 +477,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="IWR1443 原始 ADC 科研 Wiki" class="md-nav__button md-logo" aria-label="IWR1443 原始 ADC 科研 Wiki" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达处理教程" class="md-nav__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    IWR1443 原始 ADC 科研 Wiki
+    毫米波雷达处理教程
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -482,8 +526,6 @@
       
         
       
-        
-      
     
     
     
@@ -507,7 +549,7 @@
   <span class="md-ellipsis">
     
   
-    开始学习
+    数据采集
   
 
     
@@ -520,6 +562,99 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据采集
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/capture.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    从回波到数据文件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开始学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -543,7 +678,7 @@
   <span class="md-ellipsis">
     
   
-    项目边界与学习路线
+    先看懂一帧数据
   
 
     
@@ -571,7 +706,7 @@
   <span class="md-ellipsis">
     
   
-    参数、单位与 shape
+    参数与三个动手例子
   
 
     
@@ -616,10 +751,101 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    必要基础
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    必要基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/signal-and-fft.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复数、采样和 FFT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -637,8 +863,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -662,7 +888,7 @@
   <span class="md-ellipsis">
     
   
-    ADC、IQ 与数据立方体
+    把整数变成 I/Q 数据
   
 
     
@@ -716,10 +942,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -737,8 +963,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -762,7 +988,7 @@
   <span class="md-ellipsis">
     
   
-    FMCW 与距离 FFT
+    距离：一次扫频内的变化
   
 
     
@@ -790,7 +1016,7 @@
   <span class="md-ellipsis">
     
   
-    多普勒（Doppler）与 TDM 时序
+    速度：多次观测之间的变化
   
 
     
@@ -827,7 +1053,7 @@
   <span class="md-ellipsis">
     
   
-    虚拟阵列与角度 FFT
+    方向：天线之间的相位差
   
 
     
@@ -845,7 +1071,7 @@
   <span class="md-ellipsis">
     
   
-    虚拟阵列与角度 FFT
+    方向：天线之间的相位差
   
 
     
@@ -871,10 +1097,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        从阵元相位到入射角
+        1. 相邻天线为什么出现相位差
       
     </span>
   </a>
@@ -882,10 +1108,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shape" class="md-nav__link">
+  <a href="#2-fft" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前 shape 与实现
+        2. 空间 FFT 的横轴先是格编号
       
     </span>
   </a>
@@ -893,10 +1119,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#strict" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        strict 角度链的五个限制
+        3. 两种语言的教学写法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实际阵列不等间距怎么办
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 项目目前实际算了什么
       
     </span>
   </a>
@@ -907,7 +1155,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        诚实的角轴代码
+        检查点
       
     </span>
   </a>
@@ -954,10 +1202,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -975,8 +1223,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1000,7 +1248,7 @@
   <span class="md-ellipsis">
     
   
-    慢时间、相位与相干性
+    用相位观察微小位移
   
 
     
@@ -1032,6 +1280,8 @@
       
         
       
+        
+      
     
     
     
@@ -1045,17 +1295,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    代码导读
+    自己实现
   
 
     
@@ -1066,12 +1316,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
-    代码导读
+    自己实现
   
 
           </label>
@@ -1084,14 +1334,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../code/code-map.html" class="md-nav__link">
+      <a href="../practice/detection.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Python/MATLAB 调用关系
+    检测与杂波处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice/end-to-end.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完整练习与检查点
   
 
     
@@ -1138,17 +1416,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
   <span class="md-ellipsis">
     
   
-    科研审计
+    检查结果
   
 
     
@@ -1159,12 +1437,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
-    科研审计
+    检查结果
   
 
           </label>
@@ -1246,6 +1524,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1259,10 +1541,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -1280,8 +1562,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1298,6 +1580,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MATLAB/Python 语法速查
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/code-map.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    项目文件和函数索引
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reference/figure-atlas.html" class="md-nav__link">
         
   
@@ -1305,7 +1643,7 @@
   <span class="md-ellipsis">
     
   
-    诊断图谱
+    逐张读懂现有图片
   
 
     
@@ -1333,7 +1671,7 @@
   <span class="md-ellipsis">
     
   
-    参数、谱系与来源
+    代码来源和参考资料
   
 
     
@@ -1381,10 +1719,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        从阵元相位到入射角
+        1. 相邻天线为什么出现相位差
       
     </span>
   </a>
@@ -1392,10 +1730,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shape" class="md-nav__link">
+  <a href="#2-fft" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前 shape 与实现
+        2. 空间 FFT 的横轴先是格编号
       
     </span>
   </a>
@@ -1403,10 +1741,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#strict" class="md-nav__link">
+  <a href="#3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        strict 角度链的五个限制
+        3. 两种语言的教学写法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实际阵列不等间距怎么办
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 项目目前实际算了什么
       
     </span>
   </a>
@@ -1417,7 +1777,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        诚实的角轴代码
+        检查点
       
     </span>
   </a>
@@ -1441,61 +1801,78 @@
 
 
 
-<h1 id="fft">虚拟阵列与角度 FFT<a class="headerlink" href="#fft" title="Permanent link">&para;</a></h1>
-<h2 id="_1">从阵元相位到入射角<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>均匀线阵相邻阵元间距为 (d) 时：</p>
+<h1 id="_1">方向：比较不同天线收到的相位<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>做完距离和多普勒处理后，我们可以固定一个距离—速度格，从多个通道各取一个复数。不同天线的位置不同，回波到达它们的路程略有差别，于是留下相位差。这一章解释如何把这种差别换成角度。</p>
+<h2 id="1">1. 相邻天线为什么出现相位差<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>先考虑远场平面波、等间距直线阵列。角度 θ 从阵列正前方量起，阵元间距为 d。相邻阵元的路程差大小为 <span class="arithmatex">\(d\sin\theta\)</span>。按选定的天线编号与相位正方向：</p>
 <div class="arithmatex">\[
-\Delta\phi=\frac{2\pi d}{\lambda}\sin\theta.
+z_p=A\exp\left(j\frac{2\pi}{\lambda}pd\sin\theta\right),
+\qquad \Delta\phi=\frac{2\pi d}{\lambda}\sin\theta.
 \]</div>
-<p>若 (d=\lambda/2)，signed FFT bin (q) 可映射为：</p>
+<p>正前方 θ=0，各阵元相位相同；偏离正前方后，相位沿阵元编号逐渐增加或减小。若 <span class="arithmatex">\(d=\lambda/2\)</span>，30° 对应相邻相位差 π/2。于是跨天线的序列也像一个复正弦，可以用 FFT 找出它的“空间频率”。</p>
+<p>这里先讲理想均匀线阵。IWR1443 的 TX/RX 组合必须根据天线实际位置换算成虚拟阵元位置，不能仅因为有 12 个通道，就直接套上 12 元水平线阵。</p>
+<h2 id="2-fft">2. 空间 FFT 的横轴先是格编号<a class="headerlink" href="#2-fft" title="Permanent link">&para;</a></h2>
+<p>对 P 个已校准阵元做 <span class="arithmatex">\(N_\theta\)</span> 点 FFT：</p>
 <div class="arithmatex">\[
-\theta_q=\arcsin\left(\frac{2q}{N_\theta}\right).
+X_a[q]=\sum_{p=0}^{P-1}z_p\exp(-j2\pi qp/N_\theta).
 \]</div>
-<p>这个公式隐含三个条件：通道确实组成 ULA、阵元顺序正确、幅相已经校准。</p>
-<h2 id="shape">当前 shape 与实现<a class="headerlink" href="#shape" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>speed_profile                 [256 range,128 Doppler,12 VC]
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>select VC0..7                 [256,128,8]
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>zero-padded spatial FFT       [256,128,180]
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>sum |X| over Doppler          [256,180]
+<p>信号本身每个阵元增加的相位是 <span class="arithmatex">\(2\pi d\sin\theta/\lambda\)</span>。在峰位置，它应接近 FFT 模板的 <span class="arithmatex">\(2\pi q/N_\theta\)</span>，所以：</p>
+<div class="arithmatex">\[
+\sin\theta_q=\frac{\lambda q}{dN_\theta},
+\qquad d=\lambda/2\Rightarrow\theta_q=\arcsin(2q/N_\theta).
+\]</div>
+<p>因此 180 个 FFT 格不等于 −90° 到 +89°。角度轴要经过反正弦，格点在角度上并不等间隔。补零到 180 点只让谱线更细，分辨能力主要仍由实际孔径和加窗决定。</p>
+<h2 id="3">3. 两种语言的教学写法<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>下面假定你已选出一个目标、得到一维向量 <code>z</code>，且这些通道组成校准后的半波长均匀线阵；运动目标的 TX 时刻差也已补偿。</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">n_angle</span> <span class="o">=</span> <span class="mi">180</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_angle</span><span class="p">))</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">n_angle</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_angle</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">/</span><span class="n">n_angle</span><span class="p">))</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">theta_hat</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="n">peak</span><span class="p">]</span>
 </span></code></pre></div>
-<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-271">271</a></span>
-<span class="normal"><a href="#__codelineno-1-272">272</a></span>
-<span class="normal"><a href="#__codelineno-1-273">273</a></span>
-<span class="normal"><a href="#__codelineno-1-274">274</a></span>
-<span class="normal"><a href="#__codelineno-1-275">275</a></span>
-<span class="normal"><a href="#__codelineno-1-276">276</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-271"><a id="__codelineno-1-271" name="__codelineno-1-271"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_angle_fft_strict</span><span class="p">(</span><span class="n">speed_profile</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
-</span><span id="__span-1-272"><a id="__codelineno-1-272" name="__codelineno-1-272"></a><span class="hll">    <span class="n">selected</span> <span class="o">=</span> <span class="n">speed_profile</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">angle_channels</span><span class="p">]</span>
-</span></span><span id="__span-1-273"><a id="__codelineno-1-273" name="__codelineno-1-273"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span>
-</span><span id="__span-1-274"><a id="__codelineno-1-274" name="__codelineno-1-274"></a><span class="hll">        <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">angle_bin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-</span></span><span id="__span-1-275"><a id="__codelineno-1-275" name="__codelineno-1-275"></a>        <span class="n">axes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-1-276"><a id="__codelineno-1-276" name="__codelineno-1-276"></a>    <span class="p">)</span>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">nAngle</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">180</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">A</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="nb">fft</span><span class="p">(</span><span class="n">z</span><span class="p">(:),</span><span class="n">nAngle</span><span class="p">));</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">q</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="n">nAngle</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span><span class="n">nAngle</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">theta</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">asind</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span><span class="o">/</span><span class="n">nAngle</span><span class="p">);</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="w"> </span><span class="n">peak</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">A</span><span class="p">));</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">thetaHat</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">theta</span><span class="p">(</span><span class="n">peak</span><span class="p">);</span>
+</span></code></pre></div>
+<p>在完整模拟练习里，空间峰被设为 <code>q=45</code>，因此先算 <code>2 × 45 / 180 = 1/2</code>，再取反正弦，得到 30°。你可以改这个编号来验证公式。</p>
+<h2 id="4">4. 实际阵列不等间距怎么办<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">IWR1443 / IWR1843：测角要看开发板天线</p>
+<p>芯片的 3 TX × 4 RX 只告诉你最多有 12 种组合，不能确定它们在空间怎样排列。更换为 IWR1843BOOST 或其他板卡时，应从对应板卡的天线布局建立位置表，重新选择水平/俯仰通道并校准。上游取前 8 通道的写法不能仅因使用 IWR1843 就视为已验证正确。</p>
+</div>
+<p>先从硬件资料得到每个虚拟阵元的位置 <span class="arithmatex">\(r_p\)</span>，再为每个候选角度 θ 计算它应有的相位。以一维坐标、同一符号约定为例：</p>
+<div class="arithmatex">\[
+a_p(\theta)=e^{j2\pi r_p\sin\theta/\lambda},\qquad
+P(\theta)=\left|\sum_p a_p^*(\theta)z_p\right|^2.
+\]</div>
+<p>这就是扫描波束形成：对一个角度假设做相位对齐，然后相加。它不要求位置等间隔，但位置、通道顺序与幅相校准仍然必须正确。二维阵列应使用方向向量与阵元位置向量的内积。</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># positions_m 与 z 一一对应；theta_grid 的单位为弧度</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">steering</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">wavelength</span> <span class="o">*</span> <span class="n">positions_m</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:])</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">steering</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">z</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</span></code></pre></div>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">steering</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">/</span><span class="n">wavelength</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">positionsM</span><span class="p">(:)</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">thetaGrid</span><span class="p">(:).</span><span class="o">&#39;</span><span class="p">));</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">power</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">steering</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">z</span><span class="p">(:))</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span><span class="w">  </span><span class="c">% 此处需要共轭转置</span>
+</span></code></pre></div>
+<p>幅相校准可以用已知方向反射器估计各通道的复增益 <span class="arithmatex">\(g_p\)</span>，在波束形成前用 <code>z/g</code> 做逐元素校正。估计时必须先扣除已知方向应有的几何相位；不能把真实的空间相位也当误差消掉。</p>
+<h2 id="5">5. 项目目前实际算了什么<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-271">271</a></span>
+<span class="normal"><a href="#__codelineno-4-272">272</a></span>
+<span class="normal"><a href="#__codelineno-4-273">273</a></span>
+<span class="normal"><a href="#__codelineno-4-274">274</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-271"><a id="__codelineno-4-271" name="__codelineno-4-271"></a><span class="k">def</span><span class="w"> </span><span class="nf">run_angle_fft_strict</span><span class="p">(</span><span class="n">speed_profile</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">RadarConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-4-272"><a id="__codelineno-4-272" name="__codelineno-4-272"></a>    <span class="n">selected</span> <span class="o">=</span> <span class="n">speed_profile</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">angle_channels</span><span class="p">]</span>
+</span><span id="__span-4-273"><a id="__codelineno-4-273" name="__codelineno-4-273"></a>    <span class="c1"># Strict MATLAB parity: angle FFT consumes the configured channel slice directly.</span>
+</span><span id="__span-4-274"><a id="__codelineno-4-274" name="__codelineno-4-274"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">angle_bin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<div class="source-ref">project/src/iwr1443_adc_utils.py:271–274</div>
+<p>源文件：<code>project/src/iwr1443_adc_utils.py</code>，函数 <code>run_angle_fft_strict</code>。</p>
+<p>默认选前 8 个通道，补零到 180 点。可前一步只算了前 4 个通道的 Doppler，选出的后 4 个已经是零。另外还没有确认阵元位置表、通道校准和运动补偿，所以当前结果应按空间 FFT 格来读。</p>
+<figure><img src="../assets/figures/range_angle_heatmap_strict.png" alt="距离与空间 FFT 格的二维热图"><figcaption>横轴看作有符号空间 FFT 格，纵轴是代码标注的距离。先观察重复的距离条纹，再观察横向分布。它同时受前端数据排列和零通道影响，还不能读出可信目标角度。</figcaption></figure>
 
-<h2 id="strict">strict 角度链的五个限制<a class="headerlink" href="#strict" title="Permanent link">&para;</a></h2>
-<ol>
-<li>IWR1443 的 3TX×4RX 不天然构成 12 元水平 ULA。</li>
-<li>当前 Doppler 只有 VC0–VC3 非零；Angle FFT 却取 VC0–VC7，后四个输入为零。</li>
-<li>8 点数据零填充到 180 点只是空间谱插值，不创造 180 个独立阵元。</li>
-<li>MATLAB 把 <code>-90:89</code> 直接当角度不正确。</li>
-<li>尚无阵列幅相校准、静态杂波抑制或 TDM motion compensation。</li>
-</ol>
-<figure class="diagnostic-figure">
-  <img src="../assets/figures/range_angle_heatmap_strict.png" alt="strict 处理得到的距离与方位 FFT index 热图，存在周期距离条纹">
-  <figcaption><strong>strict parity 反例，不是定位图。</strong> 横轴是 signed FFT index，不是经 `arcsin` 和阵列标定后的物理角度。</figcaption>
-</figure>
-
-<h2 id="_2">诚实的角轴代码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">angle_axis_deg</span><span class="p">(</span><span class="n">n_angle</span><span class="o">=</span><span class="mi">180</span><span class="p">):</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">n_angle</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_angle</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">u</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">q</span> <span class="o">/</span> <span class="n">n_angle</span>       <span class="c1"># assumes d = lambda/2</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">valid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">theta</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">valid</span><span class="p">]))</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="k">return</span> <span class="n">q</span><span class="p">,</span> <span class="n">theta</span>
-</span></code></pre></div>
-<p><span class="evidence evidence--hypothesis">推荐修正代码，尚未进入正式管线</span></p>
-<p>严格测角还需要根据 IWR1443 实际天线几何建立 <code>virtual_channel → physical position</code> 表，并用已知方位反射器估计每个通道的复增益。</p>
+<h2 id="_2">检查点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>试着回答：为什么 <code>q=45</code> 对应 30°；为什么 8 点补成 180 点不会变出 180 个天线；为什么运动补偿要在比较天线相位之前完成。下一章：<a href="phase.html">从距离处理处分出另一条路线，观察微位移</a>。</p>
 
 
 
@@ -1533,7 +1910,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="doppler.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 多普勒（Doppler）与 TDM 时序">
+          <a href="doppler.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 速度：多次观测之间的变化">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1543,20 +1920,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                多普勒（Doppler）与 TDM 时序
+                速度：多次观测之间的变化
               </div>
             </div>
           </a>
         
         
           
-          <a href="phase.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 慢时间、相位与相干性">
+          <a href="phase.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 用相位观察微小位移">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                慢时间、相位与相干性
+                用相位观察微小位移
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1573,7 +1950,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      本站区分数据已证实、教程复刻、合理假设与待标定结论。
+      基于本项目代码和采集数据编写；公式的适用条件见各章说明。
     </div>
   
   
@@ -1603,6 +1980,8 @@
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
+      
+        <script src="../assets/javascripts/teaching-demos.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

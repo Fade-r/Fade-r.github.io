@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+tutorial-source/docs/wiki/site/
+tutorial-source/project/data/raw/
+tutorial-source/project/outputs/
+tutorial-source/references/cache/
+.env

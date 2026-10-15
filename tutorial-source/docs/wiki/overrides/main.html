@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <script>
+    (() => {
+      const originalGet = window.__md_get;
+      const originalSet = window.__md_set;
+
+      if (typeof originalGet === "function") {
+        window.__md_get = (...args) => {
+          try {
+            return originalGet(...args);
+          } catch (_) {
+            return null;
+          }
+        };
+      }
+
+      if (typeof originalSet === "function") {
+        window.__md_set = (...args) => {
+          try {
+            return originalSet(...args);
+          } catch (_) {
+            return undefined;
+          }
+        };
+      }
+    })();
+  </script>
+{% endblock %}

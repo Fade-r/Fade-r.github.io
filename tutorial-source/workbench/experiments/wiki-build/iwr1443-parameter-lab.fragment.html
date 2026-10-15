@@ -1,0 +1,249 @@
+<section id="iwr1443-parameter-lab" aria-label="IWR1443 FMCW 与 TDM 参数实验">
+  <div class="viz-controls" aria-label="实验参数">
+    <label class="form-label" for="radar-range">
+      目标距离 <span id="radar-range-value">5.0 m</span>
+      <input id="radar-range" class="form-range" type="range" min="0.5" max="20" step="0.1" value="5">
+    </label>
+    <label class="form-label" for="radar-speed">
+      径向速度 <span id="radar-speed-value">0.50 m/s</span>
+      <input id="radar-speed" class="form-range" type="range" min="-1.9" max="1.9" step="0.05" value="0.5">
+    </label>
+    <label class="form-label" for="radar-pri-model">
+      慢时间间隔
+      <select id="radar-pri-model" class="form-select">
+        <option value="1">教程轴：Tc = 160 µs</option>
+        <option value="3" selected>3TX 审计轴：3Tc = 480 µs</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="viz-grid" aria-live="polite">
+    <div class="card viz-stat">
+      <span class="text-muted">拍频</span>
+      <span class="viz-stat-value" id="radar-beat-stat">1.00 MHz</span>
+      <span class="text-small" id="radar-range-bin-stat">距离 bin 26</span>
+    </div>
+    <div class="card viz-stat">
+      <span class="text-muted">距离分辨率</span>
+      <span class="viz-stat-value">0.195 m</span>
+      <span class="text-small">Bvalid = 767.54 MHz</span>
+    </div>
+    <div class="card viz-stat">
+      <span class="text-muted">速度坐标</span>
+      <span class="viz-stat-value" id="radar-doppler-bin-stat">Doppler bin +16.0</span>
+      <span class="text-small" id="radar-velocity-axis-stat">Δv = 0.031 m/s</span>
+    </div>
+  </div>
+
+  <div class="radar-lab-plots">
+    <svg class="radar-lab-chart" viewBox="0 0 360 240" role="img" aria-labelledby="radar-chirp-title radar-chirp-desc">
+      <title id="radar-chirp-title">发射与延迟的 FMCW chirp</title>
+      <desc id="radar-chirp-desc">平行频率斜坡展示目标往返延迟如何产生拍频间隔。</desc>
+      <line class="radar-axis" x1="46" y1="198" x2="334" y2="198"></line>
+      <line class="radar-axis" x1="46" y1="198" x2="46" y2="28"></line>
+      <text class="radar-label" x="335" y="218" text-anchor="end">快时间</text>
+      <text class="radar-label" x="52" y="22">频率</text>
+      <line class="radar-series-one" x1="62" y1="180" x2="316" y2="48"></line>
+      <line id="radar-rx-line" class="radar-series-two" x1="62" y1="190" x2="316" y2="58"></line>
+      <text class="radar-label" x="293" y="42">TX</text>
+      <text id="radar-rx-label" class="radar-label" x="293" y="73">RX</text>
+      <line id="radar-beat-guide" class="radar-guide" x1="210" y1="103" x2="210" y2="119"></line>
+      <text id="radar-delay-label" class="radar-label" x="54" y="225">τ = 33.3 ns · 延迟已放大显示</text>
+      <text id="radar-beat-label" class="radar-label" x="218" y="116">fb = 1.00 MHz</text>
+    </svg>
+
+    <svg class="radar-lab-chart" viewBox="0 0 360 240" role="img" aria-labelledby="radar-bin-title radar-bin-desc">
+      <title id="radar-bin-title">距离与 Doppler 坐标</title>
+      <desc id="radar-bin-desc">标记显示目标在距离轴和所选慢时间速度轴上的理论坐标。</desc>
+      <text class="radar-label" x="28" y="30">Range FFT 坐标</text>
+      <line class="radar-axis" x1="28" y1="76" x2="332" y2="76"></line>
+      <line class="radar-tick" x1="28" y1="70" x2="28" y2="82"></line>
+      <line class="radar-tick" x1="332" y1="70" x2="332" y2="82"></line>
+      <text class="radar-label" x="28" y="101">0 m</text>
+      <text class="radar-label" x="332" y="101" text-anchor="end">50.03 m</text>
+      <circle id="radar-range-marker" class="radar-marker-one" cx="58" cy="76" r="7"></circle>
+      <text id="radar-range-marker-label" class="radar-label" x="58" y="59" text-anchor="middle">5.0 m</text>
+
+      <text class="radar-label" x="28" y="137">Doppler 速度坐标</text>
+      <line class="radar-axis" x1="28" y1="184" x2="332" y2="184"></line>
+      <line class="radar-tick" x1="28" y1="178" x2="28" y2="190"></line>
+      <line class="radar-tick" x1="180" y1="178" x2="180" y2="190"></line>
+      <line class="radar-tick" x1="332" y1="178" x2="332" y2="190"></line>
+      <text id="radar-vmin-label" class="radar-label" x="28" y="211">−2.01 m/s</text>
+      <text class="radar-label" x="180" y="211" text-anchor="middle">0</text>
+      <text id="radar-vmax-label" class="radar-label" x="332" y="211" text-anchor="end">+2.01 m/s</text>
+      <path id="radar-speed-marker" class="radar-marker-two" d="M 218 174 L 226 184 L 218 194 L 210 184 Z"></path>
+      <text id="radar-speed-marker-label" class="radar-label" x="218" y="165" text-anchor="middle">+0.50</text>
+    </svg>
+  </div>
+
+  <p id="radar-lab-detail" class="text-small text-muted" aria-live="polite">
+    3TX 慢时间采用 480 µs：速度范围是教程 Tc 轴的三分之一。
+  </p>
+
+  <style>
+    #iwr1443-parameter-lab {
+      display: grid;
+      gap: 1rem;
+      width: 100%;
+      color: var(--foreground);
+    }
+    #iwr1443-parameter-lab .viz-controls {
+      align-items: end;
+    }
+    #iwr1443-parameter-lab .form-label {
+      min-width: min(100%, 13rem);
+      flex: 1 1 13rem;
+    }
+    #iwr1443-parameter-lab .form-range,
+    #iwr1443-parameter-lab .form-select {
+      width: 100%;
+    }
+    #iwr1443-parameter-lab .radar-lab-plots {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      width: 100%;
+    }
+    #iwr1443-parameter-lab .radar-lab-chart {
+      display: block;
+      width: 100%;
+      height: auto;
+      color: var(--foreground);
+    }
+    #iwr1443-parameter-lab .radar-axis,
+    #iwr1443-parameter-lab .radar-tick {
+      stroke: var(--border);
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-series-one {
+      stroke: var(--viz-series-1);
+      stroke-width: 4;
+      fill: none;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-series-two {
+      stroke: var(--viz-series-2);
+      stroke-width: 4;
+      fill: none;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-guide {
+      stroke: var(--muted-foreground);
+      stroke-width: 2;
+      stroke-dasharray: 4 4;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-marker-one {
+      fill: var(--viz-series-1);
+      stroke: var(--background);
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-marker-two {
+      fill: var(--viz-series-2);
+      stroke: var(--background);
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+    #iwr1443-parameter-lab .radar-label {
+      fill: var(--foreground);
+      font-size: var(--font-size-base);
+      font-weight: 400;
+    }
+    @media (max-width: 560px) {
+      #iwr1443-parameter-lab .radar-lab-plots {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      #iwr1443-parameter-lab .radar-series-two,
+      #iwr1443-parameter-lab .radar-marker-one,
+      #iwr1443-parameter-lab .radar-marker-two {
+        transition: all 180ms ease;
+      }
+    }
+  </style>
+
+  <script>
+    (() => {
+      const root = document.getElementById('iwr1443-parameter-lab');
+      if (!root) return;
+
+      const c = 3e8;
+      const slope = 29.982e12;
+      const fs = 10e6;
+      const samples = 256;
+      const loops = 128;
+      const tc = 160e-6;
+      const centerFrequency = 77e9 + (slope * 60e-6) / 2;
+      const wavelength = c / centerFrequency;
+      const rangeResolution = c * fs / (2 * slope * samples);
+      const rangePeriod = rangeResolution * samples;
+
+      const rangeInput = root.querySelector('#radar-range');
+      const speedInput = root.querySelector('#radar-speed');
+      const priInput = root.querySelector('#radar-pri-model');
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const formatSigned = (value, digits) => `${value >= 0 ? '+' : '−'}${Math.abs(value).toFixed(digits)}`;
+
+      function update() {
+        const rangeM = Number(rangeInput.value);
+        const speedMps = Number(speedInput.value);
+        const multiplier = Number(priInput.value);
+        const slowTime = tc * multiplier;
+        const delayS = 2 * rangeM / c;
+        const dopplerHz = 2 * speedMps / wavelength;
+        const beatHz = 2 * slope * rangeM / c + dopplerHz;
+        const rangeBin = beatHz / (fs / samples);
+        const velocityResolution = wavelength / (2 * loops * slowTime);
+        const velocityMax = wavelength / (4 * slowTime);
+        const dopplerBin = speedMps / velocityResolution;
+
+        root.querySelector('#radar-range-value').textContent = `${rangeM.toFixed(1)} m`;
+        root.querySelector('#radar-speed-value').textContent = `${formatSigned(speedMps, 2)} m/s`;
+        root.querySelector('#radar-beat-stat').textContent = `${(beatHz / 1e6).toFixed(3)} MHz`;
+        root.querySelector('#radar-range-bin-stat').textContent = `距离 bin ${rangeBin.toFixed(1)}`;
+        root.querySelector('#radar-doppler-bin-stat').textContent = `Doppler bin ${formatSigned(dopplerBin, 1)}`;
+        root.querySelector('#radar-velocity-axis-stat').textContent = `Δv = ${velocityResolution.toFixed(3)} m/s`;
+
+        const beatOffset = clamp(10 + Math.abs(beatHz) / 1.3e6 * 54, 10, 68);
+        const rxLine = root.querySelector('#radar-rx-line');
+        rxLine.setAttribute('y1', String(170 + beatOffset));
+        rxLine.setAttribute('y2', String(38 + beatOffset));
+        root.querySelector('#radar-rx-label').setAttribute('y', String(63 + beatOffset));
+        root.querySelector('#radar-beat-guide').setAttribute('y2', String(103 + beatOffset));
+        root.querySelector('#radar-delay-label').textContent = `τ = ${(delayS * 1e9).toFixed(1)} ns · 延迟已放大显示`;
+        root.querySelector('#radar-beat-label').textContent = `fb = ${(beatHz / 1e6).toFixed(3)} MHz`;
+
+        const rangeX = 28 + clamp(rangeM / rangePeriod, 0, 1) * 304;
+        root.querySelector('#radar-range-marker').setAttribute('cx', String(rangeX));
+        root.querySelector('#radar-range-marker-label').setAttribute('x', String(rangeX));
+        root.querySelector('#radar-range-marker-label').textContent = `${rangeM.toFixed(1)} m`;
+
+        const speedX = 28 + clamp((speedMps + velocityMax) / (2 * velocityMax), 0, 1) * 304;
+        root.querySelector('#radar-speed-marker').setAttribute(
+          'd',
+          `M ${speedX} 174 L ${speedX + 8} 184 L ${speedX} 194 L ${speedX - 8} 184 Z`,
+        );
+        root.querySelector('#radar-speed-marker-label').setAttribute('x', String(speedX));
+        root.querySelector('#radar-speed-marker-label').textContent = formatSigned(speedMps, 2);
+        root.querySelector('#radar-vmin-label').textContent = `−${velocityMax.toFixed(2)} m/s`;
+        root.querySelector('#radar-vmax-label').textContent = `+${velocityMax.toFixed(2)} m/s`;
+
+        const modelLabel = multiplier === 3 ? '3TX 慢时间采用 480 µs' : '教程慢时间采用 160 µs';
+        const auditLabel = multiplier === 3
+          ? '速度范围是教程 Tc 轴的三分之一。'
+          : '这复现当前代码坐标，但遗漏 3TX 重访因子。';
+        root.querySelector('#radar-lab-detail').textContent = `${modelLabel}: ${auditLabel}`;
+      }
+
+      rangeInput.addEventListener('input', update);
+      speedInput.addEventListener('input', update);
+      priInput.addEventListener('change', update);
+      update();
+    })();
+  </script>
+</section>
