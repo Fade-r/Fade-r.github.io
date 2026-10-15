@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程">
+        <meta name="description" content="FMCW 雷达发射、接收、采集与信号处理，附 MATLAB 和 Python 示例">
       
       
         <meta name="author" content="codex-radar research workspace">
       
       
       
-        <link rel="prev" href="learning-path.html">
+        <link rel="prev" href="../practice/end-to-end.html">
       
       
-        <link rel="next" href="../foundations/signal-and-fft.html">
+        <link rel="next" href="../code/code-map.html">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>参数与三个动手例子 - 毫米波雷达处理教程</title>
+        <title>项目参数对照 - 毫米波雷达教程</title>
       
     
     
@@ -114,9 +114,11 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-header__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-header__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -130,13 +132,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            毫米波雷达处理教程
+            毫米波雷达教程
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              参数与三个动手例子
+              项目参数对照
             
           </span>
         </div>
@@ -231,234 +233,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../index.html" class="md-tabs__link">
-        
-  
-  
-    
-  
-  首页
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/capture.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据采集
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="learning-path.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  开始学习
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/signal-and-fft.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  必要基础
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/adc-iq-layout.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据入口
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/range.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  三维 FFT
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/phase.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  相位与微动
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../practice/detection.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  自己实现
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../audit/scientific-audit.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  检查结果
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/arrays-and-languages.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  参考
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -472,18 +246,16 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-nav__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-nav__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    毫米波雷达处理教程
+    毫米波雷达教程
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -502,7 +274,7 @@
   <span class="md-ellipsis">
     
   
-    首页
+    简介
   
 
     
@@ -526,30 +298,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    数据采集
+    发射与接收
   
 
     
@@ -565,7 +341,158 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    数据采集
+    发射与接收
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/transmit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    发射信号
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/echo-and-mixing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    回波与混频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/sampling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/Q 与采样
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据采集与读取
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据采集与读取
   
 
           </label>
@@ -585,7 +512,334 @@
   <span class="md-ellipsis">
     
   
-    从回波到数据文件
+    雷达与数据采集
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="learning-path.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    帧、通道与数组
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/adc-iq-layout.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADC 数据读取
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    信号处理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    信号处理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/signal-and-fft.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFT 与频谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../processing/range.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    距离测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../processing/doppler.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    速度测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice/detection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    目标检测
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../processing/angle.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    角度测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../processing/phase.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    微位移测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice/end-to-end.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    完整处理示例
   
 
     
@@ -621,14 +875,19 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
       
         
-        
-      
-      
         
       
     
@@ -637,17 +896,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    开始学习
+    项目案例
   
 
     
@@ -658,44 +917,16 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
-    开始学习
+    项目案例
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="learning-path.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    先看懂一帧数据
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -720,7 +951,7 @@
   <span class="md-ellipsis">
     
   
-    参数与三个动手例子
+    项目参数对照
   
 
     
@@ -738,7 +969,7 @@
   <span class="md-ellipsis">
     
   
-    参数与三个动手例子
+    项目参数对照
   
 
     
@@ -767,7 +998,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        一帧到底装了多少数据
+        采集参数
       
     </span>
   </a>
@@ -778,7 +1009,7 @@
   <a href="#hands-on" class="md-nav__link">
     <span class="md-ellipsis">
       
-        三个可以动手算的例子
+        派生参数
       
     </span>
   </a>
@@ -789,7 +1020,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        公式用到的参数
+        参数计算代码
       
     </span>
   </a>
@@ -800,7 +1031,7 @@
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        代码怎样计算这些量
+        数据尺寸
       
     </span>
   </a>
@@ -811,769 +1042,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    必要基础
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    必要基础
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../foundations/signal-and-fft.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    复数、采样和 FFT
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    数据入口
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    数据入口
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data/adc-iq-layout.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    把整数变成 I/Q 数据
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    三维 FFT
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    三维 FFT
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/range.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    距离：一次扫频内的变化
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/doppler.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    速度：多次观测之间的变化
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/angle.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    方向：天线之间的相位差
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    相位与微动
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    相位与微动
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/phase.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    用相位观察微小位移
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    自己实现
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    自己实现
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../practice/detection.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检测与杂波处理
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../practice/end-to-end.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    完整练习与检查点
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检查结果
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    检查结果
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/scientific-audit.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    当前结果可信度
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/validation-roadmap.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    标定实验与修正路线
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
-        
-          
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    参考
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    参考
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    MATLAB/Python 语法速查
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1593,7 +1061,63 @@
   <span class="md-ellipsis">
     
   
-    项目文件和函数索引
+    项目代码分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/original-functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    原函数逐段说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/scientific-audit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实测结果分析
   
 
     
@@ -1621,7 +1145,128 @@
   <span class="md-ellipsis">
     
   
-    逐张读懂现有图片
+    诊断图说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/validation-roadmap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考资料
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考资料
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MATLAB/Python 语法速查
   
 
     
@@ -1700,7 +1345,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        一帧到底装了多少数据
+        采集参数
       
     </span>
   </a>
@@ -1711,7 +1356,7 @@
   <a href="#hands-on" class="md-nav__link">
     <span class="md-ellipsis">
       
-        三个可以动手算的例子
+        派生参数
       
     </span>
   </a>
@@ -1722,7 +1367,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        公式用到的参数
+        参数计算代码
       
     </span>
   </a>
@@ -1733,7 +1378,7 @@
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        代码怎样计算这些量
+        数据尺寸
       
     </span>
   </a>
@@ -1757,152 +1402,88 @@
 
 
 
-<h1 id="_1">参数和数组尺寸<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>先把每个数对应到采集动作，再代入公式。以下是<strong>当前代码设置</strong>；还需要用实际采集配置核实这些设置。</p>
-<div class="admonition info">
-<p class="admonition-title">IWR1843 用户也从自己的采集参数代入</p>
-<p>两种芯片都具备 3 TX、4 RX，实际启用数量和发射顺序由配置决定。256 点、128 轮、10 MHz、60 µs、100 µs 和 80 ms 都是本项目设置，不是任何一个型号固定不变的参数。迁移时重新计算每帧字节数、有效带宽、波长和同一 TX 的重复间隔。</p>
-</div>
-<h2 id="_2">一帧到底装了多少数据<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>每次扫频采 256 点，每个虚拟通道重复观察 128 次，共 3 × 4 = 12 个通道。每个采样点保存 I、Q 两个整数，每个整数占 2 字节。</p>
-<div class="arithmatex">\[
-\text{每帧字节数}=256\times128\times12\times2\times2=1,572,864.
-\]</div>
-<p>文件大小是 157,286,400 字节，恰好是上述大小的 100 倍。这说明文件长度与这组配置相容；仅靠整除，还不能证明通道排列也正确。</p>
-<table>
-<thead>
-<tr>
-<th>处理到哪一步</th>
-<th>数组尺寸</th>
-<th>每一维表示什么</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>读取一帧整数</td>
-<td><code>(786432,)</code></td>
-<td>一个长整数序列</td>
-</tr>
-<tr>
-<td>组成复数</td>
-<td><code>(393216,)</code></td>
-<td>I、Q 两个整数合成一个数</td>
-</tr>
-<tr>
-<td>重排一帧</td>
-<td><code>(256,128,12)</code></td>
-<td>采样点、轮次、通道</td>
-</tr>
-<tr>
-<td>距离 FFT 后</td>
-<td><code>(256,128,12)</code></td>
-<td>距离格、轮次、通道</td>
-</tr>
-<tr>
-<td>多普勒 FFT 后</td>
-<td><code>(256,128,12)</code></td>
-<td>距离格、速度格、通道</td>
-</tr>
-<tr>
-<td>角度 FFT 后</td>
-<td><code>(256,128,180)</code></td>
-<td>距离格、速度格、空间频率格</td>
-</tr>
-</tbody>
-</table>
-<p>尺寸没变，不等于含义没变。例如距离 FFT 把 256 个时间采样点变成 256 个频率格；随后才把频率格换算成距离。角度 FFT 的 180 是人为设置的计算点数，不是采到了 180 个通道。</p>
-<h2 id="hands-on">三个可以动手算的例子<a class="headerlink" href="#hands-on" title="Permanent link">&para;</a></h2>
-<p>下面只做理论计算，不加载实测数据。每个例子只改变一个量，图不会自动播放。先读“看哪里”，再拖动滑块或按按钮；结果和解释会一起更新。</p>
-<section class="teaching-demo" id="range-demo" aria-labelledby="range-demo-title">
-<h3 id="range-demo-title">1. 目标变远，距离谱的峰往哪里走？</h3>
-<p><strong>看哪里：</strong>下面标尺上的竖线表示理论峰的位置。这里沿用项目的 256 点距离 FFT，取正频率一侧的 0–64 格作示意。</p>
-<label for="demo-range">目标距离：<output id="range-value" for="demo-range">5.0 m</output></label>
-<input id="demo-range" type="range" min="1" max="10" step="0.5" value="5">
-<div class="demo-buttons"><button type="button" data-range="5">比较：5 m</button><button type="button" data-range="10">比较：10 m</button></div>
-<div class="bin-scale" role="img" aria-label="理论峰位于第 25.6 格"><div class="bin-marker" id="range-marker" style="left:40%"></div></div>
-<div class="scale-labels"><span>第 0 格</span><span>第 32 格</span><span>第 64 格</span></div>
-<p class="demo-result" id="range-result" aria-live="polite">5.0 m → 拍频 0.9994 MHz → 第 25.58 格附近。</p>
-<p id="range-explanation">距离从 5 m 加倍到 10 m，回波延迟和拍频也约加倍，谱峰从第 25.6 格移到第 51.2 格附近。</p>
-<p class="demo-equation">计算：拍频 f<sub>b</sub> = 2SR/c；格编号 k = f<sub>b</sub>N/F<sub>s</sub>。这里忽略速度项。实际 FFT 在整数格上取值，25.58 是理论位置，邻近格会共同承载能量。</p>
-</section>
-
-<section class="teaching-demo" id="timing-demo" aria-labelledby="timing-demo-title">
-<h3 id="timing-demo-title">2. 同一个速度格，为什么会读出两种速度？</h3>
-<p><strong>看哪里：</strong>TX1 到下一次 TX1 之间，经过了三次扫频。下面固定谱峰在中心右边第 10 格，只改变换算时采用的采样间隔。</p>
-<ol class="tx-sequence" aria-label="发射顺序：TX1、TX2、TX3、TX1"><li><strong>TX1</strong><span>0 µs</span></li><li>TX2<span>160 µs</span></li><li>TX3<span>320 µs</span></li><li><strong>TX1</strong><span>480 µs</span></li></ol>
-<p>同一个 TX 再次发射：<strong>480 µs = 3 × 160 µs</strong>。</p>
-<div class="demo-buttons"><button type="button" data-timing="1" aria-pressed="false">按当前代码：160 µs</button><button type="button" data-timing="3" aria-pressed="true">按三路轮发：480 µs</button></div>
-<p class="demo-result" id="timing-result" aria-live="polite">第 +10 格 × 0.03134 m/s/格 = +0.3134 m/s。</p>
-<p id="timing-explanation">三路轮发时，同一通道每 480 µs 才有一个新点。若误用 160 µs，换算出的速度会大 3 倍；谱峰的格编号没有改变。</p>
-<p class="demo-equation">计算：每格速度 Δv = λ/(2 × 128 × T)。真实采集是否按这组顺序轮发，需要查 chirp 配置。</p>
-</section>
-
-<section class="teaching-demo" id="phase-demo" aria-labelledby="phase-demo-title">
-<h3 id="phase-demo-title">3. 相位变化 1 弧度，对应多大位移？</h3>
-<p><strong>看哪里：</strong>下面的点代表单位幅度复数的相位；水平轴是 I，竖直轴是 Q。红色实线是当前相位，虚线是起点。拖动滑块，看转角和位移怎样对应。</p>
-<label for="demo-phase">相位变化：<output id="phase-value" for="demo-phase">1.0 rad</output></label>
-<input id="demo-phase" type="range" min="-3" max="3" step="0.1" value="1">
-<svg class="phase-circle" viewBox="0 0 260 230" width="260" height="230" role="img" aria-labelledby="phase-svg-title"><title id="phase-svg-title">单位圆上相位变化 1 弧度</title><circle cx="125" cy="115" r="75" class="phase-outline"/><path d="M25 115H225 M125 20V210" class="phase-axis"/><text x="232" y="120">I</text><text x="135" y="22">Q</text><line x1="125" y1="115" x2="200" y2="115" class="phase-start"/><line id="phase-hand" x1="125" y1="115" x2="165.52" y2="51.89" class="phase-hand"/><circle id="phase-point" cx="165.52" cy="51.89" r="5" class="phase-point"/><text x="201" y="140">起点</text></svg>
-<p class="demo-result" id="phase-result" aria-live="polite">1.0 rad × 0.30646 mm/rad = 0.30646 mm。</p>
-<p>目标移动一段距离，回波要多走一个来回，所以换算用 λ/(4π)，而不是 λ/(2π)。这里采用代码的相位符号约定；正负对应靠近还是远离，要通过实验确认。</p>
-<p class="demo-equation">计算：ΔR = λΔφ/(4π)。这个例子假设同一散射点持续主导回波、相位连续且噪声很小。实测中乱跳的相位不能这样直接解释。</p>
-</section>
-
-<h2 id="_3">公式用到的参数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h1 id="_1">项目参数对照<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>基础章节使用便于核算的示例参数。本页列出原处理程序中的实际设置，用于将公式与代码对应。</p>
+<h2 id="_2">采集参数<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>参数定义位于 <code>project/src/iwr1443_adc_utils.py</code> 的 <code>RadarConfig</code>，入口配置位于 <code>process_iwr1443_adc.py</code>。</p>
 <table>
 <thead>
 <tr>
 <th>代码名</th>
-<th>当前值</th>
-<th>用途</th>
+<th>原程序值</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>fs</code></td>
-<td>10 MHz</td>
-<td>ADC 每秒采多少点</td>
-</tr>
-<tr>
-<td><code>samples</code></td>
-<td>256</td>
-<td>每次扫频采多少点</td>
+<td><code>start_freq</code></td>
+<td>77 GHz</td>
+<td>扫频起始频率</td>
 </tr>
 <tr>
 <td><code>slope</code></td>
-<td>29.982 × 10¹² Hz/s</td>
-<td>扫频的频率上升速率</td>
+<td>29.982 MHz/µs</td>
+<td>扫频斜率</td>
 </tr>
 <tr>
 <td><code>tr</code></td>
 <td>60 µs</td>
-<td>完整扫频斜坡时长</td>
+<td>扫频时长</td>
 </tr>
 <tr>
 <td><code>idle_time</code></td>
 <td>100 µs</td>
-<td>相邻扫频之间的空闲时间</td>
+<td>空闲时间</td>
 </tr>
 <tr>
-<td><code>tc</code></td>
-<td>160 µs</td>
-<td>一次扫频连同空闲时间</td>
+<td><code>fs</code></td>
+<td>10 MHz</td>
+<td>ADC 采样率</td>
+</tr>
+<tr>
+<td><code>samples</code></td>
+<td>256</td>
+<td>每 chirp 的采样点数</td>
+</tr>
+<tr>
+<td><code>chirps</code></td>
+<td>128</td>
+<td>按 TDM 解释时，每 TX 的重复次数</td>
+</tr>
+<tr>
+<td><code>tx</code>、<code>rx</code></td>
+<td>3、4</td>
+<td>发射、接收通道数</td>
 </tr>
 <tr>
 <td><code>tframe_set</code></td>
 <td>80 ms</td>
-<td>相邻帧的开始时刻间隔</td>
-</tr>
-<tr>
-<td><code>lambda_m</code></td>
-<td>约 3.851 mm</td>
-<td>速度、相位位移的换算尺度</td>
+<td>帧起点间隔</td>
 </tr>
 </tbody>
 </table>
-<h2 id="_4">代码怎样计算这些量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>以下摘自 <code>project/src/iwr1443_adc_utils.py</code> 的 <code>RadarConfig.__post_init__</code>。</p>
-<!-- source:utils:derived:start -->
+<p>这些值来自处理代码。原始采集配置尚未完整归档，不能仅因文件长度吻合就认定它们全部正确。</p>
+<h2 id="hands-on">派生参数<a class="headerlink" href="#hands-on" title="Permanent link">&para;</a></h2>
+<p>相邻实际 chirp 的间隔：</p>
+<div class="arithmatex">\[
+T_c=60+100=160\ \mu s.
+\]</div>
+<p>ADC 采样时长：</p>
+<div class="arithmatex">\[
+T_{\mathrm{ADC}}=\frac{256}{10\ \mathrm{MHz}}=25.6\ \mu s.
+\]</div>
+<p>采样覆盖带宽：</p>
+<div class="arithmatex">\[
+B_{\mathrm{ADC}}=29.982\times25.6\approx768\ \mathrm{MHz}.
+\]</div>
+<p>因此未补零的距离格间隔约为：</p>
+<div class="arithmatex">\[
+\Delta R=\frac{c}{2B_{\mathrm{ADC}}}\approx0.195\ \mathrm m.
+\]</div>
+<p>原代码用完整扫频中点频率计算波长，得到约 3.851 mm。准确的相位模型还需结合实际 ADC 开始时刻和采样频段；该波长在这里是原程序使用的换算值。</p>
+<p>若 TX1、TX2、TX3 轮流发射，同一 TX 间隔是 <span class="arithmatex">\(3T_c=480\)</span> µs。原速度轴使用 160 µs，相同格编号会被换算成 3 倍速度。</p>
+<h2 id="_3">参数计算代码<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>原程序表达式：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">idle_time</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tr</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fs</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">slope</span>
@@ -1911,9 +1492,7 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="bp">self</span><span class="o">.</span><span class="n">range_resolution_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth_valid</span><span class="p">)</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="bp">self</span><span class="o">.</span><span class="n">speed_resolution_mps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_m</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">doppler_bin</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">)</span>
 </span></code></pre></div>
-<!-- source:utils:derived:end -->
-
-<p>MATLAB 中对应的计算如下（教学写法）：</p>
+<p>MATLAB 对应写法：</p>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">tc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idle_time</span><span class="p">;</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">bandwidth</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">slope</span><span class="o">*</span><span class="n">tr</span><span class="p">;</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">bandwidthValid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">samples</span><span class="o">/</span><span class="n">fs</span><span class="o">*</span><span class="n">slope</span><span class="p">;</span>
@@ -1922,7 +1501,51 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">rangeResolution</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">bandwidthValid</span><span class="p">);</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">speedResolution</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wavelength</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">chirps</span><span class="o">*</span><span class="n">tc</span><span class="p">);</span>
 </span></code></pre></div>
-<p><code>bandwidth</code> 覆盖完整斜坡；<code>bandwidth_valid</code> 只覆盖 ADC 实际采样的 25.6 µs。距离换算用后者，得到约 0.19543 m/格。最后一行速度公式用了 <code>tc</code>，因此仍需核对<a href="../processing/doppler.html">三路发射的重复间隔</a>。</p>
+<p>最后一行保留了原程序的 <code>tc</code>，不是三路轮发时推荐的时间参数。原函数问题汇总见<a href="../code/code-map.html">代码分析</a>。</p>
+<h2 id="_4">数据尺寸<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>按原程序配置，一帧应包含：</p>
+<div class="arithmatex">\[
+256\times128\times12=393216
+\]</div>
+<p>个复数，即 786432 个 int16 整数，占 1572864 字节。现有文件长度对应 100 帧。</p>
+<table>
+<thead>
+<tr>
+<th>数组</th>
+<th>维度顺序</th>
+<th>尺寸</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>adc_cube</code></td>
+<td>帧、通道、轮次、采样点</td>
+<td><code>100 × 12 × 128 × 256</code></td>
+</tr>
+<tr>
+<td><code>selected_frame</code></td>
+<td>采样点、轮次、通道</td>
+<td><code>256 × 128 × 12</code></td>
+</tr>
+<tr>
+<td><code>range_profile</code></td>
+<td>距离格、轮次、通道</td>
+<td><code>256 × 128 × 12</code></td>
+</tr>
+<tr>
+<td><code>speed_profile</code></td>
+<td>距离格、速度格、通道</td>
+<td><code>256 × 128 × 12</code></td>
+</tr>
+<tr>
+<td><code>angle_profile</code></td>
+<td>距离格、速度格、空间频率格</td>
+<td><code>256 × 128 × 180</code></td>
+</tr>
+</tbody>
+</table>
+<p>原多普勒函数只写入前 4 个通道，后 8 个为零；角度函数取前 8 个通道，所以其中只有 4 个有有效多普勒结果。数组尺寸并不等于有效通道数。</p>
+<p>IWR1843 使用这些代码时，同样需要重新填写本次采集参数，并核对 LVDS 格式和阵列位置。</p>
 
 
 
@@ -1960,7 +1583,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="learning-path.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 先看懂一帧数据">
+          <a href="../practice/end-to-end.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 完整处理示例">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1970,20 +1593,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                先看懂一帧数据
+                完整处理示例
               </div>
             </div>
           </a>
         
         
           
-          <a href="../foundations/signal-and-fft.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 复数、采样和 FFT">
+          <a href="../code/code-map.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 项目代码分析">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                复数、采样和 FFT
+                项目代码分析
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2000,7 +1623,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      基于本项目代码和采集数据编写；公式的适用条件见各章说明。
+      毫米波雷达教程 · MATLAB / Python
     </div>
   
   
@@ -2024,14 +1647,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
-      
-        <script src="../assets/javascripts/teaching-demos.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

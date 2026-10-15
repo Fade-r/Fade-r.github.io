@@ -1,92 +1,110 @@
-"""Ideal point target and calibrated half-wave ULA, not measured IWR1443 data.
-Channels are simultaneous or already TDM-compensated. No input files needed.
+"""Deterministic FMCW teaching example; no measured files or hardware access.
+
+Ideal eight-element half-wavelength ULA, simultaneous observation or already
+motion-compensated channels. This is not either TI board's physical layout.
+The sampled signal uses the narrowband, separable range/Doppler model.
 """
 import numpy as np
 
 
-def ca_cfar(power, training=8, guard=2, pfa=1e-3):
-    count = 2 * training
-    alpha = count * (pfa ** (-1 / count) - 1)
-    threshold = np.full(power.shape, np.nan, dtype=float)
-    detected = np.zeros(power.shape, dtype=bool)
-    for k in range(training + guard, len(power) - training - guard):
-        left = power[k - guard - training:k - guard]
-        right = power[k + guard + 1:k + guard + training + 1]
-        noise = np.mean(np.concatenate((left, right)))
-        threshold[k] = alpha * noise
-        detected[k] = power[k] > threshold[k]
-    return detected, threshold
+def ca_cfar(power, train=8, guard=2, pfa=1e-3):
+    power = np.asarray(power, dtype=float)
+    threshold = np.full(power.size, np.nan)
+    count = 2*train
+    alpha = count*(pfa**(-1/count)-1)
+    margin = train+guard
+    for k in range(margin, power.size-margin):
+        left = power[k-guard-train:k-guard]
+        right = power[k+guard+1:k+guard+train+1]
+        threshold[k] = alpha*(left.sum()+right.sum())/count
+    return np.isfinite(threshold) & (power > threshold), threshold
 
 
 def main():
-    # 1. I/Q: each group is [I0, I1, Q0, Q1].
-    raw = np.array([3, 4, 5, 6, 7, 8, 9, 10], dtype=np.int16)
-    z = np.empty(raw.size // 2, dtype=np.complex128)
-    z[0::2] = raw[0::4].astype(float) + 1j * raw[2::4]
-    z[1::2] = raw[1::4].astype(float) + 1j * raw[3::4]
-    assert np.array_equal(z, [3+5j, 4+6j, 7+9j, 8+10j])
+    c, fc, slope, fs = 3e8, 77e9, 30e12, 8e6
+    ns, nc, channels, na = 256, 64, 8, 64
+    tslow = 1e-3
+    wavelength = c/fc
+    target_range, fd, target_angle = 5.0, 125.0, 30.0
+    target_velocity = wavelength*fd/2
+    fb = 2*slope*target_range/c
 
-    # xWR14xx four-lane, four-RX, complex I-first example (SWRA581B).
-    raw14 = np.array([1, 2, 3, 4, 11, 12, 13, 14], dtype=float)
-    words14 = raw14.reshape(-1, 8)
-    rx14 = words14[:, :4] + 1j * words14[:, 4:]
-    np.testing.assert_array_equal(rx14[0], [1+11j, 2+12j, 3+13j, 4+14j])
-
-    # 2. Eight samples with two phase rotations: FFT peak at k=2.
-    tone = np.exp(1j * 2 * np.pi * 2 * np.arange(8) / 8)
-    assert np.argmax(np.abs(np.fft.fft(tone))) == 2
-
-    # 3. Project constants, but IDEAL eight-element ULA geometry.
-    c, fs, slope = 3e8, 10e6, 29.982e12
-    ns, nc, channels, n_angle = 256, 128, 8, 180
-    tslow = 480e-6
-    wavelength = c / (77e9 + slope * 60e-6 / 2)
-    dr = c * fs / (2 * slope * ns)
-    dv = wavelength / (2 * nc * tslow)
-    kr, kd, qa = 14, 5, 45  # exact DFT grids; qa=45 gives a simple 30 degrees
-    truth = [kr * dr, kd * dv, np.degrees(np.arcsin(2 * qa / n_angle))]
+    # Axes: ADC sample, repeated observation, ideal spatial channel.
     n = np.arange(ns)[:, None, None]
     m = np.arange(nc)[None, :, None]
     p = np.arange(channels)[None, None, :]
-    cube = np.exp(1j * 2 * np.pi * (kr * n / ns + kd * m / nc + qa * p / n_angle))
-    assert cube.shape == (256, 128, 8)
+    x = np.exp(1j*(2*np.pi*fb*n/fs + 2*np.pi*fd*m*tslow
+                   + np.pi*p*np.sin(np.deg2rad(target_angle))))
+    assert x.shape == (ns, nc, channels)
 
-    # 4. Range FFT along samples.
-    wr = np.hamming(ns).reshape(-1, 1, 1)
-    range_cube = np.fft.fft(cube * wr, axis=0)
-    range_power = np.mean(np.abs(range_cube) ** 2, axis=(1, 2))
-    k_range = int(np.argmax(range_power))
+    wr = np.hamming(ns).reshape(ns, 1, 1)
+    range_cube = np.fft.fft(x*wr, axis=0)
+    wd = np.hamming(nc).reshape(1, nc, 1)
+    doppler_cube = np.fft.fftshift(
+        np.fft.fft(range_cube*wd, axis=1), axes=1)
+    power_map = np.sum(np.abs(doppler_cube)**2, axis=2)
 
-    # 5. Doppler FFT along loops, for ALL channels.
-    wd = np.hamming(nc).reshape(1, -1, 1)
-    doppler_cube = np.fft.fftshift(np.fft.fft(range_cube * wd, axis=1), axes=1)
-    velocity_axis = wavelength * np.fft.fftshift(np.fft.fftfreq(nc, d=tslow)) / 2
-    k_doppler = int(np.argmax(np.sum(np.abs(doppler_cube[k_range]) ** 2, axis=1)))
+    # One target is assumed: choose the strongest positive-range RD cell.
+    k, ell_index = np.unravel_index(
+        np.argmax(power_map[:ns//2]), power_map[:ns//2].shape)
+    range_axis = np.arange(ns//2)*c*fs/(2*slope*ns)
+    velocity_axis = wavelength*np.fft.fftshift(
+        np.fft.fftfreq(nc, d=tslow))/2
 
-    # 6. Spatial FFT, valid only for the ideal calibrated ULA above.
-    angle_spectrum = np.fft.fftshift(np.fft.fft(doppler_cube[k_range, k_doppler], n=n_angle))
-    q = np.arange(-n_angle // 2, n_angle // 2)
-    angle_axis = np.degrees(np.arcsin(2 * q / n_angle))
-    k_angle = int(np.argmax(np.abs(angle_spectrum)))
-    estimated = [k_range * dr, velocity_axis[k_doppler], angle_axis[k_angle]]
-    np.testing.assert_allclose(estimated, truth, atol=1e-10)
-    print('range (m), speed (m/s), angle (deg):', np.round(estimated, 6))
+    z = doppler_cube[k, ell_index, :]
+    spatial = np.fft.fftshift(np.fft.fft(z, n=na))
+    q = np.arange(-na//2, na//2)
+    angle_axis = np.degrees(np.arcsin(2*q/na))
+    angle_index = np.argmax(np.abs(spatial))
+    estimate = np.array([range_axis[k], velocity_axis[ell_index],
+                         angle_axis[angle_index]])
+    np.testing.assert_allclose(
+        estimate, [target_range, target_velocity, target_angle], atol=1e-10)
+    assert k == 32 and ell_index-nc//2 == 8 and q[angle_index] == 16
 
-    # 7. CFAR on linear power. Neighbouring bins may also be detected.
-    detected, threshold = ca_cfar(range_power)
-    assert detected[kr]
-    print('CFAR selected range bins:', np.flatnonzero(detected).tolist())
+    # Separate 1-D CFAR exercise on a single-channel distance power profile.
+    distance_power = np.abs(range_cube[:ns//2, 0, 0])**2
+    detected, threshold = ca_cfar(distance_power)
+    assert detected[32]
+    assert np.isnan(threshold[0]) and np.isnan(threshold[-1])
+    small = np.array([1, 1, 2, 8, 2, 1, 1], dtype=float)
+    small_detected, small_threshold = ca_cfar(small, 2, 1, 1/16)
+    assert np.isclose(small_threshold[3], 4) and small_detected[3]
 
-    # 8. SEPARATE micro-motion exercise at an already selected target bin.
-    time = np.arange(100) * 0.08
-    displacement_true = 0.1e-3 * np.sin(2 * np.pi * 0.25 * time)
-    trace = np.exp(1j * 4 * np.pi * displacement_true / wavelength)
-    phase_unwrapped = np.unwrap(np.angle(trace))
-    displacement = wavelength * (phase_unwrapped - phase_unwrapped[0]) / (4 * np.pi)
-    np.testing.assert_allclose(displacement, displacement_true, atol=1e-15)
-    print('max displacement (mm):', np.max(np.abs(displacement)) * 1000)
-    print('All teaching checks passed. No measured data was loaded.')
+    # Independent xWR14xx four-RX, I-first pairing and complete index test.
+    ns_test, loops, ntx, nrx = 2, 2, 3, 4
+    raw = np.arange(1, ns_test*loops*ntx*nrx*2+1, dtype=float)
+    words = raw.reshape(-1, 8)
+    iq = words[:, :4]+1j*words[:, 4:]
+    physical = iq.reshape(loops, ntx, ns_test, nrx)
+    frame = physical.transpose(2, 0, 1, 3).reshape(ns_test, loops, ntx*nrx)
+    for sample in range(ns_test):
+        for loop in range(loops):
+            for tx in range(ntx):
+                for rx in range(nrx):
+                    offset = ((loop*ntx+tx)*ns_test+sample)*8
+                    expected = offset+rx+1 + 1j*(offset+rx+5)
+                    assert frame[sample, loop, tx*nrx+rx] == expected
+
+    # Independent TDM phase compensation test, positive Doppler convention.
+    offsets = np.repeat(np.arange(3)*160e-6, 4)
+    reference = np.exp(1j*.2*np.arange(12))
+    observed = reference*np.exp(1j*2*np.pi*fd*offsets)
+    compensated = observed*np.exp(-1j*2*np.pi*fd*offsets)
+    np.testing.assert_allclose(compensated, reference, atol=1e-14)
+
+    # Separate micro-motion target, sampled once per frame.
+    time = np.arange(100)*.08
+    displacement = .1e-3*np.sin(2*np.pi*.25*time)
+    trace = np.exp(1j*4*np.pi*displacement/wavelength)
+    phase = np.unwrap(np.angle(trace))
+    recovered = wavelength*(phase-phase[0])/(4*np.pi)
+    np.testing.assert_allclose(recovered, displacement, atol=1e-15)
+    print("range_m, velocity_mps, angle_deg:", np.round(estimate, 6))
+    print("CFAR range bins:", np.flatnonzero(detected).tolist())
+    print("ADC layout, TDM compensation and phase tests passed.")
+    print("No measured data was read or modified.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

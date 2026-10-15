@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程">
+        <meta name="description" content="FMCW 雷达发射、接收、采集与信号处理，附 MATLAB 和 Python 示例">
       
       
         <meta name="author" content="codex-radar research workspace">
       
       
       
-        <link rel="prev" href="../orientation/parameters-and-shapes.html">
+        <link rel="prev" href="../data/adc-iq-layout.html">
       
       
-        <link rel="next" href="../data/adc-iq-layout.html">
+        <link rel="next" href="../processing/range.html">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>复数、采样和 FFT - 毫米波雷达处理教程</title>
+        <title>FFT 与频谱 - 毫米波雷达教程</title>
       
     
     
@@ -114,9 +114,11 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-header__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-header__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -130,13 +132,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            毫米波雷达处理教程
+            毫米波雷达教程
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              复数、采样和 FFT
+              FFT 与频谱
             
           </span>
         </div>
@@ -231,234 +233,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../index.html" class="md-tabs__link">
-        
-  
-  
-    
-  
-  首页
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/capture.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据采集
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../orientation/learning-path.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  开始学习
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="signal-and-fft.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  必要基础
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/adc-iq-layout.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据入口
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/range.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  三维 FFT
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/phase.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  相位与微动
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../practice/detection.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  自己实现
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../audit/scientific-audit.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  检查结果
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="arrays-and-languages.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  参考
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -472,18 +246,16 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-nav__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-nav__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    毫米波雷达处理教程
+    毫米波雷达教程
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -502,7 +274,7 @@
   <span class="md-ellipsis">
     
   
-    首页
+    简介
   
 
     
@@ -526,30 +298,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    数据采集
+    发射与接收
   
 
     
@@ -565,7 +341,158 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    数据采集
+    发射与接收
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="transmit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    发射信号
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="echo-and-mixing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    回波与混频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sampling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/Q 与采样
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据采集与读取
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据采集与读取
   
 
           </label>
@@ -585,7 +512,7 @@
   <span class="md-ellipsis">
     
   
-    从回波到数据文件
+    雷达与数据采集
   
 
     
@@ -598,71 +525,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    开始学习
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    开始学习
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -678,7 +540,7 @@
   <span class="md-ellipsis">
     
   
-    先看懂一帧数据
+    帧、通道与数组
   
 
     
@@ -699,14 +561,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
+      <a href="../data/adc-iq-layout.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    参数与三个动手例子
+    ADC 数据读取
   
 
     
@@ -740,14 +602,23 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
       
         
-        
-      
-      
         
       
     
@@ -766,7 +637,7 @@
   <span class="md-ellipsis">
     
   
-    必要基础
+    信号处理
   
 
     
@@ -782,7 +653,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    必要基础
+    信号处理
   
 
           </label>
@@ -811,7 +682,7 @@
   <span class="md-ellipsis">
     
   
-    复数、采样和 FFT
+    FFT 与频谱
   
 
     
@@ -829,7 +700,7 @@
   <span class="md-ellipsis">
     
   
-    复数、采样和 FFT
+    FFT 与频谱
   
 
     
@@ -855,38 +726,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#dft-fft" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 为什么一个采样点要用两个数
+        DFT 与 FFT
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. 为什么一个采样点要用两个数">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 点示例
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 点示例">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        自己算一次
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 采样把连续时间变成编号
+        频率轴
       
     </span>
   </a>
@@ -894,49 +787,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-fft" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. FFT 为什么能找到频率
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. FFT 为什么能找到频率">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        八个点的例子
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-bin-fftshift" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. bin、频率和 fftshift
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. 为什么要加窗，为什么补零不能增加信息
+        加窗
       
     </span>
   </a>
@@ -947,7 +801,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        做完这两个小改动再往下读
+        补零
       
     </span>
   </a>
@@ -963,164 +817,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    数据入口
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    数据入口
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data/adc-iq-layout.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    把整数变成 I/Q 数据
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    三维 FFT
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    三维 FFT
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
               
                 
   
@@ -1135,7 +831,7 @@
   <span class="md-ellipsis">
     
   
-    距离：一次扫频内的变化
+    距离测量
   
 
     
@@ -1163,7 +859,35 @@
   <span class="md-ellipsis">
     
   
-    速度：多次观测之间的变化
+    速度测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice/detection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    目标检测
   
 
     
@@ -1191,7 +915,7 @@
   <span class="md-ellipsis">
     
   
-    方向：天线之间的相位差
+    角度测量
   
 
     
@@ -1204,69 +928,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    相位与微动
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    相位与微动
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1282,100 +943,7 @@
   <span class="md-ellipsis">
     
   
-    用相位观察微小位移
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    自己实现
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    自己实现
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../practice/detection.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检测与杂波处理
+    微位移测量
   
 
     
@@ -1403,128 +971,7 @@
   <span class="md-ellipsis">
     
   
-    完整练习与检查点
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检查结果
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    检查结果
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/scientific-audit.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    当前结果可信度
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/validation-roadmap.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    标定实验与修正路线
+    完整处理示例
   
 
     
@@ -1562,30 +1009,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    参考
+    项目案例
   
 
     
@@ -1596,12 +1047,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
-    参考
+    项目案例
   
 
           </label>
@@ -1614,14 +1065,14 @@
   
   
     <li class="md-nav__item">
-      <a href="arrays-and-languages.html" class="md-nav__link">
+      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    MATLAB/Python 语法速查
+    项目参数对照
   
 
     
@@ -1649,7 +1100,63 @@
   <span class="md-ellipsis">
     
   
-    项目文件和函数索引
+    项目代码分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/original-functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    原函数逐段说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/scientific-audit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实测结果分析
   
 
     
@@ -1677,7 +1184,128 @@
   <span class="md-ellipsis">
     
   
-    逐张读懂现有图片
+    诊断图说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/validation-roadmap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考资料
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考资料
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="arrays-and-languages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MATLAB/Python 语法速查
   
 
     
@@ -1753,38 +1381,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#dft-fft" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 为什么一个采样点要用两个数
+        DFT 与 FFT
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. 为什么一个采样点要用两个数">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 点示例
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 点示例">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        自己算一次
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 采样把连续时间变成编号
+        频率轴
       
     </span>
   </a>
@@ -1792,49 +1442,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-fft" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. FFT 为什么能找到频率
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. FFT 为什么能找到频率">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        八个点的例子
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-bin-fftshift" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. bin、频率和 fftshift
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. 为什么要加窗，为什么补零不能增加信息
+        加窗
       
     </span>
   </a>
@@ -1845,7 +1456,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        做完这两个小改动再往下读
+        补零
       
     </span>
   </a>
@@ -1869,44 +1480,57 @@
 
 
 
-<h1 id="fft">复数、采样和 FFT：先补齐这三个概念<a class="headerlink" href="#fft" title="Permanent link">&para;</a></h1>
-<p>这一章先不处理雷达文件。我们从八个能手算的数开始，弄清后面每一次 FFT 都在做什么。需要的数学只有三角函数、复数和求和。</p>
-<h2 id="1">1. 为什么一个采样点要用两个数<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>普通实数波形可以写成 <span class="arithmatex">\(A\cos\phi\)</span>。但只知道余弦值，不能唯一确定相位：例如正、负两个相位可能有相同的余弦值。正交解调同时保留两个分量：</p>
+<h1 id="fft">FFT 与频谱<a class="headerlink" href="#fft" title="Permanent link">&para;</a></h1>
+<p>采样后的波形随时间变化，频谱则表示信号包含哪些频率，以及各频率分量有多强。雷达测距需要从采样序列中找到拍频，这可以用离散傅里叶变换完成。</p>
+<h2 id="dft-fft">DFT 与 FFT<a class="headerlink" href="#dft-fft" title="Permanent link">&para;</a></h2>
+<p>长度为 <span class="arithmatex">\(N\)</span> 的复数序列 <span class="arithmatex">\(x[n]\)</span>，其离散傅里叶变换（DFT）为：</p>
 <div class="arithmatex">\[
-I=A\cos\phi,\qquad Q=A\sin\phi,\qquad z=I+jQ=Ae^{j\phi}.
+X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N},\qquad k=0,\ldots,N-1.
 \]</div>
-<p>把 I 当横坐标、Q 当纵坐标，复数就是平面上的一个点。点离原点多远是幅度，连线转过的角是相位。例如 <code>1+1j</code> 的横、纵坐标相同，所以相位为 45°；根据勾股定理，幅度为 √2。这里的 Q 正负号采用数学约定。</p>
-<h3 id="_1">自己算一次<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<p>Python：</p>
+<p><span class="arithmatex">\(n\)</span> 是输入采样点编号，<span class="arithmatex">\(k\)</span> 是输出频率格编号。一个频率格也称为一个 <strong>bin</strong>。FFT 是快速计算 DFT 的算法，两者计算的是同一组频谱值。</p>
+<p>公式中的指数相当于一个反向旋转的参考信号。若输入在这 <span class="arithmatex">\(N\)</span> 个点里恰好转了 <span class="arithmatex">\(k\)</span> 圈，两者相乘后就不再旋转，各点相加会得到较大的结果。频率不匹配时，乘积仍在旋转，相加时会发生抵消。</p>
+<h2 id="8">8 点示例<a class="headerlink" href="#8" title="Permanent link">&para;</a></h2>
+<p>取一个在 8 点内完成 2 个周期的信号：</p>
+<div class="arithmatex">\[
+x[n]=e^{j2\pi\cdot2n/8}.
+\]</div>
+<p>这 8 个点依次为 <span class="arithmatex">\(1,j,-1,-j,1,j,-1,-j\)</span>。计算 <span class="arithmatex">\(k=2\)</span> 时：</p>
+<div class="arithmatex">\[
+x[n]e^{-j2\pi\cdot2n/8}=1.
+\]</div>
+<p>8 个 1 相加，所以 <span class="arithmatex">\(X[2]=8\)</span>。其他整数频率格的结果为零。</p>
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">z</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>  <span class="c1"># sqrt(2), 45 度</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
 </span></code></pre></div>
-<p>MATLAB：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="p">;</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">disp</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="nb">rad2deg</span><span class="p">(</span><span class="nb">angle</span><span class="p">(</span><span class="n">z</span><span class="p">))]);</span><span class="w">         </span><span class="c">% sqrt(2), 45 度</span>
+<h3 id="matlab">MATLAB<a class="headerlink" href="#matlab" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="mi">8</span><span class="p">);</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">disp</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="mi">6</span><span class="p">));</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="w"> </span><span class="n">index</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">));</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nb">disp</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
 </span></code></pre></div>
-<p><code>abs</code> 和 <code>angle</code> 是从同一个复数取两种信息。过早执行 <code>abs</code> 会丢掉相位，后面就无法再靠它测速度、角度或微位移。</p>
-<h2 id="2">2. 采样把连续时间变成编号<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>以采样率 <span class="arithmatex">\(F_s\)</span> 观察一个频率为 <span class="arithmatex">\(f\)</span> 的复信号：</p>
+<p>频谱幅度为 <code>[0,0,8,0,0,0,0,0]</code>，峰位编号为 2。MATLAB 的第 3 个元素对应从 0 编号的第 2 格。浮点运算可能留下非常接近零的小数。</p>
+<figure><img src="../assets/lessons/fft-eight.svg" alt="8点FFT幅度在第2格为8，其他格为零"><figcaption>横轴目前是频率格编号。给出采样率后，才能换算成 Hz。</figcaption></figure>
+
+<h2 id="_1">频率轴<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>设采样率为 <span class="arithmatex">\(F_s\)</span>，相邻频率格之间的间隔为：</p>
 <div class="arithmatex">\[
-t_n=n/F_s,\qquad z[n]=A\exp(j2\pi f n/F_s).
+\Delta f=\frac{F_s}{N}.
 \]</div>
-<p>每多一个采样点，相位增加 <span class="arithmatex">\(2\pi f/F_s\)</span>。频率不同，点在复平面上转动的速度就不同。后面沿轮次、沿天线做 FFT，也是利用这种有规律的相位变化。</p>
-<p>离散采样不能区分相差整数倍 <span class="arithmatex">\(F_s\)</span> 的频率，因为多出来的相位总是 <span class="arithmatex">\(2\pi\)</span> 的整数倍。这叫混叠。复数采样常把主频率区间写为 <span class="arithmatex">\([-F_s/2,F_s/2)\)</span>；实际雷达允许的拍频范围还受模拟滤波和采集配置限制。</p>
-<h2 id="3-fft">3. FFT 为什么能找到频率<a class="headerlink" href="#3-fft" title="Permanent link">&para;</a></h2>
-<p>DFT 的第 k 个输出是：</p>
-<div class="arithmatex">\[
-X[k]=\sum_{n=0}^{N-1}z[n]\exp(-j2\pi kn/N).
-\]</div>
-<p>可以把它理解为：先假定信号在 N 个点中恰好转了 k 圈，用反方向旋转把这 k 圈抵消，再把剩下的复数相加。如果猜对了，每个点都朝同一个方向，相加很大；如果猜错了，各点分散在圆上，会相互抵消。FFT 是快速计算这组求和的算法，并不是另一种频谱定义。</p>
-<h3 id="_2">八个点的例子<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>令 <span class="arithmatex">\(z[n]=\exp(j2\pi\cdot2n/8)\)</span>，即八个采样点对应两个完整周期。</p>
+<p>例如 <span class="arithmatex">\(F_s=8\)</span> MHz、<span class="arithmatex">\(N=8\)</span>，每格对应 1 MHz，第 2 格对应 2 MHz。</p>
+<p>对于复数信号，完整频谱包含正、负频率。以 8 点 FFT 为例：</p>
 <table>
 <thead>
 <tr>
-<th>n</th>
+<th>数组位置（从 0 编号）</th>
 <th>0</th>
 <th>1</th>
 <th>2</th>
@@ -1919,73 +1543,49 @@ X[k]=\sum_{n=0}^{N-1}z[n]\exp(-j2\pi kn/N).
 </thead>
 <tbody>
 <tr>
-<td>z[n]</td>
+<td>频率 / MHz</td>
+<td>0</td>
 <td>1</td>
-<td>j</td>
+<td>2</td>
+<td>3</td>
+<td>−4</td>
+<td>−3</td>
+<td>−2</td>
 <td>−1</td>
-<td>−j</td>
-<td>1</td>
-<td>j</td>
-<td>−1</td>
-<td>−j</td>
-</tr>
-<tr>
-<td>乘上 k=2 的反向旋转后</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
 </tr>
 </tbody>
 </table>
-<p>因此 <span class="arithmatex">\(X[2]=8\)</span>，其余整数格理论上为零。由于浮点误差，程序可能输出约 <span class="arithmatex">\(10^{-15}\)</span> 的小数，而不是严格的零。</p>
-<p>Python：</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>  <span class="c1"># [0, 0, 8, 0, 0, 0, 0, 0]</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>    <span class="c1"># 2</span>
+<p>后半段不是“更高的正频率”。<code>fftshift</code> 将负频率移到左边，零频率放在中间：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">fs</span> <span class="o">=</span> <span class="mf">8e6</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">fs</span><span class="p">))</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">shifted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">frequency</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
 </span></code></pre></div>
-<p>MATLAB：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">n</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">;</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="mi">8</span><span class="p">);</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">disp</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="mi">6</span><span class="p">));</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="w"> </span><span class="n">idx</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">X</span><span class="p">));</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                 </span><span class="c">% MATLAB 的第 3 个元素，对应零起始 bin 2</span>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">8e6</span><span class="p">;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">frequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">fs</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">shifted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nb">disp</span><span class="p">(</span><span class="n">frequency</span><span class="o">/</span><span class="mf">1e6</span><span class="p">);</span>
 </span></code></pre></div>
-<h2 id="4-bin-fftshift">4. bin、频率和 fftshift<a class="headerlink" href="#4-bin-fftshift" title="Permanent link">&para;</a></h2>
-<p>bin 是频谱的格编号。N 点 FFT 的频率间隔为 <span class="arithmatex">\(F_s/N\)</span>。未移位的前半段依次表示零频率和正频率，后半段通常解释为负频率。<code>fftshift</code> 只重新排列输出，把零频率放在中间，不会重新计算频谱，也不会改变分辨能力。</p>
-<p>Python：</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">fs</span> <span class="o">=</span> <span class="mf">1000.0</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">fs</span><span class="p">))</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">spectrum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># frequency: [-500, -375, -250, -125, 0, 125, 250, 375] Hz</span>
-</span></code></pre></div>
-<p>MATLAB：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">frequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">fs</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span><span class="w">      </span><span class="c">% 这里 N=8 为偶数</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">spectrum</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
-</span></code></pre></div>
-<p>频谱与横轴必须一起移位。否则曲线看起来正常，但读出的频率会错。</p>
-<h2 id="5">5. 为什么要加窗，为什么补零不能增加信息<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
-<p>FFT 只看到有限长度的数据。如果频率不正好落在某一格，例如 2.3 格，能量会分散到很多格，这叫频谱泄漏。加窗把序列两端压低，可以减弱远处旁瓣，但主峰会变宽；相近的两个目标可能更难分开。</p>
-<p>本项目用对称 Hamming 窗：</p>
+<p>结果为 <code>[-4,-3,-2,-1,0,1,2,3]</code> MHz。频谱和频率轴要一起移位。</p>
+<h2 id="_2">加窗<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>FFT 处理的是有限长度的数据。当信号频率不恰好落在某个频率格上时，频谱能量会分散到其他格，称为<strong>频谱泄漏</strong>。</p>
+<p>窗函数把序列两端的幅度压低，可以降低远处的旁瓣，但也会让主瓣变宽。对称 Hamming 窗为：</p>
 <div class="arithmatex">\[
 w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
 \]</div>
-<p>Python 的 <code>np.hamming(N)</code> 和 MATLAB 表达式 <code>0.54-0.46*cos(2*pi*(0:N-1)/(N-1))</code> 实现同一公式。若单个复正弦恰好位于 FFT 格上，峰值约为 <span class="arithmatex">\(A\sum w[n]\)</span>；要比较幅度，应交代这种增益，而不能把未归一化 FFT 幅值直接当作物理功率。</p>
-<p>把 256 点补零到 1024 点，只是在同一段数据的频谱上取更密的点。曲线更细，不等于原来分不开的目标现在就能分开。需要同时区分<strong>频谱采样间隔</strong>和由观测时长、带宽、窗函数决定的<strong>分辨能力</strong>。</p>
-<h2 id="_3">做完这两个小改动再往下读<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<ol>
-<li>把例子里的 <code>2</code> 改成 <code>3</code>，峰应移到零起始第 3 格。</li>
-<li>改成 <code>2.3</code>，峰不再只落在一个格上。分别加窗、不加窗、补零，观察峰宽和旁瓣。</li>
-</ol>
-<p>下一步直接进入<a href="../data/adc-iq-layout.html">读取和排列 I/Q 数据</a>，在数据处理步骤中学习索引和重排写法。需要时可查<a href="arrays-and-languages.html">两种语言语法对照</a>。函数定义见 <a href="https://numpy.org/doc/stable/reference/routines.fft.html">NumPy FFT</a> 与 <a href="https://www.mathworks.com/help/matlab/ref/fft.html">MATLAB fft</a>。</p>
+<p>Python 用 <code>np.hamming(N)</code> 生成；MATLAB 可以直接按公式计算，不需要额外工具箱：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hamming</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">X_windowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">window</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.54</span><span class="o">-</span><span class="mf">0.46</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">Xwindowed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="o">.*</span><span class="n">window</span><span class="p">);</span>
+</span></code></pre></div>
+<p>这里的示例是行向量。处理多维数组时，应让窗函数只沿需要加窗的维度变化。</p>
+<h2 id="_3">补零<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>将 <span class="arithmatex">\(N\)</span> 个采样点补零后计算 <span class="arithmatex">\(N_{\mathrm{FFT}}\)</span> 点 FFT，会把频率格间隔变为 <span class="arithmatex">\(F_s/N_{\mathrm{FFT}}\)</span>。例如 256 点补到 1024 点，频谱格点会密 4 倍。</p>
+<p>补零没有延长实际观测时间，不能把原本无法分辨的两个频率真正分开。它主要用于更细致地显示或估计谱峰位置。</p>
+<p>函数说明：<a href="https://numpy.org/doc/stable/reference/routines.fft.html">NumPy FFT</a>、<a href="https://www.mathworks.com/help/matlab/ref/fft.html">MATLAB fft</a>。</p>
 
 
 
@@ -2023,7 +1623,7 @@ w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../orientation/parameters-and-shapes.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 参数与三个动手例子">
+          <a href="../data/adc-iq-layout.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: ADC 数据读取">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2033,20 +1633,20 @@ w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
                 上一页
               </span>
               <div class="md-ellipsis">
-                参数与三个动手例子
+                ADC 数据读取
               </div>
             </div>
           </a>
         
         
           
-          <a href="../data/adc-iq-layout.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 把整数变成 I/Q 数据">
+          <a href="../processing/range.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 距离测量">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                把整数变成 I/Q 数据
+                距离测量
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2063,7 +1663,7 @@ w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      基于本项目代码和采集数据编写；公式的适用条件见各章说明。
+      毫米波雷达教程 · MATLAB / Python
     </div>
   
   
@@ -2087,14 +1687,12 @@ w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
-      
-        <script src="../assets/javascripts/teaching-demos.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

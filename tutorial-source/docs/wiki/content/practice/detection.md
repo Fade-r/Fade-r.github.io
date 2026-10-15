@@ -1,101 +1,159 @@
-# 从谱峰到目标：检测、杂波和验证
+# 目标检测
 
-FFT 给你的是频谱，还没有回答“哪些格里存在目标”。最强峰可能是墙面、直流泄漏或干扰；一个目标的主瓣也可能覆盖多个格。这一章补上目标检测的基本思路，方便你理解当前项目还缺哪一步。
+距离—多普勒频谱中的峰可能来自目标，也可能来自噪声、静态背景或旁瓣。目标检测的任务是根据频谱和背景水平，选出需要进一步分析的位置。
 
-## 1. 幅度、功率和 dB 不要混用
+## 幅度与功率
 
-复频谱 X 的幅度为 $|X|$，线性功率量为 $|X|^2$。相对幅度的 dB 用 $20\log_{10}(|X|/A_0)$；相对功率的 dB 用 $10\log_{10}(P/P_0)$。这两个表达在参考值匹配时等价。它们都不会自动给出瓦特或 dBm，后者需要接收链路标定。
-
-```python
-power = np.abs(R)**2
-relative_db = 10*np.log10(np.maximum(power/power.max(), 1e-12))
-```
-
-```matlab
-power = abs(R).^2;
-relativeDB = 10*log10(max(power/max(power(:)),1e-12));
-```
-
-## 2. 为什么有时要去掉静态杂波
-
-在同一距离格，完全静止的回波通常集中在零多普勒附近。沿轮次减去复数均值，可抑制这部分回波：
+FFT 输出是复数 $X$，常用的幅度和功率分别为：
 
 \[
-X'_r[k,m,p]=X_r[k,m,p]-\frac{1}{N_c}\sum_{m'=0}^{N_c-1}X_r[k,m',p].
+A=|X|,\qquad P=|X|^2.
 \]
 
+如果采用幅度分贝，计算 $20\log_{10}(A/A_{\mathrm{ref}})$；采用功率分贝，计算 $10\log_{10}(P/P_{\mathrm{ref}})$。参考值必须说明，未标定的 FFT 输出不能直接标成 dBm。
+
+对多个通道进行非相干积累，可以将各通道功率相加：
+
 ```python
-R_clean = R - R.mean(axis=1, keepdims=True)
+power_map = np.sum(np.abs(doppler_cube)**2, axis=2)
 ```
 
 ```matlab
-Rclean = R - mean(R,2);
+powerMap = sum(abs(dopplerCube).^2,3);
 ```
 
-这会同时削弱静止和很慢的目标。若要观察呼吸等微动，或者保留静态目标位置，不能不加判断地使用它。应先确定要估计什么，再选择杂波处理方法。
+`power_map` 的两个轴是距离和速度。它用于检测位置；测角仍要从原来的复数 `doppler_cube` 取各通道数据，不能用功率图代替。
 
-## 3. CFAR 怎样让阈值跟着背景变化
+## 固定阈值
 
-固定阈值很容易受环境影响。CA-CFAR（单元平均恒虚警检测）在每个待检测格周围选一组训练格，用它们估计局部噪声功率，再乘一个系数作为阈值。待检测格左右留出保护格，避免把目标主瓣也算进噪声。
+最简单的检测方法是判断某个频谱格的功率是否大于阈值：
+
+\[
+P[k]>\eta.
+\]
+
+如果噪声水平随时间或位置变化，固定阈值会出现漏检或过多误报。CFAR（恒虚警率检测）使用邻近频谱格估计背景，再据此计算阈值。
+
+## CA-CFAR
+
+CA-CFAR 使用训练格的平均功率估计背景。待检测格称为 CUT；紧邻 CUT 的保护格不参与估计，以免把目标主瓣当成噪声。
+
+例如训练格在两侧各取 2 个，中间留 1 个保护格：
 
 ```text
-左侧训练格 | 保护格 | 待检测格 | 保护格 | 右侧训练格
-   估计背景           与阈值比较           估计背景
+训练  训练  保护  CUT  保护  训练  训练
 ```
 
-若训练格和待检测格的功率独立且服从同均值指数分布，训练格共 M 个：
+训练格总数为 $N$，背景估计为：
 
 \[
-\widehat P_n=\frac1M\sum_{i=1}^{M}P_i,\quad
-\alpha=M(P_{\mathrm{FA}}^{-1/M}-1),\quad
-P_{\mathrm{CUT}}>\alpha\widehat P_n.
+\widehat P_n=\frac1N\sum_{i=1}^N P_i.
 \]
 
-其中 $P_{\mathrm{FA}}$ 是模型下的目标虚警概率。关系来自 $P_{\mathrm{FA}}=(1+\alpha/M)^{-M}$。实际加窗、相邻格相关、多通道平均和非均匀杂波都可能改变分布，所以这个参数不是实测虚警率的保证。
+阈值为 $\eta=\alpha\widehat P_n$。当各训练格为独立、同分布的指数噪声功率，且 CUT 只有同类噪声时：
 
-### Python 教学实现
+\[
+P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
+\]
+
+对等式两边取 $-1/N$ 次幂，再移项，得到：
+
+\[
+\alpha=N\left(P_{\mathrm{FA}}^{-1/N}-1\right).
+\]
+
+这里的 $P_{\mathrm{FA}}$ 是设定的单格虚警概率，不是某次有限数据上一定出现的误报比例。加窗、杂波和多通道积累会改变统计条件，需要相应调整检测器。
+
+## 一个小例子
+
+两侧共 4 个训练格，功率均为 1，CUT 功率为 8。为了便于计算，取 $\alpha=4$，阈值就是 4，所以检测结果为真。
+
+### Python
 
 ```python
-def ca_cfar(power, training=8, guard=2, pfa=1e-3):
-    count = 2 * training
-    alpha = count * (pfa ** (-1 / count) - 1)
-    threshold = np.full(power.shape, np.nan, dtype=float)
-    detected = np.zeros(power.shape, dtype=bool)
-    for k in range(training + guard, len(power) - training - guard):
-        left = power[k - guard - training:k - guard]
-        right = power[k + guard + 1:k + guard + training + 1]
-        noise = np.mean(np.concatenate((left, right)))
-        threshold[k] = alpha * noise
-        detected[k] = power[k] > threshold[k]
+import numpy as np
+
+power = np.array([1, 1, 2, 8, 2, 1, 1], dtype=float)
+training = power[[0, 1, 5, 6]]
+threshold = 4 * training.mean()
+print(threshold, power[3] > threshold)
+```
+
+### MATLAB
+
+```matlab
+power = [1 1 2 8 2 1 1];
+training = power([1 2 6 7]);
+threshold = 4*mean(training);
+disp(threshold);
+disp(power(4) > threshold);
+```
+
+输出阈值为 4，检测结果为真。相邻功率为 2 的两个格是保护格，不参与背景计算。
+
+## 一维 CA-CFAR 实现
+
+以下函数的输入是线性功率，`train` 表示每侧训练格数量，`guard` 表示每侧保护格数量。边缘没有足够训练格，阈值保留为 NaN。
+
+### Python
+
+```python
+import numpy as np
+
+def ca_cfar(power, train=8, guard=2, pfa=1e-3):
+    power = np.asarray(power, dtype=float)
+    threshold = np.full(power.size, np.nan)
+    count = 2*train
+    alpha = count*(pfa**(-1/count)-1)
+    margin = train+guard
+    for k in range(margin, power.size-margin):
+        left = power[k-guard-train:k-guard]
+        right = power[k+guard+1:k+guard+train+1]
+        noise = (left.sum()+right.sum())/count
+        threshold[k] = alpha*noise
+    detected = np.isfinite(threshold) & (power > threshold)
     return detected, threshold
 ```
 
-### MATLAB 教学实现
+### MATLAB
 
 ```matlab
-function [detected, threshold] = ca_cfar(power, training, guard, pfa)
-    count = 2*training;
-    alpha = count*(pfa^(-1/count)-1);
-    threshold = nan(size(power));
-    detected = false(size(power));
-    for k = training+guard+1:numel(power)-training-guard
-        left = power(k-guard-training:k-guard-1);
-        right = power(k+guard+1:k+guard+training);
-        noise = mean([left(:); right(:)]);
-        threshold(k) = alpha*noise;
-        detected(k) = power(k) > threshold(k);
-    end
+function [detected, threshold] = ca_cfar(power, train, guard, pfa)
+power = double(power(:));
+threshold = nan(size(power));
+count = 2*train;
+alpha = count*(pfa^(-1/count)-1);
+margin = train+guard;
+for k = 1+margin:numel(power)-margin
+    left = power(k-guard-train:k-guard-1);
+    right = power(k+guard+1:k+guard+train);
+    noise = (sum(left)+sum(right))/count;
+    threshold(k) = alpha*noise;
+end
+detected = isfinite(threshold) & power > threshold;
 end
 ```
 
-两份实现都跳过边缘，因为那里没有足够的训练格。未检查的阈值为 NaN，不应把它当成“确认无目标”。这里以一维距离功率作教学练习；实际常在距离—多普勒平面设计二维检测器，并处理边缘、邻近强目标和非均匀杂波。
+MATLAB 版本可保存为 `ca_cfar.m`。两种实现的切片终点不同：Python 不包含右端点，MATLAB 包含。
 
-## 4. 检出三个格，不一定是三个目标
+## 静态杂波
 
-完整模拟练习只有一个目标，却会检出 13、14、15 三个相邻距离格，因为加窗后的主瓣有宽度。可先把连在一起的检测格归为一组，再在组内找峰或估计中心。多个真实目标距离过近时，这一步还可能把它们混在一起，因此要结合分辨能力判断。
+墙壁、地面等静止物体常在零多普勒附近形成强回波。若研究目标是运动物体，可以在慢时间维减去复数均值：
 
-跨帧处理还要解决“这一帧的目标是不是上一帧那个”的关联问题。固定一个 bin 并不等于完成跟踪；目标移动到相邻 bin 后，继续读原来的 bin 会混入另一种相位变化。正式的目标跟踪、滤波与多目标关联超出当前项目的已实现功能。
+```python
+moving = range_cube - range_cube.mean(axis=1, keepdims=True)
+```
 
-## 检查点
+```matlab
+moving = rangeCube - mean(rangeCube,2);
+```
 
-你应能区分：频谱计算、超过阈值、合并检测格、跨帧关联，是四个不同步骤。当前生产代码尚无 CFAR；本章代码只用于学习。下一章：[运行完整练习并按已知答案逐步核验](end-to-end.md)。
+减均值会压低零多普勒分量，也会削弱静止目标。它是针对测量目的的选择，不是每次处理都必须加入的步骤。
+
+## 检测格与目标数
+
+一个目标的主瓣可能覆盖多个相邻格，因此检出三个格并不等于有三个目标。检测后通常还需要选局部峰值、合并邻近检测，并在时间上关联目标。
+
+实际距离—多普勒图常使用二维 CFAR。这里的一维实现用于说明训练格、保护格和阈值计算，不把它直接当作完整点云算法。
+
+原理参考：H. Rohling, “Radar CFAR Thresholding in Clutter and Multiple Target Situations,” IEEE TAES, 1983, [doi:10.1109/TAES.1983.309350](https://doi.org/10.1109/TAES.1983.309350)。

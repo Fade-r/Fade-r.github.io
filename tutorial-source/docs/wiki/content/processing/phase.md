@@ -1,119 +1,106 @@
-# 用相位观察微小位移
+# 微位移测量
 
-测距 FFT 的格间距约为 19.5 cm，但这并不意味着更小的运动完全看不见。只要同一个散射体持续主导某个距离格，它的复回波相位会随往返路程变化。我们可以利用这个变化观察亚毫米运动。
+距离 FFT 用于区分目标所在的距离区域。对同一个目标持续观测时，还可以利用回波相位估计远小于距离格间隔的位移，例如振动或呼吸引起的胸廓运动。
 
-## 1. 为什么系数是 λ/(4π)
+## 相位与位移
 
-波走一个波长，相位改变 $2\pi$。目标移动 $\Delta R$，去程和回程合计多走 $2\Delta R$，因此：
+目标位移 $\Delta R$ 引起往返路程变化 $2\Delta R$。按前面的相位约定：
 
 \[
-\Delta\phi=\frac{4\pi\Delta R}{\lambda},\qquad
+\Delta\phi=\frac{4\pi\Delta R}{\lambda}.
+\]
+
+移项得到：
+
+\[
 \Delta R=\frac{\lambda}{4\pi}\Delta\phi.
 \]
 
-本项目波长约 3.851 mm，所以 1 rad 对应约 0.30646 mm。这是相对于起点的位移，不能用来直接推算目标的绝对距离。符号对应靠近还是远离仍由解调约定决定。
+若波长近似为 4 mm，相位变化为 $\pi/2$，则位移为：
 
-先用波长 4 mm 心算：相位转过四分之一圈，也就是 π/2，回波路程变化 1 mm；目标只移动其中的一半，即 0.5 mm。再换回项目的实际波长，计算方式完全相同。
+\[
+\Delta R=\frac{4}{4\pi}\times\frac{\pi}{2}=0.5\ \mathrm{mm}.
+\]
 
-!!! info "换成 IWR1843 时"
-    位移公式不变。用本次射频配置的波长和真实时间戳重新计算，并检查通道相位稳定性；不能把 IWR1443 的幅相校准系数直接搬到另一块板上。
+这种方法测量的是同一散射目标相对于参考时刻的位移，不是通过距离 FFT 分开两个相距 0.5 mm 的目标。
 
-## 2. angle 与 unwrap 做了两件不同的事
+## 选取目标信号
 
-`angle` 把每个复数转换成通常位于 $(-\pi,\pi]$ 范围内的相位。当连续相位从 3.1 rad 增到 3.2 rad 时，显示值会从 3.1 跳到约 −3.083。`unwrap` 通过补上 $2\pi$，尝试把这种表示造成的跳变接起来。
-
-它并不知道目标实际怎样运动。如果信号接近零，或者两次采样之间真实相位变了很多，解缠也可能选择错误的圈数。常见充分条件是相邻真实相位变化小于 π 且噪声较小；采样空隙会让这个条件更难满足。
-
-项目实现为：
-
-```python linenums="338"
-def compute_phase_displacement(trace: np.ndarray, cfg: RadarConfig) -> tuple[np.ndarray, np.ndarray]:
-    phase = np.unwrap(np.angle(trace))
-    displacement = (phase - phase[0]) * cfg.lambda_m / (4.0 * np.pi)
-    return phase, displacement
-```
-
-源文件：`project/src/iwr1443_adc_utils.py`，函数 `compute_phase_displacement`。
-
-MATLAB 等价写法：
-
-```matlab
-phi = unwrap(angle(trace));
-displacement = (phi-phi(1))*wavelength/(4*pi);
-```
-
-## 3. 先用已知位移验证公式
-
-设目标按 0.25 Hz 的频率往复运动，幅度 0.1 mm。每 80 ms 观察一次，共 100 点。下面直接生成已经选定距离格中的理想复数信号，不模拟原始 ADC 和杂波。
+距离 FFT 之后，在目标所在的距离格、一个稳定通道上持续提取复数值：
 
 ```python
-time = np.arange(100) * 0.08
-truth = 0.1e-3 * np.sin(2*np.pi*0.25*time)
-trace = np.exp(1j*4*np.pi*truth/wavelength)
-phi = np.unwrap(np.angle(trace))
-estimated = (phi-phi[0])*wavelength/(4*np.pi)
-np.testing.assert_allclose(estimated, truth, atol=1e-15)
+trace = range_cube[target_bin, :, channel]
 ```
 
 ```matlab
-time = (0:99)*0.08;
-truth = 0.1e-3*sin(2*pi*0.25*time);
-trace = exp(1j*4*pi*truth/wavelength);
-phi = unwrap(angle(trace));
-estimated = (phi-phi(1))*wavelength/(4*pi);
-assert(max(abs(estimated-truth)) < 1e-15);
+trace = rangeCube(targetIndex,:,channelIndex);
 ```
 
-这是验证数学和程序的一步。实际回波通常是多个散射体与噪声的复数和，不一定服从单目标模型。稳定杂波也可能让 IQ 轨迹偏离以原点为中心的圆，导致 `angle` 不再直接对应目标位移。
+跨帧分析时，把各帧对应的复数值与真实观测时刻一起保存。若目标明显跨越距离格，需要跟踪目标，避免直接拼接不同散射区域的相位。
 
-## 4. 实测数据先选目标，再保留真实时间
+## 相位解缠
 
-可先从能量、跨帧稳定性和场景信息选择目标距离格，并固定一个已验证通道。若帧内相位变化足够小，可对同一帧内的复数做相干平均，得到每帧一个点。若帧内转过较大相位，直接平均会相互抵消，应先补偿运动或改用恰当的代表样本。
+`angle` 返回的相位通常位于 $[-\pi,\pi]$。真实相位从 $0.9\pi$ 增长到 $1.1\pi$ 时，显示值会从 $0.9\pi$ 跳到 $-0.9\pi$。
 
-假定距离数据按 `[帧,通道,轮次,距离格]` 保存：
+`unwrap` 在这种跳变处补上 $2\pi$，使相位连续。但它无法区分噪声突变和真实运动。基本条件是相邻样本的真实相位增量小于 $\pi$，且信号足够强、相位可连续跟踪。
+
+## 正弦微动示例
+
+设目标以 0.25 Hz 的频率往复运动，位移幅度为 0.1 mm。每 80 ms 记录一次，共 100 点：
+
+\[
+d(t)=0.1\sin(2\pi\cdot0.25t)\ \mathrm{mm}.
+\]
+
+先由位移生成理想相位信号，再从信号恢复位移。
+
+### Python
 
 ```python
-z = np.mean(range_cube[:, vc, :, k], axis=1)
-time = np.arange(z.size) * 0.08
-phi = np.unwrap(np.angle(z))
-displacement = (phi-phi[0])*wavelength/(4*np.pi)
+import numpy as np
+
+wavelength = 3e8/77e9
+t = np.arange(100)*0.08
+true_displacement = 0.1e-3*np.sin(2*np.pi*0.25*t)
+z = np.exp(1j*4*np.pi*true_displacement/wavelength)
+
+phase = np.unwrap(np.angle(z))
+estimated = wavelength*(phase-phase[0])/(4*np.pi)
+error = np.max(np.abs(estimated-true_displacement))
+print(f"最大误差：{error*1e3:.6f} mm")
 ```
+
+### MATLAB
 
 ```matlab
-z = squeeze(mean(rangeCube(:,vc,:,k),3));
-time = (0:numel(z)-1)'*0.08;
-phi = unwrap(angle(z));
-displacement = (phi-phi(1))*wavelength/(4*pi);
+wavelength = 3e8/77e9;
+t = (0:99)*0.08;
+trueDisplacement = 0.1e-3*sin(2*pi*0.25*t);
+z = exp(1j*4*pi*trueDisplacement/wavelength);
+
+phase = unwrap(angle(z));
+estimated = wavelength*(phase-phase(1))/(4*pi);
+error = max(abs(estimated-trueDisplacement));
+fprintf('最大误差：%.6f mm\n', error*1e3);
 ```
 
-这里的数组顺序与前面单帧 `[采样点,轮次,通道]` 不同，是跨帧处理时特意写出的约定。不要只复制 `axis` 或维数编号。
+显示的最大误差为 0.000000 mm，仅余浮点误差。本例没有噪声，且初始位移为零。
 
-## 5. 本项目跨帧处理哪里出了问题
+<figure><img src="../assets/lessons/phase-displacement.svg" alt="0.25 Hz正弦位移引起的相位变化与恢复的0.1毫米幅度位移"><figcaption>上图是相位，下图是按 λ/(4π) 换算的位移。两者只有比例关系，解缠与换算不会自动去除噪声。</figcaption></figure>
 
-当前函数把每帧 128 个点放在 `frame_start + m × Tc`，再跨越帧间空隙，分别对复数实部、虚部线性插值。12800 个实测点被扩成 49628 个网格点，约 74% 是插值补出的。
+## 时间轴
 
-```python linenums="320"
-def _resample_complex_to_uniform(trace: np.ndarray, time_axis: np.ndarray, dt: float) -> tuple[np.ndarray, np.ndarray]:
-    uniform_time = np.arange(time_axis[0], time_axis[-1] + dt * 0.5, dt, dtype=np.float64)
-    real_uniform = np.interp(uniform_time, time_axis, trace.real)
-    imag_uniform = np.interp(uniform_time, time_axis, trace.imag)
-    return real_uniform + 1j * imag_uniform, uniform_time
-```
+一帧内部可能采样密集，两帧之间却有空闲时间。把这些观测按真实时间排列后，不一定是均匀采样序列。
 
-源文件：`project/src/iwr1443_adc_utils.py`，函数 `_resample_complex_to_uniform`。
+如果每帧只选同一个 TX、同一个轮次的观测，则相邻点间隔为帧周期。例如帧周期为 80 ms，采样率为 12.5 Hz。只有在这些采样时刻均匀时，才能直接按该采样率计算 FFT。
 
-MATLAB 中 `interp1(time,real(z),grid,'linear') + 1j*interp1(time,imag(z),grid,'linear')` 可以实现同样操作，但同样会引入这个问题：连接两个复数点的直线，不保证符合目标在空隙中的相位运动。插值把曲线填满，不等于补回了未观测的信息。
+把帧间空隙补成大量插值点，不会增加观测信息。频谱分析应保留真实时刻，选择合适的均匀序列或非均匀采样分析方法。
 
-若实际为三路轮发，帧内同一通道间隔还应使用 `3Tc`。当前 256 点 STFT 配上 160 µs 网格，频率格间距约 24.4 Hz，用它研究小于 1 Hz 的呼吸变化明显不合适。即使改成每帧一点，100 点、80 ms 间隔的记录也只有约 0.125 Hz 的频率格间距，想分辨相近的低频成分需要更长记录。
+## 实测影响因素
 
-## 6. 为什么现有几十毫米曲线不可靠
+- 目标回波过弱时，相位主要受噪声影响。
+- 同一距离格内多个散射体叠加时，相位不再只对应一个物体的位移。
+- 雷达自身振动、通道漂移和直流偏置也会改变相位。
+- 解调符号会改变位移正负，应通过已知方向的小位移标定。
 
-<figure><img src="../assets/figures/slow_time_rangebin030_vc00.png" alt="第 30 个距离格的 IQ、相位和换算位移"><figcaption>按从上到下的顺序读：先看复数信号是否稳定，再看相位是否连续，最后才看换算位移。最后一条曲线只是把前面的相位乘上比例系数，并未验证真实运动。</figcaption></figure>
-
-第 30 格约为 5.8629 m，但它是配置指定的，不是检测器找到的目标。幅度仅约为全谱最大值的 1.076%，通道间归一化复内积的非对角中位数约 0.0388。相位解缠得到 −40.1 到 +27.0 mm 的曲线，当前证据不足以把它解释为真实位移。低相干本身也不能直接证明硬件坏了。
-
-TDM 候选排列的第 14 格约 2.736 m，已有检查显示更稳定，适合继续验证，但稳定回波也可能来自静止物体，不代表测到了呼吸。
-
-## 检查点
-
-你应能解释：为什么幅值很小时不应信任相位；为什么不能先取绝对值再算相位；为什么更密的插值时间轴没有提高观测能力。下一章：[目标检测和结果验证](../practice/detection.md)。
+IWR1443 与 IWR1843 的换算原理相同，波长取本次工作频率，采样时刻取实际配置。案例中的弱距离格和插值问题集中在[实测结果分析](../audit/scientific-audit.md)。

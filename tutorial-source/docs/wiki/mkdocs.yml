@@ -1,5 +1,5 @@
-site_name: 毫米波雷达处理教程
-site_description: 代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程
+site_name: 毫米波雷达教程
+site_description: FMCW 雷达发射、接收、采集与信号处理，附 MATLAB 和 Python 示例
 site_author: codex-radar research workspace
 docs_dir: content
 site_dir: site
@@ -12,7 +12,6 @@ theme:
   language: zh
   font: false
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.indexes
     - navigation.top
@@ -72,37 +71,36 @@ extra_css:
 
 extra_javascript:
   - assets/javascripts/theme-toggle.js
-  - assets/javascripts/teaching-demos.js
   - assets/javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
 
 nav:
-  - 首页: index.md
-  - 数据采集:
-      - 从回波到数据文件: data/capture.md
-  - 开始学习:
-      - 先看懂一帧数据: orientation/learning-path.md
-      - 参数与三个动手例子: orientation/parameters-and-shapes.md
-  - 必要基础:
-      - 复数、采样和 FFT: foundations/signal-and-fft.md
-  - 数据入口:
-      - 把整数变成 I/Q 数据: data/adc-iq-layout.md
-  - 三维 FFT:
-      - 距离：一次扫频内的变化: processing/range.md
-      - 速度：多次观测之间的变化: processing/doppler.md
-      - 方向：天线之间的相位差: processing/angle.md
-  - 相位与微动:
-      - 用相位观察微小位移: processing/phase.md
-  - 自己实现:
-      - 检测与杂波处理: practice/detection.md
-      - 完整练习与检查点: practice/end-to-end.md
-  - 检查结果:
-      - 当前结果可信度: audit/scientific-audit.md
-      - 标定实验与修正路线: audit/validation-roadmap.md
-  - 参考:
+  - 简介: index.md
+  - 发射与接收:
+      - 发射信号: foundations/transmit.md
+      - 回波与混频: foundations/echo-and-mixing.md
+      - I/Q 与采样: foundations/sampling.md
+  - 数据采集与读取:
+      - 雷达与数据采集: data/capture.md
+      - 帧、通道与数组: orientation/learning-path.md
+      - ADC 数据读取: data/adc-iq-layout.md
+  - 信号处理:
+      - FFT 与频谱: foundations/signal-and-fft.md
+      - 距离测量: processing/range.md
+      - 速度测量: processing/doppler.md
+      - 目标检测: practice/detection.md
+      - 角度测量: processing/angle.md
+      - 微位移测量: processing/phase.md
+      - 完整处理示例: practice/end-to-end.md
+  - 项目案例:
+      - 项目参数对照: orientation/parameters-and-shapes.md
+      - 项目代码分析: code/code-map.md
+      - 原函数逐段说明: code/original-functions.md
+      - 实测结果分析: audit/scientific-audit.md
+      - 诊断图说明: reference/figure-atlas.md
+      - 实验验证: audit/validation-roadmap.md
+  - 参考资料:
       - MATLAB/Python 语法速查: foundations/arrays-and-languages.md
-      - 项目文件和函数索引: code/code-map.md
-      - 逐张读懂现有图片: reference/figure-atlas.md
       - 代码来源和参考资料: reference/sources.md
 
 validation:
@@ -115,4 +113,4 @@ validation:
     absolute_links: relative_to_docs
     unrecognized_links: warn
 
-copyright: 基于本项目代码和采集数据编写；公式的适用条件见各章说明。
+copyright: 毫米波雷达教程 · MATLAB / Python

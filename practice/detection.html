@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程">
+        <meta name="description" content="FMCW 雷达发射、接收、采集与信号处理，附 MATLAB 和 Python 示例">
       
       
         <meta name="author" content="codex-radar research workspace">
       
       
       
-        <link rel="prev" href="../processing/phase.html">
+        <link rel="prev" href="../processing/doppler.html">
       
       
-        <link rel="next" href="end-to-end.html">
+        <link rel="next" href="../processing/angle.html">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>检测与杂波处理 - 毫米波雷达处理教程</title>
+        <title>目标检测 - 毫米波雷达教程</title>
       
     
     
@@ -114,9 +114,11 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-header__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-header__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -130,13 +132,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            毫米波雷达处理教程
+            毫米波雷达教程
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              检测与杂波处理
+              目标检测
             
           </span>
         </div>
@@ -231,234 +233,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../index.html" class="md-tabs__link">
-        
-  
-  
-    
-  
-  首页
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/capture.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据采集
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../orientation/learning-path.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  开始学习
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/signal-and-fft.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  必要基础
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../data/adc-iq-layout.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据入口
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/range.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  三维 FFT
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/phase.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  相位与微动
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="detection.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  自己实现
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../audit/scientific-audit.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  检查结果
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/arrays-and-languages.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  参考
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -472,18 +246,16 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-nav__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-nav__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    毫米波雷达处理教程
+    毫米波雷达教程
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -502,7 +274,7 @@
   <span class="md-ellipsis">
     
   
-    首页
+    简介
   
 
     
@@ -526,30 +298,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    数据采集
+    发射与接收
   
 
     
@@ -565,7 +341,158 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    数据采集
+    发射与接收
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/transmit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    发射信号
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/echo-and-mixing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    回波与混频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/sampling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/Q 与采样
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据采集与读取
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据采集与读取
   
 
           </label>
@@ -585,7 +512,7 @@
   <span class="md-ellipsis">
     
   
-    从回波到数据文件
+    雷达与数据采集
   
 
     
@@ -598,71 +525,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    开始学习
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    开始学习
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -678,7 +540,7 @@
   <span class="md-ellipsis">
     
   
-    先看懂一帧数据
+    帧、通道与数组
   
 
     
@@ -699,14 +561,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
+      <a href="../data/adc-iq-layout.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    参数与三个动手例子
+    ADC 数据读取
   
 
     
@@ -731,10 +593,24 @@
       
   
   
+    
   
   
+  
     
     
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -742,26 +618,26 @@
     
     
       
-      
+        
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    必要基础
+    信号处理
   
 
     
@@ -772,12 +648,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
-    必要基础
+    信号处理
   
 
           </label>
@@ -797,7 +673,7 @@
   <span class="md-ellipsis">
     
   
-    复数、采样和 FFT
+    FFT 与频谱
   
 
     
@@ -810,164 +686,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    数据入口
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    数据入口
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data/adc-iq-layout.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    把整数变成 I/Q 数据
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    三维 FFT
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    三维 FFT
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -983,7 +701,7 @@
   <span class="md-ellipsis">
     
   
-    距离：一次扫频内的变化
+    距离测量
   
 
     
@@ -1011,7 +729,7 @@
   <span class="md-ellipsis">
     
   
-    速度：多次观测之间的变化
+    速度测量
   
 
     
@@ -1024,195 +742,6 @@
   
 
               
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/angle.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    方向：天线之间的相位差
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    相位与微动
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    相位与微动
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../processing/phase.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    用相位观察微小位移
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    自己实现
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    自己实现
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1237,7 +766,7 @@
   <span class="md-ellipsis">
     
   
-    检测与杂波处理
+    目标检测
   
 
     
@@ -1255,7 +784,7 @@
   <span class="md-ellipsis">
     
   
-    检测与杂波处理
+    目标检测
   
 
     
@@ -1281,10 +810,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-db" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 幅度、功率和 dB 不要混用
+        幅度与功率
       
     </span>
   </a>
@@ -1292,10 +821,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 为什么有时要去掉静态杂波
+        固定阈值
       
     </span>
   </a>
@@ -1303,22 +832,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-cfar" class="md-nav__link">
+  <a href="#ca-cfar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. CFAR 怎样让阈值跟着背景变化
+        CA-CFAR
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. CFAR 怎样让阈值跟着背景变化">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一个小例子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一个小例子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#python" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Python 教学实现
+        Python
       
     </span>
   </a>
@@ -1329,7 +869,7 @@
   <a href="#matlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        MATLAB 教学实现
+        MATLAB
       
     </span>
   </a>
@@ -1342,10 +882,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#ca-cfar_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. 检出三个格，不一定是三个目标
+        一维 CA-CFAR 实现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一维 CA-CFAR 实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        静态杂波
       
     </span>
   </a>
@@ -1353,10 +932,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        检查点
+        检测格与目标数
       
     </span>
   </a>
@@ -1379,6 +958,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../processing/angle.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    角度测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../processing/phase.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    微位移测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="end-to-end.html" class="md-nav__link">
         
   
@@ -1386,128 +1021,7 @@
   <span class="md-ellipsis">
     
   
-    完整练习与检查点
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检查结果
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    检查结果
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/scientific-audit.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    当前结果可信度
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/validation-roadmap.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    标定实验与修正路线
+    完整处理示例
   
 
     
@@ -1545,30 +1059,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    参考
+    项目案例
   
 
     
@@ -1579,12 +1097,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
-    参考
+    项目案例
   
 
           </label>
@@ -1597,14 +1115,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    MATLAB/Python 语法速查
+    项目参数对照
   
 
     
@@ -1632,7 +1150,63 @@
   <span class="md-ellipsis">
     
   
-    项目文件和函数索引
+    项目代码分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/original-functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    原函数逐段说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/scientific-audit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实测结果分析
   
 
     
@@ -1660,7 +1234,128 @@
   <span class="md-ellipsis">
     
   
-    逐张读懂现有图片
+    诊断图说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/validation-roadmap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考资料
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考资料
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MATLAB/Python 语法速查
   
 
     
@@ -1736,10 +1431,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-db" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 幅度、功率和 dB 不要混用
+        幅度与功率
       
     </span>
   </a>
@@ -1747,10 +1442,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 为什么有时要去掉静态杂波
+        固定阈值
       
     </span>
   </a>
@@ -1758,22 +1453,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-cfar" class="md-nav__link">
+  <a href="#ca-cfar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. CFAR 怎样让阈值跟着背景变化
+        CA-CFAR
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. CFAR 怎样让阈值跟着背景变化">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一个小例子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一个小例子">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#python" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Python 教学实现
+        Python
       
     </span>
   </a>
@@ -1784,7 +1490,7 @@
   <a href="#matlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        MATLAB 教学实现
+        MATLAB
       
     </span>
   </a>
@@ -1797,10 +1503,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#ca-cfar_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. 检出三个格，不一定是三个目标
+        一维 CA-CFAR 实现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一维 CA-CFAR 实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        静态杂波
       
     </span>
   </a>
@@ -1808,10 +1553,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        检查点
+        检测格与目标数
       
     </span>
   </a>
@@ -1835,73 +1580,109 @@
 
 
 
-<h1 id="_1">从谱峰到目标：检测、杂波和验证<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>FFT 给你的是频谱，还没有回答“哪些格里存在目标”。最强峰可能是墙面、直流泄漏或干扰；一个目标的主瓣也可能覆盖多个格。这一章补上目标检测的基本思路，方便你理解当前项目还缺哪一步。</p>
-<h2 id="1-db">1. 幅度、功率和 dB 不要混用<a class="headerlink" href="#1-db" title="Permanent link">&para;</a></h2>
-<p>复频谱 X 的幅度为 <span class="arithmatex">\(|X|\)</span>，线性功率量为 <span class="arithmatex">\(|X|^2\)</span>。相对幅度的 dB 用 <span class="arithmatex">\(20\log_{10}(|X|/A_0)\)</span>；相对功率的 dB 用 <span class="arithmatex">\(10\log_{10}(P/P_0)\)</span>。这两个表达在参考值匹配时等价。它们都不会自动给出瓦特或 dBm，后者需要接收链路标定。</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">relative_db</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">power</span><span class="o">/</span><span class="n">power</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mf">1e-12</span><span class="p">))</span>
-</span></code></pre></div>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">power</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">relativeDB</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">power</span><span class="o">/</span><span class="nb">max</span><span class="p">(</span><span class="n">power</span><span class="p">(:)),</span><span class="mf">1e-12</span><span class="p">));</span>
-</span></code></pre></div>
-<h2 id="2">2. 为什么有时要去掉静态杂波<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<p>在同一距离格，完全静止的回波通常集中在零多普勒附近。沿轮次减去复数均值，可抑制这部分回波：</p>
+<h1 id="_1">目标检测<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>距离—多普勒频谱中的峰可能来自目标，也可能来自噪声、静态背景或旁瓣。目标检测的任务是根据频谱和背景水平，选出需要进一步分析的位置。</p>
+<h2 id="_2">幅度与功率<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>FFT 输出是复数 <span class="arithmatex">\(X\)</span>，常用的幅度和功率分别为：</p>
 <div class="arithmatex">\[
-X'_r[k,m,p]=X_r[k,m,p]-\frac{1}{N_c}\sum_{m'=0}^{N_c-1}X_r[k,m',p].
+A=|X|,\qquad P=|X|^2.
 \]</div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">R_clean</span> <span class="o">=</span> <span class="n">R</span> <span class="o">-</span> <span class="n">R</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>如果采用幅度分贝，计算 <span class="arithmatex">\(20\log_{10}(A/A_{\mathrm{ref}})\)</span>；采用功率分贝，计算 <span class="arithmatex">\(10\log_{10}(P/P_{\mathrm{ref}})\)</span>。参考值必须说明，未标定的 FFT 输出不能直接标成 dBm。</p>
+<p>对多个通道进行非相干积累，可以将各通道功率相加：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">power_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">doppler_cube</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Rclean</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">powerMap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dopplerCube</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
 </span></code></pre></div>
-<p>这会同时削弱静止和很慢的目标。若要观察呼吸等微动，或者保留静态目标位置，不能不加判断地使用它。应先确定要估计什么，再选择杂波处理方法。</p>
-<h2 id="3-cfar">3. CFAR 怎样让阈值跟着背景变化<a class="headerlink" href="#3-cfar" title="Permanent link">&para;</a></h2>
-<p>固定阈值很容易受环境影响。CA-CFAR（单元平均恒虚警检测）在每个待检测格周围选一组训练格，用它们估计局部噪声功率，再乘一个系数作为阈值。待检测格左右留出保护格，避免把目标主瓣也算进噪声。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>左侧训练格 | 保护格 | 待检测格 | 保护格 | 右侧训练格
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   估计背景           与阈值比较           估计背景
-</span></code></pre></div>
-<p>若训练格和待检测格的功率独立且服从同均值指数分布，训练格共 M 个：</p>
+<p><code>power_map</code> 的两个轴是距离和速度。它用于检测位置；测角仍要从原来的复数 <code>doppler_cube</code> 取各通道数据，不能用功率图代替。</p>
+<h2 id="_3">固定阈值<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>最简单的检测方法是判断某个频谱格的功率是否大于阈值：</p>
 <div class="arithmatex">\[
-\widehat P_n=\frac1M\sum_{i=1}^{M}P_i,\quad
-\alpha=M(P_{\mathrm{FA}}^{-1/M}-1),\quad
-P_{\mathrm{CUT}}&gt;\alpha\widehat P_n.
+P[k]&gt;\eta.
 \]</div>
-<p>其中 <span class="arithmatex">\(P_{\mathrm{FA}}\)</span> 是模型下的目标虚警概率。关系来自 <span class="arithmatex">\(P_{\mathrm{FA}}=(1+\alpha/M)^{-M}\)</span>。实际加窗、相邻格相关、多通道平均和非均匀杂波都可能改变分布，所以这个参数不是实测虚警率的保证。</p>
-<h3 id="python">Python 教学实现<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">ca_cfar</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">guard</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pfa</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">training</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">alpha</span> <span class="o">=</span> <span class="n">count</span> <span class="o">*</span> <span class="p">(</span><span class="n">pfa</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">count</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">detected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">training</span> <span class="o">+</span> <span class="n">guard</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">power</span><span class="p">)</span> <span class="o">-</span> <span class="n">training</span> <span class="o">-</span> <span class="n">guard</span><span class="p">):</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="n">left</span> <span class="o">=</span> <span class="n">power</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="n">guard</span> <span class="o">-</span> <span class="n">training</span><span class="p">:</span><span class="n">k</span> <span class="o">-</span> <span class="n">guard</span><span class="p">]</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">right</span> <span class="o">=</span> <span class="n">power</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="n">guard</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">k</span> <span class="o">+</span> <span class="n">guard</span> <span class="o">+</span> <span class="n">training</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)))</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">threshold</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">noise</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="n">detected</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">power</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="k">return</span> <span class="n">detected</span><span class="p">,</span> <span class="n">threshold</span>
+<p>如果噪声水平随时间或位置变化，固定阈值会出现漏检或过多误报。CFAR（恒虚警率检测）使用邻近频谱格估计背景，再据此计算阈值。</p>
+<h2 id="ca-cfar">CA-CFAR<a class="headerlink" href="#ca-cfar" title="Permanent link">&para;</a></h2>
+<p>CA-CFAR 使用训练格的平均功率估计背景。待检测格称为 CUT；紧邻 CUT 的保护格不参与估计，以免把目标主瓣当成噪声。</p>
+<p>例如训练格在两侧各取 2 个，中间留 1 个保护格：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>训练  训练  保护  CUT  保护  训练  训练
 </span></code></pre></div>
-<h3 id="matlab">MATLAB 教学实现<a class="headerlink" href="#matlab" title="Permanent link">&para;</a></h3>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">function</span><span class="w"> </span><span class="nf">[detected, threshold] = ca_cfar</span><span class="p">(</span>power, training, guard, pfa<span class="p">)</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">training</span><span class="p">;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nb">alpha</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">count</span><span class="o">*</span><span class="p">(</span><span class="n">pfa</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="nb">count</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="n">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nan</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">power</span><span class="p">));</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">detected</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">power</span><span class="p">));</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">training</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">power</span><span class="p">)</span><span class="o">-</span><span class="n">training</span><span class="o">-</span><span class="n">guard</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="n">left</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="o">-</span><span class="n">training</span><span class="p">:</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="n">right</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="n">training</span><span class="p">);</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="n">noise</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">mean</span><span class="p">([</span><span class="n">left</span><span class="p">(:);</span><span class="w"> </span><span class="n">right</span><span class="p">(:)]);</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">        </span><span class="n">threshold</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">alpha</span><span class="o">*</span><span class="n">noise</span><span class="p">;</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">        </span><span class="n">detected</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="k">end</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">end</span>
+<p>训练格总数为 <span class="arithmatex">\(N\)</span>，背景估计为：</p>
+<div class="arithmatex">\[
+\widehat P_n=\frac1N\sum_{i=1}^N P_i.
+\]</div>
+<p>阈值为 <span class="arithmatex">\(\eta=\alpha\widehat P_n\)</span>。当各训练格为独立、同分布的指数噪声功率，且 CUT 只有同类噪声时：</p>
+<div class="arithmatex">\[
+P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
+\]</div>
+<p>对等式两边取 <span class="arithmatex">\(-1/N\)</span> 次幂，再移项，得到：</p>
+<div class="arithmatex">\[
+\alpha=N\left(P_{\mathrm{FA}}^{-1/N}-1\right).
+\]</div>
+<p>这里的 <span class="arithmatex">\(P_{\mathrm{FA}}\)</span> 是设定的单格虚警概率，不是某次有限数据上一定出现的误报比例。加窗、杂波和多通道积累会改变统计条件，需要相应调整检测器。</p>
+<h2 id="_4">一个小例子<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>两侧共 4 个训练格，功率均为 1，CUT 功率为 8。为了便于计算，取 <span class="arithmatex">\(\alpha=4\)</span>，阈值就是 4，所以检测结果为真。</p>
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">training</span> <span class="o">=</span> <span class="n">power</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">training</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="n">power</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span>
 </span></code></pre></div>
-<p>两份实现都跳过边缘，因为那里没有足够的训练格。未检查的阈值为 NaN，不应把它当成“确认无目标”。这里以一维距离功率作教学练习；实际常在距离—多普勒平面设计二维检测器，并处理边缘、邻近强目标和非均匀杂波。</p>
-<h2 id="4">4. 检出三个格，不一定是三个目标<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>完整模拟练习只有一个目标，却会检出 13、14、15 三个相邻距离格，因为加窗后的主瓣有宽度。可先把连在一起的检测格归为一组，再在组内找峰或估计中心。多个真实目标距离过近时，这一步还可能把它们混在一起，因此要结合分辨能力判断。</p>
-<p>跨帧处理还要解决“这一帧的目标是不是上一帧那个”的关联问题。固定一个 bin 并不等于完成跟踪；目标移动到相邻 bin 后，继续读原来的 bin 会混入另一种相位变化。正式的目标跟踪、滤波与多目标关联超出当前项目的已实现功能。</p>
-<h2 id="_2">检查点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>你应能区分：频谱计算、超过阈值、合并检测格、跨帧关联，是四个不同步骤。当前生产代码尚无 CFAR；本章代码只用于学习。下一章：<a href="end-to-end.html">运行完整练习并按已知答案逐步核验</a>。</p>
+<h3 id="matlab">MATLAB<a class="headerlink" href="#matlab" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">power</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">training</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">([</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="mi">7</span><span class="p">]);</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="nb">mean</span><span class="p">(</span><span class="n">training</span><span class="p">);</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">disp</span><span class="p">(</span><span class="n">threshold</span><span class="p">);</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">disp</span><span class="p">(</span><span class="n">power</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">);</span>
+</span></code></pre></div>
+<p>输出阈值为 4，检测结果为真。相邻功率为 2 的两个格是保护格，不参与背景计算。</p>
+<h2 id="ca-cfar_1">一维 CA-CFAR 实现<a class="headerlink" href="#ca-cfar_1" title="Permanent link">&para;</a></h2>
+<p>以下函数的输入是线性功率，<code>train</code> 表示每侧训练格数量，<code>guard</code> 表示每侧保护格数量。边缘没有足够训练格，阈值保留为 NaN。</p>
+<h3 id="python_1">Python<a class="headerlink" href="#python_1" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">ca_cfar</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">guard</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pfa</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">count</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">train</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">alpha</span> <span class="o">=</span> <span class="n">count</span><span class="o">*</span><span class="p">(</span><span class="n">pfa</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">count</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">margin</span> <span class="o">=</span> <span class="n">train</span><span class="o">+</span><span class="n">guard</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="n">power</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="n">margin</span><span class="p">):</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">left</span> <span class="o">=</span> <span class="n">power</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="o">-</span><span class="n">train</span><span class="p">:</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="p">]</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="n">right</span> <span class="o">=</span> <span class="n">power</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="n">train</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">+</span><span class="n">right</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="o">/</span><span class="n">count</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="n">threshold</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">alpha</span><span class="o">*</span><span class="n">noise</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">detected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">power</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="k">return</span> <span class="n">detected</span><span class="p">,</span> <span class="n">threshold</span>
+</span></code></pre></div>
+<h3 id="matlab_1">MATLAB<a class="headerlink" href="#matlab_1" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">function</span><span class="w"> </span><span class="nf">[detected, threshold] = ca_cfar</span><span class="p">(</span>power, train, guard, pfa<span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">power</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">double</span><span class="p">(</span><span class="n">power</span><span class="p">(:));</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">nan</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">power</span><span class="p">));</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">train</span><span class="p">;</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">alpha</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">count</span><span class="o">*</span><span class="p">(</span><span class="n">pfa</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="nb">count</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">margin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">train</span><span class="o">+</span><span class="n">guard</span><span class="p">;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">+</span><span class="n">margin</span><span class="p">:</span><span class="nb">numel</span><span class="p">(</span><span class="n">power</span><span class="p">)</span><span class="o">-</span><span class="n">margin</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">left</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="o">-</span><span class="n">train</span><span class="p">:</span><span class="n">k</span><span class="o">-</span><span class="n">guard</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="n">right</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">power</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="n">guard</span><span class="o">+</span><span class="n">train</span><span class="p">);</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="n">noise</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">left</span><span class="p">)</span><span class="o">+</span><span class="nb">sum</span><span class="p">(</span><span class="n">right</span><span class="p">))</span><span class="o">/</span><span class="nb">count</span><span class="p">;</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="n">threshold</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">alpha</span><span class="o">*</span><span class="n">noise</span><span class="p">;</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="k">end</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">detected</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">isfinite</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">power</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">;</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">end</span>
+</span></code></pre></div>
+<p>MATLAB 版本可保存为 <code>ca_cfar.m</code>。两种实现的切片终点不同：Python 不包含右端点，MATLAB 包含。</p>
+<h2 id="_5">静态杂波<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>墙壁、地面等静止物体常在零多普勒附近形成强回波。若研究目标是运动物体，可以在慢时间维减去复数均值：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">moving</span> <span class="o">=</span> <span class="n">range_cube</span> <span class="o">-</span> <span class="n">range_cube</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">moving</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rangeCube</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">rangeCube</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</span></code></pre></div>
+<p>减均值会压低零多普勒分量，也会削弱静止目标。它是针对测量目的的选择，不是每次处理都必须加入的步骤。</p>
+<h2 id="_6">检测格与目标数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>一个目标的主瓣可能覆盖多个相邻格，因此检出三个格并不等于有三个目标。检测后通常还需要选局部峰值、合并邻近检测，并在时间上关联目标。</p>
+<p>实际距离—多普勒图常使用二维 CFAR。这里的一维实现用于说明训练格、保护格和阈值计算，不把它直接当作完整点云算法。</p>
+<p>原理参考：H. Rohling, “Radar CFAR Thresholding in Clutter and Multiple Target Situations,” IEEE TAES, 1983, <a href="https://doi.org/10.1109/TAES.1983.309350">doi:10.1109/TAES.1983.309350</a>。</p>
 
 
 
@@ -1939,7 +1720,7 @@ P_{\mathrm{CUT}}&gt;\alpha\widehat P_n.
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../processing/phase.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 用相位观察微小位移">
+          <a href="../processing/doppler.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 速度测量">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1949,20 +1730,20 @@ P_{\mathrm{CUT}}&gt;\alpha\widehat P_n.
                 上一页
               </span>
               <div class="md-ellipsis">
-                用相位观察微小位移
+                速度测量
               </div>
             </div>
           </a>
         
         
           
-          <a href="end-to-end.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 完整练习与检查点">
+          <a href="../processing/angle.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 角度测量">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                完整练习与检查点
+                角度测量
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1979,7 +1760,7 @@ P_{\mathrm{CUT}}&gt;\alpha\widehat P_n.
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      基于本项目代码和采集数据编写；公式的适用条件见各章说明。
+      毫米波雷达教程 · MATLAB / Python
     </div>
   
   
@@ -2003,14 +1784,12 @@ P_{\mathrm{CUT}}&gt;\alpha\widehat P_n.
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
-      
-        <script src="../assets/javascripts/teaching-demos.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

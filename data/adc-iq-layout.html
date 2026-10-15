@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="代码、公式、数据 shape 与实测证据相互校验的 IWR1443/DCA1000 信号处理教程">
+        <meta name="description" content="FMCW 雷达发射、接收、采集与信号处理，附 MATLAB 和 Python 示例">
       
       
         <meta name="author" content="codex-radar research workspace">
       
       
       
-        <link rel="prev" href="../foundations/signal-and-fft.html">
+        <link rel="prev" href="../orientation/learning-path.html">
       
       
-        <link rel="next" href="../processing/range.html">
+        <link rel="next" href="../foundations/signal-and-fft.html">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>把整数变成 I/Q 数据 - 毫米波雷达处理教程</title>
+        <title>ADC 数据读取 - 毫米波雷达教程</title>
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#iq" class="md-skip">
+        <a href="#adc" class="md-skip">
           跳转至
         </a>
       
@@ -114,9 +114,11 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-header__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-header__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -130,13 +132,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            毫米波雷达处理教程
+            毫米波雷达教程
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              把整数变成 I/Q 数据
+              ADC 数据读取
             
           </span>
         </div>
@@ -231,234 +233,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../index.html" class="md-tabs__link">
-        
-  
-  
-    
-  
-  首页
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="capture.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据采集
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../orientation/learning-path.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  开始学习
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/signal-and-fft.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  必要基础
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-  
-  
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="adc-iq-layout.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  数据入口
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/range.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  三维 FFT
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../processing/phase.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  相位与微动
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../practice/detection.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  自己实现
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../audit/scientific-audit.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  检查结果
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../foundations/arrays-and-languages.html" class="md-tabs__link">
-          
-  
-  
-    
-  
-  参考
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -472,18 +246,16 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="毫米波雷达处理教程" class="md-nav__button md-logo" aria-label="毫米波雷达处理教程" data-md-component="logo">
+    <a href="../index.html" title="毫米波雷达教程" class="md-nav__button md-logo" aria-label="毫米波雷达教程" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    毫米波雷达处理教程
+    毫米波雷达教程
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -502,7 +274,7 @@
   <span class="md-ellipsis">
     
   
-    首页
+    简介
   
 
     
@@ -526,30 +298,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    数据采集
+    发射与接收
   
 
     
@@ -565,7 +341,160 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    数据采集
+    发射与接收
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/transmit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    发射信号
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/echo-and-mixing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    回波与混频
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/sampling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I/Q 与采样
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据采集与读取
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据采集与读取
   
 
           </label>
@@ -585,7 +514,7 @@
   <span class="md-ellipsis">
     
   
-    从回波到数据文件
+    雷达与数据采集
   
 
     
@@ -598,71 +527,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    开始学习
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    开始学习
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -678,7 +542,7 @@
   <span class="md-ellipsis">
     
   
-    先看懂一帧数据
+    帧、通道与数组
   
 
     
@@ -691,193 +555,6 @@
   
 
               
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    参数与三个动手例子
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    必要基础
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    必要基础
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../foundations/signal-and-fft.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    复数、采样和 FFT
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    数据入口
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    数据入口
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -902,7 +579,7 @@
   <span class="md-ellipsis">
     
   
-    把整数变成 I/Q 数据
+    ADC 数据读取
   
 
     
@@ -920,7 +597,7 @@
   <span class="md-ellipsis">
     
   
-    把整数变成 I/Q 数据
+    ADC 数据读取
   
 
     
@@ -946,33 +623,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#16" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 读文件之前，先确认格式
+        读取 16 位整数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="读取 16 位整数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 四个整数怎样组成两个复数
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. 四个整数怎样组成两个复数">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#iwr1443-lane" class="md-nav__link">
+  <a href="#matlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        IWR1443 官方四 lane 示例怎样配
+        MATLAB
       
     </span>
   </a>
@@ -985,22 +662,61 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#iwr1443-iq" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. 为什么同样的数能排出不同结果
+        IWR1443 四路接收的 I/Q 配对
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 为什么同样的数能排出不同结果">
+    <nav class="md-nav" aria-label="IWR1443 四路接收的 I/Q 配对">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前程序使用的排列
+        排列一帧数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="排列一帧数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
       
     </span>
   </a>
@@ -1008,10 +724,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tdm" class="md-nav__link">
+  <a href="#matlab_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        待验证的 TDM 排列
+        MATLAB
       
     </span>
   </a>
@@ -1024,10 +740,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#iwr1843" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. 怎样检查自己有没有排错
+        IWR1843 格式
       
     </span>
   </a>
@@ -1038,7 +754,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        检查点
+        检查读取结果
       
     </span>
   </a>
@@ -1076,30 +792,38 @@
       
         
       
-    
-    
-    
+        
       
+        
+      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    三维 FFT
+    信号处理
   
 
     
@@ -1110,16 +834,44 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
-    三维 FFT
+    信号处理
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/signal-and-fft.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFT 与频谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1135,7 +887,7 @@
   <span class="md-ellipsis">
     
   
-    距离：一次扫频内的变化
+    距离测量
   
 
     
@@ -1163,7 +915,35 @@
   <span class="md-ellipsis">
     
   
-    速度：多次观测之间的变化
+    速度测量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practice/detection.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    目标检测
   
 
     
@@ -1191,7 +971,7 @@
   <span class="md-ellipsis">
     
   
-    方向：天线之间的相位差
+    角度测量
   
 
     
@@ -1204,69 +984,6 @@
   
 
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    相位与微动
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    相位与微动
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -1282,100 +999,7 @@
   <span class="md-ellipsis">
     
   
-    用相位观察微小位移
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
-        
-          
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    自己实现
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    自己实现
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../practice/detection.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检测与杂波处理
+    微位移测量
   
 
     
@@ -1403,128 +1027,7 @@
   <span class="md-ellipsis">
     
   
-    完整练习与检查点
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-        
-          
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    检查结果
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    检查结果
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/scientific-audit.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    当前结果可信度
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../audit/validation-roadmap.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    标定实验与修正路线
+    完整处理示例
   
 
     
@@ -1562,30 +1065,34 @@
       
         
       
-    
-    
-    
-      
+        
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    参考
+    项目案例
   
 
     
@@ -1596,12 +1103,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
-    参考
+    项目案例
   
 
           </label>
@@ -1614,14 +1121,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+      <a href="../orientation/parameters-and-shapes.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    MATLAB/Python 语法速查
+    项目参数对照
   
 
     
@@ -1649,7 +1156,63 @@
   <span class="md-ellipsis">
     
   
-    项目文件和函数索引
+    项目代码分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code/original-functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    原函数逐段说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/scientific-audit.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实测结果分析
   
 
     
@@ -1677,7 +1240,128 @@
   <span class="md-ellipsis">
     
   
-    逐张读懂现有图片
+    诊断图说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit/validation-roadmap.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考资料
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考资料
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundations/arrays-and-languages.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MATLAB/Python 语法速查
   
 
     
@@ -1753,33 +1437,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#16" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 读文件之前，先确认格式
+        读取 16 位整数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="读取 16 位整数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. 四个整数怎样组成两个复数
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. 四个整数怎样组成两个复数">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#iwr1443-lane" class="md-nav__link">
+  <a href="#matlab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        IWR1443 官方四 lane 示例怎样配
+        MATLAB
       
     </span>
   </a>
@@ -1792,22 +1476,61 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3" class="md-nav__link">
+  <a href="#iwr1443-iq" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. 为什么同样的数能排出不同结果
+        IWR1443 四路接收的 I/Q 配对
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 为什么同样的数能排出不同结果">
+    <nav class="md-nav" aria-label="IWR1443 四路接收的 I/Q 配对">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matlab_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MATLAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前程序使用的排列
+        排列一帧数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="排列一帧数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
       
     </span>
   </a>
@@ -1815,10 +1538,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#tdm" class="md-nav__link">
+  <a href="#matlab_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        待验证的 TDM 排列
+        MATLAB
       
     </span>
   </a>
@@ -1831,10 +1554,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4" class="md-nav__link">
+  <a href="#iwr1843" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. 怎样检查自己有没有排错
+        IWR1843 格式
       
     </span>
   </a>
@@ -1845,7 +1568,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        检查点
+        检查读取结果
       
     </span>
   </a>
@@ -1869,159 +1592,98 @@
 
 
 
-<h1 id="iq">把文件里的整数还原成 I/Q 数据<a class="headerlink" href="#iq" title="Permanent link">&para;</a></h1>
-<p>这一章完成两件事：把整数配成复数，再给每个复数确定采样点、轮次和通道编号。完成后应得到 <code>[256,128,12]</code> 的单帧数组，供距离 FFT 使用。</p>
-<h2 id="1">1. 读文件之前，先确认格式<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p><code>adc_data.bin</code> 是采集下来的 ADC 数据文件。它不是串口输出的点云，也不能把带有网络包头的抓包文件直接当成它。至少要核实 ADC 是实数还是复数、有效位宽、字节序、LVDS 通道排列、启用的接收天线和 TX 发射顺序。对应说明见 TI 的 <a href="https://www.ti.com/lit/an/swra581b/swra581b.pdf">ADC 原始数据格式文档</a>。</p>
-<p>本项目按有符号 16 位整数读取，在当前 Windows 环境下使用小端字节序。更明确的教学写法如下；MATLAB 示例中的路径同样从项目根目录出发。</p>
+<h1 id="adc">ADC 数据读取<a class="headerlink" href="#adc" title="Permanent link">&para;</a></h1>
+<p>ADC 采样经过接口传输并保存后，需要按约定的存储顺序读回 I、Q，再排列为 <code>[采样点,轮次,通道]</code> 数组。本章分别说明读取整数、I/Q 配对和数组重排。</p>
+<h2 id="16">读取 16 位整数<a class="headerlink" href="#16" title="Permanent link">&para;</a></h2>
+<p>以下示例使用纯 ADC 文件、小端字节序、有符号 16 位存储。将待处理文件保存为 <code>capture.bin</code>，或在代码中改为实际路径。</p>
+<h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;project/data/raw/adc_data.bin&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;i2&#39;</span><span class="p">)</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">per_frame</span> <span class="o">=</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">128</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">2</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">assert</span> <span class="n">raw</span><span class="o">.</span><span class="n">size</span> <span class="o">%</span> <span class="n">per_frame</span> <span class="o">==</span> <span class="mi">0</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">n_frames</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">per_frame</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;capture.bin&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;i2&#39;</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="s">&#39;project/data/raw/adc_data.bin&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;ieee-le&#39;</span><span class="p">);</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">assert</span><span class="p">(</span><span class="n">fid</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Cannot open ADC file&#39;</span><span class="p">);</span>
+<p><code>'&lt;i2'</code> 中，<code>&lt;</code> 表示小端，<code>i</code> 表示有符号整数，<code>2</code> 表示每个整数占 2 字节。</p>
+<h3 id="matlab">MATLAB<a class="headerlink" href="#matlab" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="s">&#39;capture.bin&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;ieee-le&#39;</span><span class="p">);</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">assert</span><span class="p">(</span><span class="n">fid</span><span class="w"> </span>`<span class="p">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Cannot open ADC file&#39;</span><span class="p">);</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">raw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fread</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span><span class="nb">Inf</span><span class="p">,</span><span class="s">&#39;int16=&gt;double&#39;</span><span class="p">);</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">fclose</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">perFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">256</span><span class="o">*</span><span class="mi">128</span><span class="o">*</span><span class="mi">12</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">assert</span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span><span class="n">perFrame</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">nFrames</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="o">/</span><span class="n">perFrame</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">disp</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">raw</span><span class="p">));</span>
 </span></code></pre></div>
-<p>两段代码只读文件，不改文件。长度检查通过，说明数据量与配置一致；它不能检查每个整数该属于哪个天线。</p>
-<h2 id="2">2. 四个整数怎样组成两个复数<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">IWR1443 / IWR1843：先核对这一处</p>
-<p>IWR1443 支持 4 条 LVDS 数据通道，IWR1843 是 2 条。TI 的 SWRA581B 第 5、9.1 节给出的 xWR14xx 四接收、复数、I-first 示例按 <code>[I0,I1,I2,I3,Q0,Q1,Q2,Q3]</code> 排列。本项目下面的四整数写法来自面向 IWR1843 的上游教程，是需要核对的格式假设。仅凭芯片名称或 lane 数不能确认完整文件排列；先按采集设置选择配对方式，再排 TX 和 RX。手册链接见<a href="../reference/sources.html">参考资料</a>。</p>
+<p><code>fopen</code> 打开文件，<code>fread</code> 读出全部整数并转换成浮点数，<code>fclose</code> 关闭文件。<code>Inf</code> 表示读到文件结束。</p>
+<h2 id="iwr1443-iq">IWR1443 四路接收的 I/Q 配对<a class="headerlink" href="#iwr1443-iq" title="Permanent link">&para;</a></h2>
+<p>TI 的 SWRA581B 给出了 xWR14xx 四路 RX、复数采样、I-first 的示例格式：同一采样时刻先排列四路 I，再排列四路 Q。<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>I_RX1  I_RX2  I_RX3  I_RX4  Q_RX1  Q_RX2  Q_RX3  Q_RX4
+</span></code></pre></div>
+<p>例如八个数 <code>[1,2,3,4,11,12,13,14]</code> 对应四个复数：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>1+11j   2+12j   3+13j   4+14j
+</span></code></pre></div>
+<h3 id="python_1">Python<a class="headerlink" href="#python_1" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">raw_example</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">])</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">words</span> <span class="o">=</span> <span class="n">raw_example</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">rx_samples</span> <span class="o">=</span> <span class="n">words</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">words</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">:]</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">rx_samples</span><span class="p">)</span>
+</span></code></pre></div>
+<p><code>reshape(-1,8)</code> 每 8 个数组成一行；<code>:4</code> 取前四列，<code>4:</code> 取后四列。输出每行对应一个采样时刻，每列对应一个 RX。</p>
+<h3 id="matlab_1">MATLAB<a class="headerlink" href="#matlab_1" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">rawExample</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="mi">14</span><span class="p">];</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">words</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">rawExample</span><span class="p">),</span><span class="mi">8</span><span class="p">,[]);</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">rxSamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">words</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">words</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">,:);</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">disp</span><span class="p">(</span><span class="n">rxSamples</span><span class="p">);</span>
+</span></code></pre></div>
+<p>MATLAB 按列填充数组，因此每列放一个八元组，输出每行对应一个 RX。这时两种语言的中间数组互为转置，下一步会统一维度。</p>
+<h2 id="_1">排列一帧数据<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>假设每个 chirp 采 <span class="arithmatex">\(N_s=256\)</span> 点，3 路 TX 按 TX1、TX2、TX3 轮发，共 <span class="arithmatex">\(N_c=64\)</span> 轮，4 路 RX 都启用。代码中的点数、轮次和通道数应与文件对应的采集设置一致。</p>
+<p>文件中的变化顺序为：同一采样时刻的 RX → 下一个采样时刻 → 下一路 TX 的 chirp → 下一轮。虚拟通道按 TX1-RX1～RX4、TX2-RX1～RX4、TX3-RX1～RX4 排列。</p>
+<h3 id="python_2">Python<a class="headerlink" href="#python_2" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">ns</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="p">,</span> <span class="n">nrx</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">per_frame</span> <span class="o">=</span> <span class="n">ns</span> <span class="o">*</span> <span class="n">nc</span> <span class="o">*</span> <span class="n">ntx</span> <span class="o">*</span> <span class="n">nrx</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">raw_frame</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[:</span><span class="n">per_frame</span><span class="p">]</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">assert</span> <span class="n">raw_frame</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">per_frame</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">words</span> <span class="o">=</span> <span class="n">raw_frame</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">rx_samples</span> <span class="o">=</span> <span class="n">words</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">words</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">:]</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">physical</span> <span class="o">=</span> <span class="n">rx_samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="p">,</span> <span class="n">ns</span><span class="p">,</span> <span class="n">nrx</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">frame</span> <span class="o">=</span> <span class="n">physical</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="o">*</span><span class="n">nrx</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">assert</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+</span></code></pre></div>
+<p><code>physical</code> 的四个轴是轮次、TX、采样点、RX。<code>transpose(2,0,1,3)</code> 将采样点移到最前；最后一个 <code>reshape</code> 合并 TX 和 RX，形成虚拟通道。</p>
+<h3 id="matlab_2">MATLAB<a class="headerlink" href="#matlab_2" title="Permanent link">&para;</a></h3>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span><span class="w"> </span><span class="n">ntx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">nrx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">perFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ns</span><span class="o">*</span><span class="n">nc</span><span class="o">*</span><span class="n">ntx</span><span class="o">*</span><span class="n">nrx</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">assert</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">perFrame</span><span class="p">);</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">rawFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">double</span><span class="p">(</span><span class="n">raw</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">perFrame</span><span class="p">));</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">words</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rawFrame</span><span class="p">,</span><span class="mi">8</span><span class="p">,[]);</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">rxSamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">words</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">words</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">,:);</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">physical</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rxSamples</span><span class="p">,</span><span class="n">nrx</span><span class="p">,</span><span class="n">ns</span><span class="p">,</span><span class="n">ntx</span><span class="p">,</span><span class="n">nc</span><span class="p">);</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">permute</span><span class="p">(</span><span class="n">physical</span><span class="p">,[</span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="p">]),</span><span class="n">ns</span><span class="p">,</span><span class="n">nc</span><span class="p">,</span><span class="n">nrx</span><span class="o">*</span><span class="n">ntx</span><span class="p">);</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nb">assert</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">frame</span><span class="p">),[</span><span class="mi">256</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="mi">12</span><span class="p">]));</span>
+</span></code></pre></div>
+<p><code>permute</code> 交换维度，作用相当于 NumPy 的多维 <code>transpose</code>。这里保留 RX 在虚拟通道编号中变化最快，两种语言最后得到相同的采样点归属。</p>
+<h2 id="iwr1843">IWR1843 格式<a class="headerlink" href="#iwr1843" title="Permanent link">&para;</a></h2>
+<p>IWR1843 使用两条 LVDS 数据通道。所参考的 IWR1843 教程使用 <code>[I0,I1,Q0,Q1]</code> 四元组：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">words</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">words</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">words</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-matlab highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">words</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span><span class="mi">4</span><span class="p">,[]);</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">words</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">words</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">,:),[],</span><span class="mi">1</span><span class="p">);</span>
+</span></code></pre></div>
+<p>这是该参考代码采用的格式，不能仅根据“两条 LVDS”就确定任意 IWR1843 文件都符合它。实际还需核对采集软件版本、ADC 模式、I/Q 顺序和通道交织方式。SWRA581B 的旧版没有直接覆盖 IWR1843，应结合该设备的采集说明使用。</p>
+<p>当前项目也沿用了四元组配对，尚未根据 IWR1443 的完整采集记录确认。原函数及其重排方式放在<a href="../code/code-map.html">项目代码分析</a>，不作为本章四路 RX 示例的正确性依据。</p>
+<h2 id="_2">检查读取结果<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>先用人工构造的小数组检查每个值的位置，再用已知距离的强反射目标检查距离谱。单纯得到 <code>(256,64,12)</code> 的形状并不能证明重排正确：不同排列都可能有相同尺寸。</p>
+<p>更换采集参数时，需要同时修改每帧长度、I/Q 配对和 TX/RX 重排规则。数据值、所属天线和观测时刻三者必须对应。</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>TI. <a href="https://www.ti.com/lit/an/swra581b/swra581b.pdf">ADC Raw Data Capture，SWRA581B</a>，§5 图 9、§9.1。参考代码来源见<a href="../reference/sources.html">来源索引</a>。&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
 </div>
-<p>教程采用 <code>[I0,I1,Q0,Q1]</code> 的存储约定。例如 <code>[3,4,5,6]</code> 应还原为 <code>[3+5j,4+6j]</code>，而不是 <code>[3+4j,5+6j]</code>。</p>
-<div class="arithmatex">\[
-z_{2n}=s_{4n}+j s_{4n+2},\qquad z_{2n+1}=s_{4n+1}+j s_{4n+3}.
-\]</div>
-<p>项目实际使用的 Python 函数如下：</p>
-<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-141">141</a></span>
-<span class="normal"><a href="#__codelineno-2-142">142</a></span>
-<span class="normal"><a href="#__codelineno-2-143">143</a></span>
-<span class="normal"><a href="#__codelineno-2-144">144</a></span>
-<span class="normal"><a href="#__codelineno-2-145">145</a></span>
-<span class="normal"><a href="#__codelineno-2-146">146</a></span>
-<span class="normal"><a href="#__codelineno-2-147">147</a></span>
-<span class="normal"><a href="#__codelineno-2-148">148</a></span>
-<span class="normal"><a href="#__codelineno-2-149">149</a></span>
-<span class="normal"><a href="#__codelineno-2-150">150</a></span>
-<span class="normal"><a href="#__codelineno-2-151">151</a></span>
-<span class="normal"><a href="#__codelineno-2-152">152</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-141"><a id="__codelineno-2-141" name="__codelineno-2-141"></a><span class="k">def</span><span class="w"> </span><span class="nf">_matlab_interleave_iq</span><span class="p">(</span><span class="n">raw_int16</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="__span-2-142"><a id="__codelineno-2-142" name="__codelineno-2-142"></a>    <span class="k">if</span> <span class="n">raw_int16</span><span class="o">.</span><span class="n">size</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="__span-2-143"><a id="__codelineno-2-143" name="__codelineno-2-143"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-</span><span id="__span-2-144"><a id="__codelineno-2-144" name="__codelineno-2-144"></a>            <span class="s2">&quot;MATLAB I/Q conversion expects raw int16 length to be divisible by 4; &quot;</span>
-</span><span id="__span-2-145"><a id="__codelineno-2-145" name="__codelineno-2-145"></a>            <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">raw_int16</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">.&quot;</span>
-</span><span id="__span-2-146"><a id="__codelineno-2-146" name="__codelineno-2-146"></a>        <span class="p">)</span>
-</span><span id="__span-2-147"><a id="__codelineno-2-147" name="__codelineno-2-147"></a>
-</span><span id="__span-2-148"><a id="__codelineno-2-148" name="__codelineno-2-148"></a>    <span class="n">raw_float</span> <span class="o">=</span> <span class="n">raw_int16</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="__span-2-149"><a id="__codelineno-2-149" name="__codelineno-2-149"></a>    <span class="n">complex_stream</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">raw_int16</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
-</span><span id="__span-2-150"><a id="__codelineno-2-150" name="__codelineno-2-150"></a>    <span class="n">complex_stream</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">2</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span>
-</span><span id="__span-2-151"><a id="__codelineno-2-151" name="__codelineno-2-151"></a>    <span class="n">complex_stream</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span>
-</span><span id="__span-2-152"><a id="__codelineno-2-152" name="__codelineno-2-152"></a>    <span class="k">return</span> <span class="n">complex_stream</span>
-</span></code></pre></div></td></tr></table></div>
-<p>源文件：<code>project/src/iwr1443_adc_utils.py</code>，函数 <code>_matlab_interleave_iq</code>。</p>
-<p><code>0::4</code> 表示从第 0 个元素开始，每隔 4 个取一次；<code>2::4</code> 就取对应的 Q。先转换成浮点数，可避免之后对整数做运算时发生溢出。</p>
-<p>等价的 MATLAB 教学实现：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">rawFrame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">double</span><span class="p">(</span><span class="n">raw</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">perFrame</span><span class="p">));</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">complex</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="nb">numel</span><span class="p">(</span><span class="n">rawFrame</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">));</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rawFrame</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">rawFrame</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">z</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rawFrame</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">rawFrame</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="k">end</span><span class="p">);</span>
-</span></code></pre></div>
-<p>原来的 <code>DCA1000_Read_Data.m</code> 使用 <code>for i=1:4:fileSize-5</code>，会漏掉末尾四个整数。上面的向量化写法覆盖所有完整四元组，和 Python 一样。</p>
-<h3 id="iwr1443-lane">IWR1443 官方四 lane 示例怎样配<a class="headerlink" href="#iwr1443-lane" title="Permanent link">&para;</a></h3>
-<p>先用八个数验证：<code>[1,2,3,4,11,12,13,14]</code> 应得到 <code>1+11j,2+12j,3+13j,4+14j</code>。前四个是同一采样时刻的四路 I，后四个是对应的 Q。</p>
-<p>Python：</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">words</span> <span class="o">=</span> <span class="n">raw_frame</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">rx_samples</span> <span class="o">=</span> <span class="n">words</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">words</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">:]</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 行：按时间排列的采样时刻；列：四个 RX</span>
-</span></code></pre></div>
-<p>MATLAB：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">words</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">rawFrame</span><span class="p">),</span><span class="mi">8</span><span class="p">,[]);</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">rxSamples</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">words</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">words</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">,:);</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c">% 行：四个 RX；列：按时间排列的采样时刻</span>
-</span></code></pre></div>
-<p>若进一步确认每轮按 TX1、TX2、TX3 发射、四个 RX 都启用，可把一帧整理为同样的 <code>[采样点,轮次,虚拟通道]</code>：</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">ns</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="p">,</span> <span class="n">nrx</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">physical</span> <span class="o">=</span> <span class="n">rx_samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="p">,</span> <span class="n">ns</span><span class="p">,</span> <span class="n">nrx</span><span class="p">)</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">frame</span> <span class="o">=</span> <span class="n">physical</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">ntx</span><span class="o">*</span><span class="n">nrx</span><span class="p">)</span>
-</span></code></pre></div>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">128</span><span class="p">;</span><span class="w"> </span><span class="n">ntx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">nrx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">physical</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">rxSamples</span><span class="p">,</span><span class="n">nrx</span><span class="p">,</span><span class="n">ns</span><span class="p">,</span><span class="n">ntx</span><span class="p">,</span><span class="n">nc</span><span class="p">);</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">permute</span><span class="p">(</span><span class="n">physical</span><span class="p">,[</span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="p">]),</span><span class="n">ns</span><span class="p">,</span><span class="n">nc</span><span class="p">,</span><span class="n">nrx</span><span class="o">*</span><span class="n">ntx</span><span class="p">);</span>
-</span></code></pre></div>
-<p>这是针对上述格式的教学实现，尚未据实测配置选入生产程序。项目现有的两种候选都先调用“四整数”配对函数，因此比较它们的分数，并没有检验这里的“八整数”格式。</p>
-<h2 id="3">3. 为什么同样的数能排出不同结果<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
-<p>假设一小段数据属于两个接收通道。序列可能是“通道 1 的所有点，然后通道 2 的所有点”，也可能是“第 1 个时刻的两个通道，然后第 2 个时刻的两个通道”。这两种排列的总长度完全一样，重排规则却不同。混在一起做 FFT，就相当于把不同天线的信号拼成一条时间曲线。</p>
-<p>本项目保留了两种假设。<code>strict_matlab</code> 沿用教程的连续块排列；<code>tdm_candidate</code> 假设每次实际扫频中，RX 编号先变化，然后采样点变化，TX 在相邻扫频间轮换。</p>
-<h3 id="_1">当前程序使用的排列<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-155">155</a></span>
-<span class="normal"><a href="#__codelineno-8-156">156</a></span>
-<span class="normal"><a href="#__codelineno-8-157">157</a></span>
-<span class="normal"><a href="#__codelineno-8-158">158</a></span>
-<span class="normal"><a href="#__codelineno-8-159">159</a></span>
-<span class="normal"><a href="#__codelineno-8-160">160</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-155"><a id="__codelineno-8-155" name="__codelineno-8-155"></a><span class="k">def</span><span class="w"> </span><span class="nf">_parse_frame_matlab_view</span><span class="p">(</span><span class="n">frame_raw_int16</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">RadarConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="__span-8-156"><a id="__codelineno-8-156" name="__codelineno-8-156"></a>    <span class="n">complex_stream</span> <span class="o">=</span> <span class="n">_matlab_interleave_iq</span><span class="p">(</span><span class="n">frame_raw_int16</span><span class="p">)</span>
-</span><span id="__span-8-157"><a id="__codelineno-8-157" name="__codelineno-8-157"></a>    <span class="n">lvds_data</span> <span class="o">=</span> <span class="n">complex_stream</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">cfg</span><span class="o">.</span><span class="n">samples</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">virtual_channels</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">chirps</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-</span><span id="__span-8-158"><a id="__codelineno-8-158" name="__codelineno-8-158"></a>    <span class="c1"># MATLAB loops over chirps and copies contiguous sample blocks for each virtual channel.</span>
-</span><span id="__span-8-159"><a id="__codelineno-8-159" name="__codelineno-8-159"></a>    <span class="n">cdata</span> <span class="o">=</span> <span class="n">lvds_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">cfg</span><span class="o">.</span><span class="n">chirps</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">virtual_channels</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">samples</span><span class="p">))</span>
-</span><span id="__span-8-160"><a id="__codelineno-8-160" name="__codelineno-8-160"></a>    <span class="k">return</span> <span class="n">cdata</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></div></td></tr></table></div>
-<p>源文件：<code>project/src/iwr1443_adc_utils.py</code>，函数 <code>_parse_frame_matlab_view</code>。</p>
-<p>读这几行时，依次跟踪尺寸：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>393216 个复数
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    ↓ 每列装一轮，按 MATLAB 的列顺序填入
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>(3072,128)，其中 3072 = 256 × 12
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    ↓ 转置，再拆出通道和采样点
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>(128,12,256)
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    ↓ 调换轴
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>(256,128,12)
-</span></code></pre></div>
-<p>同一假设的 MATLAB 教学写法可直接保留按列填充：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">128</span><span class="p">;</span><span class="w"> </span><span class="n">nv</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">permute</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">ns</span><span class="p">,</span><span class="n">nv</span><span class="p">,</span><span class="n">nc</span><span class="p">),[</span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="p">]);</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nb">assert</span><span class="p">(</span><span class="nb">isequal</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">frame</span><span class="p">),[</span><span class="n">ns</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="n">nv</span><span class="p">]));</span>
-</span></code></pre></div>
-<h3 id="tdm">待验证的 TDM 排列<a class="headerlink" href="#tdm" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-163">163</a></span>
-<span class="normal"><a href="#__codelineno-11-164">164</a></span>
-<span class="normal"><a href="#__codelineno-11-165">165</a></span>
-<span class="normal"><a href="#__codelineno-11-166">166</a></span>
-<span class="normal"><a href="#__codelineno-11-167">167</a></span>
-<span class="normal"><a href="#__codelineno-11-168">168</a></span>
-<span class="normal"><a href="#__codelineno-11-169">169</a></span>
-<span class="normal"><a href="#__codelineno-11-170">170</a></span>
-<span class="normal"><a href="#__codelineno-11-171">171</a></span>
-<span class="normal"><a href="#__codelineno-11-172">172</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-163"><a id="__codelineno-11-163" name="__codelineno-11-163"></a><span class="k">def</span><span class="w"> </span><span class="nf">_parse_frame_tdm_candidate</span><span class="p">(</span><span class="n">frame_raw_int16</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">RadarConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="__span-11-164"><a id="__codelineno-11-164" name="__codelineno-11-164"></a>    <span class="n">complex_stream</span> <span class="o">=</span> <span class="n">_matlab_interleave_iq</span><span class="p">(</span><span class="n">frame_raw_int16</span><span class="p">)</span>
-</span><span id="__span-11-165"><a id="__codelineno-11-165" name="__codelineno-11-165"></a>    <span class="n">phys</span> <span class="o">=</span> <span class="n">complex_stream</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">cfg</span><span class="o">.</span><span class="n">chirps</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">tx</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">rx</span><span class="p">))</span>
-</span><span id="__span-11-166"><a id="__codelineno-11-166" name="__codelineno-11-166"></a>    <span class="n">frame_cube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">cfg</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">chirps</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">virtual_channels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
-</span><span id="__span-11-167"><a id="__codelineno-11-167" name="__codelineno-11-167"></a>    <span class="c1"># Alternate sanity-check layout: interpret the stream as physical chirps with TX cycling fastest,</span>
-</span><span id="__span-11-168"><a id="__codelineno-11-168" name="__codelineno-11-168"></a>    <span class="c1"># but assume samples advance before RX within each physical chirp.</span>
-</span><span id="__span-11-169"><a id="__codelineno-11-169" name="__codelineno-11-169"></a>    <span class="k">for</span> <span class="n">chirp_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">chirps</span><span class="p">):</span>
-</span><span id="__span-11-170"><a id="__codelineno-11-170" name="__codelineno-11-170"></a>        <span class="n">tx_group</span> <span class="o">=</span> <span class="n">phys</span><span class="p">[</span><span class="n">chirp_idx</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">tx</span> <span class="p">:</span> <span class="p">(</span><span class="n">chirp_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">tx</span><span class="p">]</span>
-</span><span id="__span-11-171"><a id="__codelineno-11-171" name="__codelineno-11-171"></a>        <span class="n">frame_cube</span><span class="p">[:,</span> <span class="n">chirp_idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">tx_group</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">virtual_channels</span><span class="p">)</span>
-</span><span id="__span-11-172"><a id="__codelineno-11-172" name="__codelineno-11-172"></a>    <span class="k">return</span> <span class="n">frame_cube</span>
-</span></code></pre></div></td></tr></table></div>
-<p>源文件：<code>project/src/iwr1443_adc_utils.py</code>，函数 <code>_parse_frame_tdm_candidate</code>。</p>
-<p><code>phys</code> 的形状是 <code>[384,256,4]</code>：384 次实际扫频、每次 256 点、每点 4 个 RX。每三次扫频合成一轮，输出最后一维按 TX1-RX1…RX4、TX2-RX1…RX4、TX3-RX1…RX4 排列。</p>
-<p>MATLAB 对应写法：</p>
-<div class="language-matlab highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">ns</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">128</span><span class="p">;</span><span class="w"> </span><span class="n">ntx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">nrx</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">phys</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="n">nrx</span><span class="p">,</span><span class="n">ns</span><span class="p">,</span><span class="n">ntx</span><span class="p">,</span><span class="n">nc</span><span class="p">);</span><span class="w">  </span><span class="c">% RX 在线性序列中变化最快</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">permute</span><span class="p">(</span><span class="n">phys</span><span class="p">,[</span><span class="mi">2</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">4</span><span class="p">]),</span><span class="n">ns</span><span class="p">,</span><span class="n">nrx</span><span class="o">*</span><span class="n">ntx</span><span class="p">,</span><span class="n">nc</span><span class="p">);</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">permute</span><span class="p">(</span><span class="n">frame</span><span class="p">,[</span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">2</span><span class="p">]);</span><span class="w">   </span><span class="c">% [sample,loop,channel]</span>
-</span></code></pre></div>
-<h2 id="4">4. 怎样检查自己有没有排错<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>先在复数流中选一个明确的编号，手算它应归属哪一轮、哪个通道、哪个采样点，再检查数组索引。然后用已知距离的单个强反射器采集数据，检查谱峰能否随目标移动而移动。数组尺寸和图像平滑程度只能做初筛。</p>
-<p>已有数据中，TDM 假设的快时间归一化相邻差为 0.2559，教程排列为 1.3248，前者更连续。程序保存的另一项综合分数也偏向 TDM，但那项分数使用轮次方向的相邻差，不能与快时间指标混为一谈。两者都还不能代替采集配置和标定。</p>
-<p>当前 <code>main</code> 仍然直接调用 <code>parse_adc_matlab</code>，候选分数只保存到报告中。所以后面看到的历史图片都来自教程排列，不能把候选排列的表现当成这些图片已经正确的证明。</p>
-<figure><img src="../assets/figures/raw_int16_segment.png" alt="原始整数序列及奇偶位置的采样值"><figcaption>先看横轴：这里是文件中的整数编号。下半图按奇偶位置拆分，不是按 I/Q 配对；不能把两条线直接叫作 I 和 Q。</figcaption></figure>
-
-<h2 id="_2">检查点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>你应该能解释：为什么配对后数据量减半；为什么 <code>order='F'</code> 有意义；为什么两种 <code>reshape</code> 都能得到正确尺寸，但至多其中一种符合某次采集的真实格式。下一章：<a href="../processing/range.html">用距离 FFT 找拍频</a>。</p>
 
 
 
@@ -2059,7 +1721,7 @@ z_{2n}=s_{4n}+j s_{4n+2},\qquad z_{2n+1}=s_{4n+1}+j s_{4n+3}.
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../foundations/signal-and-fft.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 复数、采样和 FFT">
+          <a href="../orientation/learning-path.html" class="md-footer__link md-footer__link--prev" aria-label="上一页: 帧、通道与数组">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2069,20 +1731,20 @@ z_{2n}=s_{4n}+j s_{4n+2},\qquad z_{2n+1}=s_{4n+1}+j s_{4n+3}.
                 上一页
               </span>
               <div class="md-ellipsis">
-                复数、采样和 FFT
+                帧、通道与数组
               </div>
             </div>
           </a>
         
         
           
-          <a href="../processing/range.html" class="md-footer__link md-footer__link--next" aria-label="下一页: 距离：一次扫频内的变化">
+          <a href="../foundations/signal-and-fft.html" class="md-footer__link md-footer__link--next" aria-label="下一页: FFT 与频谱">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                距离：一次扫频内的变化
+                FFT 与频谱
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2099,7 +1761,7 @@ z_{2n}=s_{4n}+j s_{4n+2},\qquad z_{2n+1}=s_{4n+1}+j s_{4n+3}.
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      基于本项目代码和采集数据编写；公式的适用条件见各章说明。
+      毫米波雷达教程 · MATLAB / Python
     </div>
   
   
@@ -2123,14 +1785,12 @@ z_{2n}=s_{4n}+j s_{4n+2},\qquad z_{2n+1}=s_{4n+1}+j s_{4n+3}.
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "search.suggest", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="../assets/javascripts/theme-toggle.js"></script>
-      
-        <script src="../assets/javascripts/teaching-demos.js"></script>
       
         <script src="../assets/javascripts/mathjax.js"></script>
       

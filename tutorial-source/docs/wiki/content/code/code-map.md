@@ -1,18 +1,30 @@
-# 把教程步骤对应到项目代码
+# 项目代码分析
 
-学完前面的简化实现，再看项目就容易分清：哪些函数负责算数，哪些只是组织流程和保存图片。这里讲的是当前真实代码；教程示例保存在 `docs/wiki/examples/`，没有替换生产处理程序。
+原处理程序由两个 Python 文件组成：`process_iwr1443_adc.py` 配置参数并调用各步骤，`iwr1443_adc_utils.py` 实现数据解析、FFT、相位分析和绘图。三份 MATLAB 文件是它所参考的上游代码。
+
+教学程序保存在 `docs/wiki/examples/`，原处理程序保留在 `project/src/`。以下分析对应原处理程序；关键函数原文另见[逐段说明](original-functions.md)。
+
+## 运行方式
+
+原处理程序从 `project/data/raw/adc_data.bin` 读取实测数据，向 `project/outputs/` 写入图片与中间数组。在本地项目根目录运行：
+
+```text
+conda run -n radar-env python project/src/process_iwr1443_adc.py
+```
+
+公开教程不附带原始采集数据。无需实测文件的练习使用[完整处理示例](../practice/end-to-end.md)。
 
 ## 1. 五个源文件分别负责什么
 
-| 文件 | 你应该怎样读它 |
+| 文件 | 作用 |
 | --- | --- |
-| `project/src/process_iwr1443_adc.py` | 先看 `CFG` 配置，再看 `main`。它决定先后调用哪些函数、选哪一帧和哪一个距离格。 |
-| `project/src/iwr1443_adc_utils.py` | 实际计算都在这里：读取、重排、FFT、跨帧汇总、相位和绘图。按调用关系读，不必从第一行背到最后。 |
+| `project/src/process_iwr1443_adc.py` | `CFG` 保存配置；`main` 安排函数调用，选择帧与距离格。 |
+| `project/src/iwr1443_adc_utils.py` | 实现读取、重排、FFT、跨帧汇总、相位和绘图。 |
 | `references/pku-mmwave-tutorial/generateParameter.m` | MATLAB 参数表。注意采样点数、轮次、发射数、接收数和时间单位。 |
 | `references/pku-mmwave-tutorial/DCA1000_Read_Data.m` | 用全局变量选择一帧，配 I/Q，按通道复制数据，再组成三维数组。 |
 | `references/pku-mmwave-tutorial/demo.m` | 原教程的执行入口：三次 FFT 后绘图。Python 的 `strict` 行为主要参照它。 |
 
-## 2. Python 的 main 真正怎样走
+## 2. main 的调用顺序
 
 以下是 `process_iwr1443_adc.py` 第 117–145 行原文：
 
@@ -48,7 +60,7 @@ def main(cfg: RadarConfig) -> None:
     channel_correlation = compute_channel_correlation(channel_traces)
 ```
 
-按三段读它：
+计算分为三部分：
 
 1. `load_raw_int16` 读整数，`validate_layout_candidates` 生成比较报告，`parse_adc_matlab` 实际解析。报告和解析是先后调用，但报告没有决定采用哪种排列。
 2. 从所有数据里取出 `selected_frame`，依次算距离、Doppler、角度，供单帧诊断图使用。
@@ -63,7 +75,7 @@ adc_cube：全部帧
        └─ 固定距离格的复数值 → 相位、频谱、通道比较
 ```
 
-这里最值得养成的读代码习惯是：跟着变量从哪里来、传到哪里去，而不是只按函数名想象流程。
+单帧距离—角度图与跨帧相位分析共用解析后的数据，但属于两条独立计算分支。
 
 ## 3. 工具模块逐段导航
 
@@ -85,9 +97,9 @@ adc_cube：全部帧
 | `_candidate_metrics`，201 行 | 对首通道计算轮次方向相邻差、距离谱峰值与均值之比；综合分数为后者除以前者。 |
 | `validate_layout_candidates`，217 行 | 仅比较首帧，生成报告；`default_winner` 固定写成教程排列。 |
 | `make_window`，236 行 | 根据名字产生矩形、Hamming 或 Hann 窗。 |
-| `run_range_fft`，247 行 | 沿采样点加窗和 FFT。[距离章](../processing/range.md)逐行解释。 |
-| `run_doppler_fft_strict`，259 行 | 只对前 4 通道沿轮次 FFT 并移位。[速度章](../processing/doppler.md)解释遗漏。 |
-| `run_angle_fft_strict`，271 行 | 选前 8 通道，沿通道补零到 180 点。[角度章](../processing/angle.md)解释适用条件。 |
+| `run_range_fft`，247 行 | 沿采样点加窗和 FFT。[函数说明](original-functions.md#run_range_fft)。 |
+| `run_doppler_fft_strict`，259 行 | 只对前 4 通道沿轮次 FFT 并移位，后 8 通道未计算。[函数说明](original-functions.md#run_doppler_fft_strict)。 |
+| `run_angle_fft_strict`，271 行 | 选前 8 通道，沿通道补零到 180 点。[函数说明](original-functions.md#run_angle_fft_strict)。 |
 | `compute_range_angle_heatmap`，277 行 | 在 Doppler 维上累加角度谱的幅度，不是累加复数或功率。 |
 | `summarize_range_over_frames`，281 行 | 每帧做距离 FFT，形成平均距离谱、距离—时间图、固定距离格的各通道复数序列。 |
 | `build_capture_time_axis`，309 行 | 帧起点加轮次偏移；目前偏移使用 `Tc`。 |
@@ -103,7 +115,7 @@ adc_cube：全部帧
 | `save_range_plots` / `save_slow_time_plots`，470 / 518 行 | 画距离结果和跨帧的相位、频谱、STFT。 |
 | `save_channel_plots` / `save_range_angle_plot`，586 / 636 行 | 画通道比较和角度索引热图。 |
 
-## 4. MATLAB 三个文件要特别看哪些行
+## 4. MATLAB 参考代码
 
 ### generateParameter.m：参数与派生量
 
@@ -123,7 +135,7 @@ adc_cube：全部帧
 
 ## 5. 怎样用中间结果定位错误
 
-不要先盯最后的热图。用 `project/outputs/debug/selected_frame_debug.npz` 逐层检查：
+`project/outputs/debug/selected_frame_debug.npz` 保存了选定帧的中间结果，可检查数组尺寸和未处理通道：
 
 ```python
 import numpy as np

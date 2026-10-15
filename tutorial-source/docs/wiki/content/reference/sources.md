@@ -14,7 +14,7 @@
 
 ## MATLAB 代码从哪里来
 
-本地 MATLAB 三件套属于 `StZhang-B/PKU-Millimeter-Wave-Radar-Tutorial` 代码族；上游明确面向 `IWR1843 + DCA1000`。
+三份 MATLAB 参考文件来自 `StZhang-B/PKU-Millimeter-Wave-Radar-Tutorial`；上游面向 `IWR1843 + DCA1000`。
 
 | 本地文件 | 固定上游关系 |
 | --- | --- |
@@ -39,7 +39,11 @@
 
 ## 教学写法参考
 
-参考 [PySDR 的 I/Q 采样章](https://pysdr.org/content/sampling.html)和[频域章](https://pysdr.org/content/frequency_domain.html)：先让读者观察一个简单信号，再推公式、写小段代码验证。本教程按雷达采集和处理流程组织，代码同时提供 MATLAB 与 Python，没有复制其正文或插图。
+2026-10-15 阅读了菜鸟教程的 [Python 3 首页](https://www.runoob.com/python3/python3-tutorial.html)、[简介](https://www.runoob.com/python3/python3-intro.html)和[数字](https://www.runoob.com/python3/python3-number.html)页面，参考其主题标题、概念说明、短代码和输出结果的组织方式。本站没有复制其正文或代码。
+
+[PySDR 的 I/Q 采样章](https://pysdr.org/content/sampling.html)和[频域章](https://pysdr.org/content/frequency_domain.html)提供信号与频谱的补充阅读。
+
+新增教学图由 `docs/wiki/examples/make_lesson_figures.py` 根据解析公式生成。每张 SVG 旁保存同名 CSV 数值；这些图是理想信号示例，与“诊断图说明”中的实测图片分开。
 
 ## 上游代码与许可
 
@@ -52,9 +56,9 @@
 
 ## 记录实验时保留哪些信息
 
-引用本 Wiki 时，应同时注明：
+引用原项目的历史处理结果时，应同时注明：
 
 1. 当前输出使用 `processing_mode=strict_matlab`；
-2. TDM candidate 只是更合理但未标定的布局假设；
+2. TDM candidate 是未通过采集配置和标定实验验证的布局假设；
 3. 角度横轴与 bin 30 位移尚不具备定量物理效力；
 4. 原始数据 hash、采集配置和所用代码版本。

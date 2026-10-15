@@ -1,110 +1,128 @@
-# 速度：比较多次观测之间的相位
+# 速度测量
 
-距离 FFT 告诉我们回波落在哪个距离格。现在固定其中一格和一个通道，每轮取一个复数，得到 128 个点。目标沿雷达视线移动时，传播距离持续变化，这些点的相位会有规律地转动。
+距离 FFT 之后，固定一个距离格和一个通道，每次 chirp 取出该格的复数值。目标运动会使这串复数的相位随时间变化，多普勒 FFT 用于估计这种变化的频率。
 
-## 1. 从位移到多普勒频率
+这里测得的是**径向速度**：目标沿雷达与目标连线方向的速度分量，而不是任意方向的总速度。
 
-单站雷达的回波走一个来回。在选定符号约定下，距离变化 $\Delta R$ 对应相位变化 $4\pi\Delta R/\lambda$。若径向速度 v 近似恒定，$\Delta R=vt$，则：
+## 位移与相位
 
-\[
-\phi(t)=\phi_0+\frac{4\pi v}{\lambda}t,
-\qquad f_D=\frac{1}{2\pi}\frac{d\phi}{dt}=\frac{2v}{\lambda}.
-\]
-
-于是速度估计又变成了频率估计。但这次的采样间隔不是 ADC 的 0.1 µs，而是**同一个虚拟通道两次观测之间的时间**。
-
-## 2. 三路 TX 轮发时，为什么要等三次
-
-先用简单数字理解相位与速度：假设波长 4 mm，目标每 1 ms 移动 0.5 mm。回波路程每次增加 1 mm，也就是四分之一波长，因此相位依次转过 0、π/2、π、3π/2。每 4 ms 转一圈，频率为 250 Hz；代入 `v=λfD/2`，得到 `4 mm × 250 / 2 = 0.5 m/s`。
-
-!!! info "IWR1843 不一定用 3Tc"
-    三路轮发时，IWR1443 和 IWR1843 都应按同一 TX 的重复间隔换算。若只启用两路轮发就是 2Tc；单路重复才是 Tc。BPM 或更复杂的发射安排还需要相应解码。区别来自本次 chirp 配置，不是型号名称。
-
-<ol class="tx-sequence" aria-label="每 160 微秒发射一次，TX1 每 480 微秒重复"><li><strong>TX1</strong><span>0 µs</span></li><li>TX2<span>160 µs</span></li><li>TX3<span>320 µs</span></li><li><strong>TX1</strong><span>480 µs</span></li></ol>
-
-第一次和第四次才是 TX1 的两次观测。若采集确实如此轮发，慢时间间隔 $T_{\mathrm{slow}}=3T_c=480\,\mu s$。不同 TX 的相邻发射不能直接当成同一通道的连续采样。
+电磁波传播一个波长 $\lambda$，相位变化 $2\pi$。目标远离雷达 $\Delta R$，往返路程增加 $2\Delta R$，因此按本教程的解调约定：
 
 \[
-X_d[k,\ell,p]=\sum_{m=0}^{N_c-1}X_r[k,m,p]w_d[m]e^{-j2\pi\ell m/N_c},
-\qquad v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
+\Delta\phi=2\pi\frac{2\Delta R}{\lambda}
+=\frac{4\pi\Delta R}{\lambda}.
 \]
 
-移位后，偶数长度的有符号格编号为 $\ell=-N_c/2,\ldots,N_c/2-1$。由此得到速度格间距 $\Delta v=\lambda/(2N_cT_{\mathrm{slow}})$，无模糊速度区间为 $[-\lambda/(4T_{\mathrm{slow}}),\lambda/(4T_{\mathrm{slow}}))$。
+若径向速度 $v$ 恒定，经过时间 $t$ 后 $\Delta R=vt$：
 
-| 用哪个间隔换算 | 每格速度 | 无模糊速度上限的量级 |
-| --- | ---: | ---: |
-| 当前代码的 160 µs | 0.09402 m/s | 6.017 m/s |
-| 三路轮发的 480 µs | 0.03134 m/s | 2.006 m/s |
+\[
+\phi(t)=\phi_0+\frac{4\pi v}{\lambda}t
+=\phi_0+2\pi f_Dt.
+\]
 
-间隔变长，固定 128 点覆盖的时间更长，速度格更细；但采样率更低，能无歧义表示的最大速度也更小。[动手切换两种间隔](../orientation/parameters-and-shapes.md#hands-on)。
+比较两式可得多普勒频率：
 
-## 3. 先写一份处理所有通道的版本
+\[
+f_D=\frac{2v}{\lambda},\qquad v=\frac{\lambda f_D}{2}.
+\]
 
-输入尺寸为 `[距离格,轮次,通道]`，因此 Python 沿 `axis=1`，MATLAB 沿第 2 维。以下为教学实现，还没有替换项目原函数。
+例如波长近似为 4 mm，目标每毫秒远离 0.5 mm。往返路程每毫秒增加 1 mm，即四分之一波长，相位每次增加 $\pi/2$。4 ms 转一圈，所以 $f_D=250$ Hz，速度为 0.5 m/s。
+
+## 慢时间采样
+
+设同一通道的重复间隔为 $T_{\mathrm{slow}}$，第 $m$ 次观测的时刻为 $mT_{\mathrm{slow}}$。单目标信号可以写成：
+
+\[
+z[m]=A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}.
+\]
+
+这与前面估计拍频的形式相同，只是采样间隔由 $1/F_s$ 换成了 $T_{\mathrm{slow}}$。
+
+### Python 示例
 
 ```python
-nc = range_profile.shape[1]
-w = np.hamming(nc).reshape(1, -1, 1)
-D = np.fft.fftshift(np.fft.fft(range_profile * w, axis=1), axes=1)
-tslow = 480e-6                 # 假定三路轮发
-wavelength = 3e8 / (77e9 + 29.982e12*60e-6/2)
-v_axis = wavelength * np.fft.fftshift(np.fft.fftfreq(nc, d=tslow)) / 2
+import numpy as np
+
+wavelength = 3e8/77e9
+tslow, nc, fd = 1e-3, 64, 125.0
+m = np.arange(nc)
+z = np.exp(1j*2*np.pi*fd*m*tslow)
+
+D = np.fft.fftshift(np.fft.fft(z))
+f_axis = np.fft.fftshift(np.fft.fftfreq(nc, d=tslow))
+index = np.argmax(np.abs(D))
+v = wavelength*f_axis[index]/2
+print(f_axis[index], round(v, 3))
+```
+
+### MATLAB 示例
+
+```matlab
+wavelength = 3e8/77e9;
+tslow = 1e-3; nc = 64; fd = 125;
+m = 0:nc-1;
+z = exp(1j*2*pi*fd*m*tslow);
+
+D = fftshift(fft(z));
+fAxis = (-nc/2:nc/2-1)/(nc*tslow);
+[~, index] = max(abs(D));
+v = wavelength*fAxis(index)/2;
+disp([fAxis(index), round(v,3)]);
+```
+
+结果为 125 Hz、约 0.244 m/s。代码使用 77 GHz 对应的波长，不使用前面心算时近似的 4 mm。
+
+<figure><img src="../assets/lessons/doppler-peak.svg" alt="理想多普勒频谱对应的速度峰在约0.244米每秒处"><figcaption>零速度位于中央，正负速度分列两侧。示例以远离为正；实测符号应通过已知方向的运动确认。</figcaption></figure>
+
+## 速度轴与无模糊范围
+
+移位后，频率格编号 $\ell$ 从 $-N_c/2$ 到 $N_c/2-1$。速度轴为：
+
+\[
+v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
+\]
+
+相邻速度格间隔为 $\lambda/(2N_cT_{\mathrm{slow}})$。慢时间采样的频率范围是 $[-1/(2T_{\mathrm{slow}}),1/(2T_{\mathrm{slow}}))$，所以速度范围为：
+
+\[
+-\frac{\lambda}{4T_{\mathrm{slow}}}
+\le v<
+\frac{\lambda}{4T_{\mathrm{slow}}}.
+\]
+
+增加观测次数可以细化速度格；增加重复间隔也会细化速度格，但会缩小无模糊速度范围。
+
+## 整帧多普勒 FFT
+
+输入 `range_cube` 的维度为 `[距离格,轮次,通道]`，沿第二维计算：
+
+```python
+nc = range_cube.shape[1]
+window = np.hamming(nc).reshape(1, nc, 1)
+doppler_cube = np.fft.fftshift(
+    np.fft.fft(range_cube * window, axis=1), axes=1)
 ```
 
 ```matlab
 nc = size(rangeCube,2);
-w = reshape(0.54-0.46*cos(2*pi*(0:nc-1)/(nc-1)),1,[],1);
-D = fftshift(fft(rangeCube.*w,nc,2),2);
-tslow = 480e-6;
-wavelength = 3e8/(77e9+29.982e12*60e-6/2);
-vAxis = wavelength*(-nc/2:nc/2-1)/(2*nc*tslow);
+window = reshape(0.54-0.46*cos(2*pi*(0:nc-1)/(nc-1)),1,[],1);
+dopplerCube = fftshift(fft(rangeCube.*window,nc,2),2);
 ```
 
-如果目标峰在中心右侧第 5 格，按三路轮发得到约 `5 × 0.03134 = 0.1567 m/s`。正号究竟表示靠近还是远离，要用已知运动方向验证。
+输出的三个维度变为距离格、速度格和通道。这里处理所有通道，不只处理第一个 TX 对应的通道。
 
-## 4. 项目原函数与教学版差在哪里
+## TDM 发射间隔
 
-```python linenums="259"
-def run_doppler_fft_strict(range_profile: np.ndarray, cfg: RadarConfig) -> np.ndarray:
-    speed_profile = np.zeros_like(range_profile, dtype=np.complex128)
-    doppler_window = make_window(cfg.doppler_window, cfg.chirps).reshape(1, -1, 1)
-    temp = range_profile[:, :, : cfg.rx] * doppler_window
-    # Strict MATLAB parity: Doppler FFT is only computed for channels 1:4.
-    speed_profile[:, :, : cfg.rx] = np.fft.fftshift(
-        np.fft.fft(temp, n=cfg.doppler_bin, axis=1),
-        axes=1,
-    )
-    return speed_profile
-```
+3 路 TX 轮流发射时，若相邻实际 chirp 间隔为 160 µs，则顺序为：
 
-源文件：`project/src/iwr1443_adc_utils.py`，函数 `run_doppler_fft_strict`。
+| 时刻 / µs | 0 | 160 | 320 | 480 |
+| --- | --- | --- | --- | --- |
+| 发射通道 | TX1 | TX2 | TX3 | TX1 |
 
-数组先全部置零，然后只给 `:cfg.rx` 写入结果。`cfg.rx=4`，因此后 8 个通道始终为零。这是沿用 MATLAB 教程 `for k=1:parameter.rxNum` 的结果，并非多普勒理论要求。用于角度估计时，这个遗漏会继续传到下一步。
+TX1 每 480 µs 才重复一次，因此 $T_{\mathrm{slow}}=480$ µs。若误用 160 µs，同一个频谱峰会被换算成 3 倍速度。
 
-## 5. 移动目标为什么还需要 TX 时间补偿
+IWR1443 与 IWR1843 都按实际发射时序计算这个间隔。单 TX、双 TX 轮发、三 TX 轮发以及 BPM 编码不能混用同一个时间参数。TDM 对测角相位的影响见[角度测量](angle.md)。
 
-TX2 比 TX1 晚发一个 $T_c$，TX3 晚发两个 $T_c$。移动目标在等待期间产生额外相位 $2\pi f_D\delta t_p$。如果把它全部当成天线位置造成的相位差，角度就会偏。
+本章假设一帧内速度近似恒定，且目标没有明显跨越距离格。高速目标还会影响拍频，使单次扫频测距出现距离—速度耦合。推导采用相同符号时，拍频近似包含 $2SR/c+f_D$。
 
-在已选中目标的距离—速度格后，若观测相位包含正号的多普勒项，可做：
-
-\[
-z_p^{\mathrm{comp}}=z_p\exp(-j2\pi\widehat f_D\delta t_p).
-\]
-
-```python
-# z: 12 个通道在同一目标格的复数；假定 TX 分组顺序已确认
-offsets = np.repeat(np.arange(3) * 160e-6, 4)
-z_comp = z * np.exp(-1j * 2 * np.pi * fd_hat * offsets)
-```
-
-```matlab
-% z 使用列向量，fdHat 来自目标所在的多普勒格
-offsets = repelem((0:2)'*160e-6,4);
-zComp = z(:).*exp(-1j*2*pi*fdHat*offsets);
-```
-
-TX 顺序、符号和速度模糊都影响补偿，不能只抄一个指数表达式。更多推导见 TI 的 [MIMO Radar](https://www.ti.com/lit/an/swra554a/swra554a.pdf)。
-
-## 检查点
-
-在模拟练习里，把 `tslow` 的换算值改小三倍，同时保持输入数据不变，估计速度应大三倍。若同时重造了一份不同相位的数据，就不是在单独测试时间轴错误了。下一章：[从天线相位差估计方向](angle.md)。
+参考：[TI MIMO Radar](https://www.ti.com/lit/an/swra554a/swra554a.pdf)。

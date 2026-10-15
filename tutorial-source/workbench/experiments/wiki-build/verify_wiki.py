@@ -9,7 +9,6 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[3]
 SITE = ROOT / "docs" / "wiki" / "site"
-FRAGMENT = ROOT / "workbench" / "experiments" / "wiki-build" / "iwr1443-parameter-lab.fragment.html"
 
 
 class AssetParser(HTMLParser):
@@ -96,8 +95,6 @@ def main() -> int:
         if path.is_file() and path.suffix.lower() in {".bin", ".npz"}
     ]
     site_bytes = sum(path.stat().st_size for path in SITE.rglob("*") if path.is_file())
-    fragment_text = FRAGMENT.read_text(encoding="utf-8")
-    fragment_has_wrapper = bool(re.search(r"<!doctype|<html|<head|<body", fragment_text, re.I))
 
     report = {
         "html_pages": len(html_pages),
@@ -110,8 +107,6 @@ def main() -> int:
         "images_without_alt": alt_missing,
         "iframes": total_iframes,
         "iframes_without_title": iframe_titles_missing,
-        "fragment_bytes": FRAGMENT.stat().st_size,
-        "fragment_has_wrapper": fragment_has_wrapper,
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
@@ -122,8 +117,7 @@ def main() -> int:
         or forbidden_payloads
         or alt_missing
         or iframe_titles_missing
-        or fragment_has_wrapper
-        or FRAGMENT.stat().st_size >= 2_000_000
+        or total_iframes
         or len(html_pages) < 12
     )
     return 1 if failures else 0

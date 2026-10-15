@@ -1,103 +1,123 @@
-# 方向：比较不同天线收到的相位
+# 角度测量
 
-做完距离和多普勒处理后，我们可以固定一个距离—速度格，从多个通道各取一个复数。不同天线的位置不同，回波到达它们的路程略有差别，于是留下相位差。这一章解释如何把这种差别换成角度。
+目标检测给出了距离格和速度格。取出该位置各天线通道的复数值，可以根据通道间的相位差估计来波方向。
 
-## 1. 相邻天线为什么出现相位差
+## 天线位置与相位差
 
-先考虑远场平面波、等间距直线阵列。角度 θ 从阵列正前方量起，阵元间距为 d。相邻阵元的路程差大小为 $d\sin\theta$。按选定的天线编号与相位正方向：
+设两个接收位置间距为 $d$，目标足够远，回波可近似为平面波。角度 $\theta$ 从阵列正前方量起，两个位置的传播路程差为 $d\sin\theta$。
 
-\[
-z_p=A\exp\left(j\frac{2\pi}{\lambda}pd\sin\theta\right),
-\qquad \Delta\phi=\frac{2\pi d}{\lambda}\sin\theta.
-\]
-
-正前方 θ=0，各阵元相位相同；偏离正前方后，相位沿阵元编号逐渐增加或减小。若 $d=\lambda/2$，30° 对应相邻相位差 π/2。于是跨天线的序列也像一个复正弦，可以用 FFT 找出它的“空间频率”。
-
-这里先讲理想均匀线阵。IWR1443 的 TX/RX 组合必须根据天线实际位置换算成虚拟阵元位置，不能仅因为有 12 个通道，就直接套上 12 元水平线阵。
-
-## 2. 空间 FFT 的横轴先是格编号
-
-对 P 个已校准阵元做 $N_\theta$ 点 FFT：
+一个波长对应 $2\pi$ 相位，因此相邻位置的相位差大小为：
 
 \[
-X_a[q]=\sum_{p=0}^{P-1}z_p\exp(-j2\pi qp/N_\theta).
+\Delta\phi=\frac{2\pi d\sin\theta}{\lambda}.
 \]
 
-信号本身每个阵元增加的相位是 $2\pi d\sin\theta/\lambda$。在峰位置，它应接近 FFT 模板的 $2\pi q/N_\theta$，所以：
+相位正负取决于通道编号方向和解调约定。以下使用随通道编号增加而增加的正相位模型。
+
+若 $d=\lambda/2$、$\theta=30^\circ$，由于 $\sin30^\circ=1/2$：
 
 \[
-\sin\theta_q=\frac{\lambda q}{dN_\theta},
-\qquad d=\lambda/2\Rightarrow\theta_q=\arcsin(2q/N_\theta).
+\Delta\phi=\pi\sin30^\circ=\frac{\pi}{2}.
 \]
 
-因此 180 个 FFT 格不等于 −90° 到 +89°。角度轴要经过反正弦，格点在角度上并不等间隔。补零到 180 点只让谱线更细，分辨能力主要仍由实际孔径和加窗决定。
+相邻通道相差 90°。这与慢时间中的相位变化形式相似，但现在变化的是空间位置，不是观测时刻。
 
-## 3. 两种语言的教学写法
+## 均匀线阵
 
-下面假定你已选出一个目标、得到一维向量 `z`，且这些通道组成校准后的半波长均匀线阵；运动目标的 TX 时刻差也已补偿。
+$P$ 个等间距通道组成均匀线阵。第 $p$ 个通道的信号为：
+
+\[
+z[p]=A e^{j(\phi_0+2\pi p d\sin\theta/\lambda)}.
+\]
+
+相位对 $p$ 线性变化，可沿通道做 FFT。设空间 FFT 点数为 $N_a$，峰所在的有符号格编号为 $q$：
+
+\[
+\frac{q}{N_a}=\frac{d\sin\theta}{\lambda},
+\qquad
+\theta=\arcsin\left(\frac{\lambda q}{dN_a}\right).
+\]
+
+半波长间距时，$\theta=\arcsin(2q/N_a)$。角度与 FFT 格编号不是线性关系。
+
+### Python 示例
 
 ```python
-n_angle = 180
-A = np.fft.fftshift(np.fft.fft(z, n=n_angle))
-q = np.arange(-n_angle//2, n_angle//2)
-theta = np.degrees(np.arcsin(2*q/n_angle))
-peak = np.argmax(np.abs(A))
-theta_hat = theta[peak]
+import numpy as np
+
+p = np.arange(8)
+z = np.exp(1j*np.pi*p*np.sin(np.deg2rad(30)))
+na = 64
+spectrum = np.fft.fftshift(np.fft.fft(z, n=na))
+q = np.arange(-na//2, na//2)
+index = np.argmax(np.abs(spectrum))
+angle = np.degrees(np.arcsin(2*q[index]/na))
+print(q[index], round(angle, 1))
+```
+
+### MATLAB 示例
+
+```matlab
+p = 0:7;
+z = exp(1j*pi*p*sind(30));
+na = 64;
+spectrum = fftshift(fft(z,na));
+q = -na/2:na/2-1;
+[~, index] = max(abs(spectrum));
+angle = asind(2*q(index)/na);
+disp([q(index) round(angle,1)]);
+```
+
+结果为第 16 格、30°。输入只有 8 个通道，64 点 FFT 中其余位置是补零，不能据此称为 64 阵元。
+
+<figure><img src="../assets/lessons/angle-peak.svg" alt="8阵元半波长均匀线阵的空间谱经角度换算后在30度附近出现峰值"><figcaption>横轴由空间频率取反正弦得到，角度格点不等距。图为理想均匀线阵模拟，不是 IWR1443 或 IWR1843 开发板的实际阵列。</figcaption></figure>
+
+## TDM 运动补偿
+
+多路 TX 轮流发射时，不同虚拟通道的观测时刻有差别。移动目标在这段时间内产生额外相位，会与空间相位叠加。
+
+若第 $p$ 个通道比参考通道晚 $\delta t_p$，多普勒频率估计为 $\widehat f_D$，额外相位为 $2\pi\widehat f_D\delta t_p$。按正相位模型补偿：
+
+\[
+z_{\mathrm{comp}}[p]=z[p]\exp(-j2\pi\widehat f_D\delta t_p).
+\]
+
+3 路 TX 按 160 µs 间隔轮发，每路对应 4 个 RX，且通道按 TX 分组时：
+
+```python
+offsets = np.repeat(np.arange(3)*160e-6, 4)
+z_comp = z * np.exp(-1j*2*np.pi*fd_hat*offsets)
 ```
 
 ```matlab
-nAngle = 180;
-A = fftshift(fft(z(:),nAngle));
-q = -nAngle/2:nAngle/2-1;
-theta = asind(2*q/nAngle);
-[~, peak] = max(abs(A));
-thetaHat = theta(peak);
+offsets = repelem((0:2)'*160e-6,4);
+zComp = z(:).*exp(-1j*2*pi*fdHat*offsets);
 ```
 
-在完整模拟练习里，空间峰被设为 `q=45`，因此先算 `2 × 45 / 180 = 1/2`，再取反正弦，得到 30°。你可以改这个编号来验证公式。
+这里 `z` 是 12 个实测虚拟通道的向量，不是前面 8 阵元示例中的 `z`。`fd_hat` 来自目标所在的多普勒格，且要与解调符号一致。
 
-## 4. 实际阵列不等间距怎么办
+## 实际阵列
 
-!!! info "IWR1443 / IWR1843：测角要看开发板天线"
-    芯片的 3 TX × 4 RX 只告诉你最多有 12 种组合，不能确定它们在空间怎样排列。更换为 IWR1843BOOST 或其他板卡时，应从对应板卡的天线布局建立位置表，重新选择水平/俯仰通道并校准。上游取前 8 通道的写法不能仅因使用 IWR1843 就视为已验证正确。
+IWR1443 和 IWR1843 都可以组成多个虚拟通道，但开发板上的 TX/RX 位置未必形成连续的一维半波长阵列。通常需要：
 
-先从硬件资料得到每个虚拟阵元的位置 $r_p$，再为每个候选角度 θ 计算它应有的相位。以一维坐标、同一符号约定为例：
+1. 根据 TX、RX 位置得到虚拟阵列坐标。在远场模型中，一组 TX/RX 对应的位置向量为两者位置向量之和。
+2. 选择用于方位角的通道，并按空间位置排序。
+3. 校正通道幅度与相位误差。
+4. 对 TDM 移动目标补偿观测时间差。
+5. 对符合均匀间距的子阵做 FFT，或按实际位置计算波束响应。
+
+对于一维坐标 $r_p$，候选方向的导向向量为：
 
 \[
-a_p(\theta)=e^{j2\pi r_p\sin\theta/\lambda},\qquad
-P(\theta)=\left|\sum_p a_p^*(\theta)z_p\right|^2.
+a_p(\theta)=e^{j2\pi r_p\sin\theta/\lambda}.
 \]
 
-这就是扫描波束形成：对一个角度假设做相位对齐，然后相加。它不要求位置等间隔，但位置、通道顺序与幅相校准仍然必须正确。二维阵列应使用方向向量与阵元位置向量的内积。
+扫描各角度，计算：
 
-```python
-# positions_m 与 z 一一对应；theta_grid 的单位为弧度
-steering = np.exp(1j*2*np.pi/wavelength * positions_m[:,None] * np.sin(theta_grid)[None,:])
-power = np.abs(steering.conj().T @ z)**2
-```
+\[
+P(\theta)=\left|\sum_p a_p^*(\theta)z[p]\right|^2.
+\]
 
-```matlab
-steering = exp(1j*2*pi/wavelength * positionsM(:)*sin(thetaGrid(:).'));
-power = abs(steering' * z(:)).^2;  % 此处需要共轭转置
-```
+方向匹配时，通道间相位差被抵消，相加结果较大。二维阵列还要使用两个空间坐标，不能只靠同一个一维角度轴得到俯仰角。
 
-幅相校准可以用已知方向反射器估计各通道的复增益 $g_p$，在波束形成前用 `z/g` 做逐元素校正。估计时必须先扣除已知方向应有的几何相位；不能把真实的空间相位也当误差消掉。
-
-## 5. 项目目前实际算了什么
-
-```python linenums="271"
-def run_angle_fft_strict(speed_profile: np.ndarray, cfg: RadarConfig) -> np.ndarray:
-    selected = speed_profile[:, :, cfg.angle_channels]
-    # Strict MATLAB parity: angle FFT consumes the configured channel slice directly.
-    return np.fft.fftshift(np.fft.fft(selected, n=cfg.angle_bin, axis=2), axes=2)
-```
-
-源文件：`project/src/iwr1443_adc_utils.py`，函数 `run_angle_fft_strict`。
-
-默认选前 8 个通道，补零到 180 点。可前一步只算了前 4 个通道的 Doppler，选出的后 4 个已经是零。另外还没有确认阵元位置表、通道校准和运动补偿，所以当前结果应按空间 FFT 格来读。
-
-<figure><img src="../assets/figures/range_angle_heatmap_strict.png" alt="距离与空间 FFT 格的二维热图"><figcaption>横轴看作有符号空间 FFT 格，纵轴是代码标注的距离。先观察重复的距离条纹，再观察横向分布。它同时受前端数据排列和零通道影响，还不能读出可信目标角度。</figcaption></figure>
-
-## 检查点
-
-试着回答：为什么 `q=45` 对应 30°；为什么 8 点补成 180 点不会变出 180 个天线；为什么运动补偿要在比较天线相位之前完成。下一章：[从距离处理处分出另一条路线，观察微位移](phase.md)。
+参考：[TI MIMO Radar](https://www.ti.com/lit/an/swra554a/swra554a.pdf)。案例代码中的通道选择和角度轴问题见[代码分析](../code/code-map.md)。

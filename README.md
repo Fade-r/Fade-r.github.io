@@ -1,6 +1,6 @@
 # 毫米波雷达数据采集与信号处理教程
 
-从回波、ADC 数据和 I/Q 解析开始，逐步学习距离、速度、方向、微位移与目标检测。每一步结合公式、小数值例子和 MATLAB / Python 实现，并说明 IWR1443 与 IWR1843 的相关差异。
+先介绍雷达、毫米波与 FMCW，再按发射信号、回波、混频、采样、数据采集和信号处理的顺序讲解。各步骤结合公式、小数值例子、图解与 MATLAB / Python 实现，并说明 IWR1443 与 IWR1843 的相关差异。
 
 ## 📚 阅读教程
 
@@ -18,7 +18,7 @@ GitHub 仓库页面不会直接运行 HTML。是否通过 GitHub Pages 上线，
 
 | 位置 | 内容 |
 | --- | --- |
-| [教程正文](tutorial-source/docs/wiki/content/index.md) | Markdown、图片和交互资源 |
+| [教程正文](tutorial-source/docs/wiki/content/index.md) | Markdown、教学图和原项目诊断图 |
 | [教学示例](tutorial-source/docs/wiki/examples/) | 可独立运行的 MATLAB / Python 程序 |
 | [原处理代码](tutorial-source/project/src/) | 教程分析的两个 Python 文件 |
 | [参考索引](tutorial-source/references/README.md) | 上游代码、许可和资料核验记录 |
@@ -36,7 +36,7 @@ python workbench/experiments/wiki-build/verify_wiki.py
 python docs/wiki/examples/tutorial_pipeline.py
 ```
 
-MATLAB 中运行 `tutorial-source/docs/wiki/examples/tutorial_pipeline.m`。构建后的网页位于 `tutorial-source/docs/wiki/site/`；发布更新时，将该目录的内容复制到分支根目录，保留 `tutorial-source/` 和本说明。
+MATLAB 中运行 `tutorial-source/docs/wiki/examples/tutorial_pipeline.m`。新版 Python 示例已通过运行测试；MATLAB 版本尚未实际运行。构建后的网页位于 `tutorial-source/docs/wiki/site/`；发布更新时，将该目录的内容复制到分支根目录，保留 `tutorial-source/` 和本说明。
 
 ## 🔍 数据与结果
 
