@@ -17,6 +17,21 @@
   line-height: 1.8;
 }
 .md-typeset figure { margin: 1.2rem 0; }
+/* Nearby prerequisite equations stay visible, slightly smaller than the text. */
+.md-typeset .admonition.formula-recap {
+  font-size: 0.8rem;
+  border: 0;
+  border-left: 3px solid var(--md-default-fg-color--light);
+  border-radius: 0;
+  background: var(--md-code-bg-color);
+  box-shadow: none;
+}
+.md-typeset .formula-recap > .admonition-title {
+  padding-left: 0.6rem;
+  background: transparent;
+}
+.md-typeset .formula-recap > .admonition-title::before { display: none; }
+.md-typeset .formula-recap .arithmatex { overflow-x: auto; max-width: 100%; }
 .md-typeset figure img {
   display: block;
   width: 100%;

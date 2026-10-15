@@ -1,6 +1,8 @@
 """Check tutorial snippets, downloadable copies, and the four-lane array map."""
 from pathlib import Path
 import ast
+import contextlib
+import io
 import re
 import numpy as np
 import yaml
@@ -83,3 +85,56 @@ expanded = 2*np.pi*(fc*tau+slope*t*tau-slope*tau*tau/2)
 np.testing.assert_allclose(direct, expanded, rtol=0, atol=1e-9)
 assert (1+4/4)**(-4) == 1/16
 print('Beat-phase expansion and CFAR numerical example passed.')
+
+# Cross-page prerequisite equations must remain visible, not only linked.
+recap_pages = {
+    'foundations/echo-and-mixing.md': 2,
+    'foundations/sampling.md': 1,
+    'foundations/signal-and-fft.md': 2,
+    'data/capture.md': 1,
+    'data/adc-iq-layout.md': 1,
+    'processing/range.md': 1,
+    'processing/doppler.md': 3,
+    'processing/angle.md': 3,
+    'processing/phase.md': 2,
+    'practice/detection.md': 2,
+    'practice/end-to-end.md': 1,
+    'orientation/parameters-and-shapes.md': 1,
+    'code/original-functions.md': 2,
+}
+recap_count = 0
+for relative, minimum in recap_pages.items():
+    source = (CONTENT / relative).read_text(encoding='utf-8')
+    count = source.count('!!! formula-recap ')
+    assert count >= minimum, relative
+    rendered = (ROOT / 'docs/wiki/site' / Path(relative).with_suffix('.html')).read_text(encoding='utf-8')
+    assert rendered.count('class="admonition formula-recap"') == count, relative
+    assert '!!! formula-recap' not in rendered, relative
+    recap_count += count
+print(f'{recap_count} prerequisite equation notes rendered across {len(recap_pages)} pages.')
+
+# Execute the self-contained FFT lesson in reading order, including its 4-point
+# matrix detour and return to the 8-point frequency-axis example.
+fft_lesson = (CONTENT / 'foundations/signal-and-fft.md').read_text(encoding='utf-8')
+namespace = {}
+with contextlib.redirect_stdout(io.StringIO()):
+    for code in re.findall(r'^```python[^\n]*\n(.*?)^```', fft_lesson, re.M | re.S):
+        exec(compile(code, 'FFT lesson', 'exec'), namespace)
+assert namespace['X'].shape == namespace['frequency'].shape == (8,)
+assert namespace['X_windowed'].shape == (8,)
+assert namespace['frequency'][np.argmax(abs(namespace['shifted']))] == 2e6
+
+# Numerical checks for the newly explained transitions.
+n = np.arange(8)
+np.testing.assert_allclose(np.exp(1j*2*np.pi*5*n/8),
+                           np.exp(-1j*2*np.pi*3*n/8), atol=1e-14)
+wavelength = 0.004
+np.testing.assert_allclose(np.unwrap([0.9*np.pi, -0.9*np.pi]),
+                           [0.9*np.pi, 1.1*np.pi])
+np.testing.assert_allclose(wavelength*(np.pi/2)/(4*np.pi), 0.0005)
+positions = np.array([0, 0.5, 1.5, 2.0])*wavelength
+steering = np.exp(1j*2*np.pi*positions*0.5/wavelength)
+np.testing.assert_allclose(np.conj(steering)*steering, np.ones(4), atol=1e-14)
+noise_trace = np.array([1+2j, 3-1j, -2+4j])
+assert abs(np.fft.fft(noise_trace-noise_trace.mean())[0]) < 1e-14
+print('Sequential FFT snippets, aliasing, unwrap, beam phase cancellation and mean removal passed.')

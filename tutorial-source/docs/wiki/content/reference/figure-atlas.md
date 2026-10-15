@@ -4,7 +4,7 @@
 
 ## 1. 原始采样值
 
-<figure><img loading="lazy" src="../assets/figures/raw_int16_segment.png" alt="原始采样值"><figcaption>横轴是整数在文件中的编号，纵轴是原始数值。数值长期停在量程端点可能表示饱和，连续零值可能提示采集异常；下半图只是奇偶位置拆分，不是 I/Q。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/raw_int16_segment.png" alt="原始采样值"><figcaption>横轴是整数在文件中的编号，纵轴是原始数值。数值长期停在量程端点可能表示饱和，连续零值可能提示采集异常。下半图按奇偶位置拆分；原代码假设的格式是 [I0,I1,Q0,Q1]，所以每条奇偶序列都混有 I 和 Q，不能把两条线分别称作 I、Q。</figcaption></figure>
 
 [回到原理与代码](../data/adc-iq-layout.md)。
 
@@ -22,7 +22,7 @@
 
 ## 4. 单次距离谱
 
-<figure><img loading="lazy" src="../assets/figures/range_profile_frame000_chirp000_vc00.png" alt="单次距离谱"><figcaption>横轴是代码换算出的距离，纵轴是未标定的 FFT 幅度。峰的位置对应较强的频率分量；完整 FFT 的后半段不能直接当作更远距离。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/range_profile_frame000_chirp000_vc00.png" alt="单次距离谱"><figcaption>横轴是代码换算出的距离，纵轴是未标定的 FFT 幅度。峰的位置对应较强的频率分量。按本教程的正负频率区间，完整 FFT 的后半段表示负频率，应先按频率符号与有效拍频范围选择数据；把它全部套入递增距离轴会误标为更远的目标。</figcaption></figure>
 
 [回到原理与代码](../processing/range.md)。
 
@@ -52,7 +52,7 @@
 
 ## 9. 时频图
 
-<figure><img loading="lazy" src="../assets/figures/spectrogram_rangebin030_vc00.png" alt="时频图"><figcaption>一个方向是时间，另一个是频率，颜色表示短时频谱强弱。周期竖条可能与帧间空隙和插值有关；约 24.4 Hz 的频率格间距不足以研究亚赫兹运动。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/spectrogram_rangebin030_vc00.png" alt="时频图"><figcaption>一个方向是时间，另一个是频率，颜色表示短时频谱强弱。周期竖条可能与帧间空隙和插值有关。当前 256 点窗口按 160 µs 网格计算，时长约 0.041 s，频率格间距为 1/0.041≈24.4 Hz；而低于 1 Hz 的运动周期超过 1 s，需要更长的真实观测窗口，不能靠这张短窗图分辨。</figcaption></figure>
 
 [回到原理与代码](../processing/phase.md)。
 
@@ -69,6 +69,16 @@
 [回到原理与代码](../processing/phase.md)。
 
 ## 12. 通道相干矩阵
+
+矩阵比较的是不同通道在同一距离格的复数序列。记通道 $a,b$ 的序列为 $z_a[i],z_b[i]$，图中数值为：
+
+\[
+C_{ab}=
+\frac{\left|\sum_i z_a^*[i]z_b[i]\right|}
+{\sqrt{\sum_i|z_a[i]|^2}\sqrt{\sum_i|z_b[i]|^2}}.
+\]
+
+星号表示共轭。分母消除整体幅度大小的影响；两个非零序列若只相差固定复数倍数，结果为 1。这里没有减去均值，因此不是常见的 Pearson 相关系数。
 
 <figure><img loading="lazy" src="../assets/figures/channel_correlation_rangebin030.png" alt="通道相干矩阵"><figcaption>横纵轴都是通道编号，数值越接近 1，表示两个复数序列的归一化内积模越大。当前非零序列与自身比较为 1；低非对角值可能来自噪声、排列错误或相位变化，不能单独定位原因。</figcaption></figure>
 

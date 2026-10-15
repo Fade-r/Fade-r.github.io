@@ -1545,6 +1545,13 @@
 </table>
 <p>阵列是理想的一维均匀线阵，通道同时观测或已经完成运动补偿，不对应 IWR1443 或 IWR1843 的整块板卡布局。</p>
 <h2 id="_3">构造采样信号<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">三种变化分别沿哪个轴</p>
+<p><a href="../processing/range.html">距离测量</a>：<span class="arithmatex">\(f_b=2SR/c\)</span>，采样点相位为 <span class="arithmatex">\(2\pi f_bn/F_s\)</span>。</p>
+<p><a href="../processing/doppler.html">速度测量</a>：<span class="arithmatex">\(f_D=2v/\lambda\)</span>，轮次相位为 <span class="arithmatex">\(2\pi f_DmT_{\mathrm{slow}}\)</span>。</p>
+<p><a href="../processing/angle.html">角度测量</a>：相邻阵元相位差为 <span class="arithmatex">\(2\pi d\sin\theta/\lambda\)</span>，第 <span class="arithmatex">\(p\)</span> 个阵元累积 <span class="arithmatex">\(p\)</span> 倍。</p>
+<p><span class="arithmatex">\(n,m,p\)</span> 分别沿采样点、轮次、空间通道变化；<span class="arithmatex">\(\lambda=c/f_c\)</span>，本例阵元间距 <span class="arithmatex">\(d=\lambda/2\)</span>。</p>
+</div>
 <p>把距离、速度和空间相位相加：</p>
 <div class="arithmatex">\[
 x[n,m,p]=
@@ -1560,7 +1567,7 @@ x[n,m,p]=
 <li><span class="arithmatex">\(m\)</span>：同一通道的观测次数；</li>
 <li><span class="arithmatex">\(p\)</span>：按空间位置排列的阵元。</li>
 </ul>
-<p>这是解调后采样数据的可分离近似模型。它忽略单次 chirp 内运动引起的拍频修正，也不模拟射频电路和网络传输。</p>
+<p>指数中的三个相位相加，等价于三个复指数相乘，所以能分别沿三个轴做 FFT，这称为可分离模型。本例把幅度设为 1、固定初相位设为 0。运动在单次 chirp 内引起的拍频修正被忽略，但轮次间的运动相位保留；生成的数据相当于已完成解调、采样和排列后的 <code>frame</code>。</p>
 <h3 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -1630,7 +1637,7 @@ x[n,m,p]=
 </tr>
 </tbody>
 </table>
-<p>Hamming 窗使距离主瓣覆盖相邻格，因此 CFAR 检出多个格。示例只有一个目标，它们不能被计作三个目标。</p>
+<p>Hamming 窗使距离主瓣覆盖相邻格，因此 CFAR 检出多个格。示例只有一个目标，应将这些相邻检出格归并为一个峰。本例没有随机噪声，CFAR 只演示阈值计算和检出位置，不能用于测量虚警率；对多通道功率和设置阈值时，采用<a href="detection.html">目标检测</a>中说明的统计模型或背景标定。</p>
 <p>程序在距离—速度功率图上选择最强点来演示测角。这利用了“只有一个目标”的已知条件，不等同于多目标检测算法。</p>
 <h2 id="_6">修改参数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>将目标距离由 5 m 改为 10 m，拍频应由 1 MHz 变为 2 MHz，距离峰由第 32 格移到第 64 格。</p>

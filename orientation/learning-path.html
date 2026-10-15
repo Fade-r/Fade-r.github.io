@@ -1462,6 +1462,7 @@
 <p>一次 chirp 产生一组采样点；连续多个 chirp 可以组成一帧。程序必须保留采样点属于哪个 chirp、哪个接收通道，才能分别测量距离、速度和角度。</p>
 <h2 id="_2">单通道数据<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>假设一个接收通道，每次 chirp 采 4 个点，连续采 2 次。数据可以排成一个 4 行、2 列的数组：</p>
+<p>每个元素都是 <a href="../foundations/sampling.html">I/Q 采样</a>得到的复数。记 <span class="arithmatex">\(x_{n,m}=I_{n,m}+jQ_{n,m}\)</span>，<span class="arithmatex">\(n\)</span> 是一次 chirp 内的采样点编号，<span class="arithmatex">\(m\)</span> 是重复观测编号：</p>
 <div class="arithmatex">\[
 \begin{bmatrix}
 x_{0,0} &amp; x_{0,1}\\
@@ -1527,7 +1528,7 @@ x_{3,0} &amp; x_{3,1}
 </tbody>
 </table>
 <p>重复 64 轮，共发射 192 次 chirp，每个虚拟通道仍只有 64 次观测。按 <code>[采样点,轮次,虚拟通道]</code> 排列，数组尺寸为 <code>(256,64,12)</code>。</p>
-<p>12 个虚拟通道不表示 12 个同时采样的位置。TDM 发射有时间差，虚拟天线也未必等间距。测速要使用同一 TX 的重复间隔；测角要使用真实阵列位置。</p>
+<p>这 12 个虚拟通道分三次发射取得：同一次发射的 4 个 RX 同时接收，不同 TX 组之间存在时间差。因此，测速要使用同一 TX 的重复间隔；测角还要结合 TX/RX 的实际位置，并补偿移动目标在发射间隔内产生的相位变化。</p>
 <h2 id="_5">数组轴与处理方向<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

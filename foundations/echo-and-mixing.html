@@ -1503,7 +1503,18 @@
 <div class="arithmatex">\[
 \tau=\frac{30}{3\times10^8}=10^{-7}\ \mathrm{s}=0.1\ \mu\mathrm{s}.
 \]</div>
-<p>在时刻 <span class="arithmatex">\(t\)</span> 收到的回波，对应的是 <span class="arithmatex">\(t-\tau\)</span> 时发出的信号。忽略噪声和额外反射相位，可以写成：</p>
+<div class="admonition formula-recap">
+<p class="admonition-title">发射波形</p>
+<p><a href="transmit.html">发射信号</a>中的相位和波形为：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\phi_{\mathrm{tx}}(t)&amp;=\phi_0+2\pi\left(f_0t+\frac{St^2}{2}\right),\\
+s_{\mathrm{tx}}(t)&amp;=A\cos\phi_{\mathrm{tx}}(t).
+\end{aligned}
+\]</div>
+<p><span class="arithmatex">\(f_0\)</span> 为起始频率，<span class="arithmatex">\(S\)</span> 为扫频斜率，<span class="arithmatex">\(\phi_0\)</span> 为初始相位，<span class="arithmatex">\(t\)</span> 从这次扫频起点计时。</p>
+</div>
+<p>在时刻 <span class="arithmatex">\(t\)</span> 收到的回波，对应的是 <span class="arithmatex">\(t-\tau\)</span> 时发出的信号。因此，把发射公式中每个 <span class="arithmatex">\(t\)</span> 替换为 <span class="arithmatex">\(t-\tau\)</span>，再把发射幅度 <span class="arithmatex">\(A\)</span> 换为接收幅度 <span class="arithmatex">\(a\)</span>。忽略噪声和额外反射相位，得到：</p>
 <div class="arithmatex">\[
 s_{\mathrm{rx}}(t)=a\cos\left[\phi_0+2\pi\left(f_0(t-\tau)+\frac{S(t-\tau)^2}{2}\right)\right].
 \]</div>
@@ -1536,15 +1547,26 @@ f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 </section>
 
 <h2 id="_5">混频器怎样提取拍频<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>混频器将回波与本机参考信号相乘。两个余弦相乘，可用积化和差公式展开：</p>
+<p>本机参考信号由雷达自身提供，与发射扫频同步。混频器将它与回波相乘。记两者相位为 <span class="arithmatex">\(\phi_{\mathrm{tx}}(t)\)</span>、<span class="arithmatex">\(\phi_{\mathrm{rx}}(t)\)</span>，暂时省略时间参数和幅度系数，两个余弦相乘可展开为：</p>
 <div class="arithmatex">\[
 \cos\phi_{\mathrm{tx}}\cos\phi_{\mathrm{rx}}
 =\frac12\cos(\phi_{\mathrm{tx}}-\phi_{\mathrm{rx}})
 +\frac12\cos(\phi_{\mathrm{tx}}+\phi_{\mathrm{rx}}).
 \]</div>
-<p>右边包含两部分：一部分随相位差变化，频率较低；另一部分随相位和变化，频率很高。低通滤波器去掉高频部分，留下用于测距的拍频信号。</p>
+<p>右边第一项的频率是发射与回波的频率差，第二项的频率是两者之和。例如，两路都在 77 GHz 附近、相差 3 MHz 时，差频约为 3 MHz，和频约为 154 GHz。低通滤波器让低频分量通过、衰减高频分量，因而留下用于测距的拍频信号。</p>
 <p>对于 77 GHz 附近的雷达信号，混频后的拍频可以只有几 MHz。ADC 因而可以在较低的采样率下记录拍频，而无需直接采集 77 GHz 波形。</p>
 <h2 id="_6">拍频信号的相位<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">相减的是哪两个相位</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\phi_{\mathrm{tx}}(t)&amp;=\phi_0+2\pi(f_0t+St^2/2),\\
+\phi_{\mathrm{rx}}(t)&amp;=\phi_0+2\pi\big[f_0(t-\tau)+S(t-\tau)^2/2\big],\\
+\phi_b(t)&amp;=\phi_{\mathrm{tx}}(t)-\phi_{\mathrm{rx}}(t).
+\end{aligned}
+\]</div>
+<p>低通滤波后保留 <span class="arithmatex">\(\cos\phi_b(t)\)</span>；静止目标的延迟 <span class="arithmatex">\(\tau=2R/c\)</span> 在一次扫频内保持不变。</p>
+</div>
 <p>先单独展开回波相位中的平方项：</p>
 <div class="arithmatex">\[
 \begin{aligned}

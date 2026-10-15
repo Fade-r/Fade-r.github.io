@@ -1464,6 +1464,12 @@
 </table>
 <p>这些值来自处理代码。原始采集配置尚未完整归档，不能仅因文件长度吻合就认定它们全部正确。</p>
 <h2 id="hands-on">派生参数<a class="headerlink" href="#hands-on" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">参数换算所用的关系</p>
+<p><a href="../foundations/transmit.html">发射时序</a>：<span class="arithmatex">\(T_c=T_r+T_{\mathrm{idle}}\)</span>。</p>
+<p><a href="../data/capture.html">采样时长与带宽</a>：<span class="arithmatex">\(T_{\mathrm{ADC}}=N_s/F_s\)</span>，<span class="arithmatex">\(B_{\mathrm{ADC}}=ST_{\mathrm{ADC}}\)</span>。</p>
+<p><a href="../processing/range.html">距离格间隔</a>：未补零时 <span class="arithmatex">\(\Delta R=c/(2B_{\mathrm{ADC}})\)</span>。下面把本页参数表的数值逐项代入。</p>
+</div>
 <p>相邻实际 chirp 的间隔：</p>
 <div class="arithmatex">\[
 T_c=60+100=160\ \mu s.
@@ -1501,7 +1507,7 @@ B_{\mathrm{ADC}}=29.982\times25.6\approx768\ \mathrm{MHz}.
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">rangeResolution</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">bandwidthValid</span><span class="p">);</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">speedResolution</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">wavelength</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">chirps</span><span class="o">*</span><span class="n">tc</span><span class="p">);</span>
 </span></code></pre></div>
-<p>最后一行保留了原程序的 <code>tc</code>，不是三路轮发时推荐的时间参数。原函数问题汇总见<a href="../code/code-map.html">代码分析</a>。</p>
+<p>最后一行复现原程序的 <code>tc</code>。标准三路轮发时，同一 TX 每隔 <code>3*tc</code> 才再次观测，速度格间隔应按 <span class="arithmatex">\(\lambda/[2N_c(3T_c)]\)</span> 计算；原表达式少了分母中的 3，所以给出的速度尺度大三倍。原函数问题汇总见<a href="../code/code-map.html">代码分析</a>。</p>
 <h2 id="_4">数据尺寸<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>按原程序配置，一帧应包含：</p>
 <div class="arithmatex">\[

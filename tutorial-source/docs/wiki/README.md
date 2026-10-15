@@ -32,6 +32,8 @@ node workbench/experiments/wiki-build/verify_signal_labs.cjs
 
 ## 文件维护
 
+- 跨页或相距较远的推导，在新公式前用 `!!! formula-recap "具体公式名"` 重现必要前式、符号含义及来源链接；提示默认展开，不能只有“见前文”。解释限制时交代原因与实际处理对象，避免留下只有“不是、不能”的结论。
+- 示例切换点数、数组方向或符号含义时就地说明；可顺序运行的代码须验证前一段变量不会影响后一段。`verify_tutorial.py` 检查公式提示生成、FFT 全页 Python 片段顺序运行及关键数值关系。
 - `examples/tutorial_pipeline.py` 与 `.m`：完整教学代码；网页下载副本位于 `content/assets/downloads/`，修改后须同步。
 - `examples/make_lesson_figures.py`：生成解析信号教学图与对应 CSV，输出到 `content/assets/lessons/`；预览 PNG 位于 `workbench/cache/wiki-rebuild/`。
 - `content/assets/figures/`：原项目诊断图快照，与理想信号教学图分开。

@@ -24,7 +24,9 @@ s(t)=A\cos(2\pi ft+\phi_0).
 \lambda=\frac{c}{f}.
 \]
 
-77 GHz 表示每秒振荡 $77\times10^9$ 次，波长约为 3.9 mm。高频振荡发生在雷达射频电路中；后面的数据采集并不是直接以这个频率记录波形。
+77 GHz 表示每秒振荡 $77\times10^9$ 次，波长约为 3.9 mm。
+
+IWR1443 和 IWR1843 的 ADC 采集的是接收机处理后的低频信号。若直接记录 77 GHz 波形，就需要远高于这些芯片 ADC 能力的采样率。接收机先将回波与本机发射参考信号相乘，再滤去高频部分，留下反映两者频率差的**拍频信号**。拍频通常在 MHz 量级，距离信息仍保留在其中。[回波与混频](echo-and-mixing.md)将推导它如何由距离决定。
 
 ## 线性扫频
 
@@ -82,7 +84,18 @@ disp(frequency/1e9);
 \frac{d\phi(t)}{dt}=2\pi f(t)=2\pi(f_0+St).
 \]
 
-从 0 积分到 $t$，分别积分常数项和一次项：
+从 0 积分到 $t$，用 $u$ 表示积分变量：
+
+\[
+\begin{aligned}
+\phi(t)-\phi_0
+&=2\pi\int_0^t(f_0+Su)\,du\\
+&=2\pi\left[f_0u+\frac{Su^2}{2}\right]_0^t\\
+&=2\pi\left(f_0t+\frac{St^2}{2}\right).
+\end{aligned}
+\]
+
+加回初始相位 $\phi_0$：
 
 \[
 \phi(t)=\phi_0+2\pi\left(f_0t+\frac{St^2}{2}\right).
@@ -94,7 +107,7 @@ disp(frequency/1e9);
 s_{\mathrm{tx}}(t)=A\cos\left[\phi_0+2\pi\left(f_0t+\frac{St^2}{2}\right)\right].
 \]
 
-频率表达式里的 $St$ 积分后是 $St^2/2$。直接把 $f_0+St$ 填进 $\cos(2\pi ft)$ 会得到错误的扫频斜率。
+频率表达式里的 $St$ 积分后是 $St^2/2$。若直接把 $f_0+St$ 填进 $\cos(2\pi ft)$，相位就变成 $2\pi(f_0t+St^2)$；求导并除以 $2\pi$ 会得到 $f_0+2St$，斜率多了一倍。频率随时间变化时，要先积分得到相位，再写波形。
 
 ## 连续发射多个 chirp
 

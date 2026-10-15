@@ -1483,12 +1483,20 @@
 <h1 id="iq">I/Q 与采样<a class="headerlink" href="#iq" title="Permanent link">&para;</a></h1>
 <p>混频和滤波之后，接收机得到频率较低的模拟信号。ADC（模数转换器）定时测量它的电压，把连续波形转换成可以由程序处理的数值序列。</p>
 <h2 id="i-q">I 和 Q<a class="headerlink" href="#i-q" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">混频后留下的相位</p>
+<p><a href="echo-and-mixing.html">回波与混频</a>得到：</p>
+<div class="arithmatex">\[
+\phi_b(t)=2\pi f_bt+\phi_c,\qquad f_b=\frac{2SR}{c}.
+\]</div>
+<p><span class="arithmatex">\(f_b\)</span> 是拍频，<span class="arithmatex">\(S\)</span> 是扫频斜率，<span class="arithmatex">\(R\)</span> 是距离；<span class="arithmatex">\(\phi_c\)</span> 汇集了对静止目标不随时间变化的相位项。</p>
+</div>
 <p>只记录一个余弦分量，不能在单个时刻区分相反的相位：<span class="arithmatex">\(\cos\phi=\cos(-\phi)\)</span>。正交接收机使用相差 90° 的两路参考信号进行混频，得到 I、Q 两个分量。</p>
-<p>选定符号约定，并把混频增益并入幅度 <span class="arithmatex">\(A\)</span>，可写为：</p>
+<p>沿用发射相位减回波相位的约定，并选取使 Q 为正弦的正交参考方向。将接收幅度、混频与滤波增益合并记为 <span class="arithmatex">\(A\)</span>，可写为（这里的 <span class="arithmatex">\(A\)</span> 是拍频幅度，不再是发射幅度）：</p>
 <div class="arithmatex">\[
 I(t)=A\cos\phi_b(t),\qquad Q(t)=A\sin\phi_b(t).
 \]</div>
-<p>I、Q 是同一个回波的两路表示，不是两个目标，也不是两根接收天线。它们可以合成一个复数：</p>
+<p>同一个接收通道在同一时刻输出 I、Q 两个电压值，分别记录余弦和正弦分量。利用欧拉公式 <span class="arithmatex">\(e^{j\phi}=\cos\phi+j\sin\phi\)</span>，可以把它们合成一个复数：</p>
 <div class="arithmatex">\[
 z(t)=I(t)+jQ(t)=A e^{j\phi_b(t)},\qquad j^2=-1.
 \]</div>
@@ -1502,7 +1510,11 @@ A=\sqrt{I^2+Q^2},\qquad \phi_b=\operatorname{atan2}(Q,I).
 <div class="arithmatex">\[
 t_n=\frac{n}{F_s},\qquad n=0,1,\ldots,N_s-1.
 \]</div>
-<p>对拍频为 <span class="arithmatex">\(f_b\)</span> 的单目标信号，取单位幅度和零初相位：</p>
+<p>把 <span class="arithmatex">\(t_n=n/F_s\)</span> 代入 <span class="arithmatex">\(z(t)=A e^{j(2\pi f_bt+\phi_c)}\)</span>：</p>
+<div class="arithmatex">\[
+z[n]\equiv z(t_n)=A\exp\left[j\left(2\pi f_b\frac{n}{F_s}+\phi_c\right)\right].
+\]</div>
+<p>方括号表示离散编号。若 ADC 从扫频开始后的 <span class="arithmatex">\(t_a\)</span> 才采样，就用 <span class="arithmatex">\(t_n=t_a+n/F_s\)</span>；对恒定拍频，多出的 <span class="arithmatex">\(2\pi f_bt_a\)</span> 可并入初相位。下面的短例取单位幅度、零初相位，得到：</p>
 <div class="arithmatex">\[
 z[n]=\exp\left(j2\pi f_b\frac{n}{F_s}\right).
 \]</div>
@@ -1558,8 +1570,8 @@ z[n]=\exp\left(j2\pi f_b\frac{n}{F_s}\right).
 <p>第 2 点的相位为 90°，所以 <span class="arithmatex">\(I=0,Q=1\)</span>；第 4 点为 180°，所以 <span class="arithmatex">\(I=-1,Q=0\)</span>。演示额外显示第 8 点，它已经是下一周期的起点，与第 0 点数值相同。上面的代码只取一周期内的第 0～7 点。</p>
 <h2 id="_2">量化<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>ADC 不能保存无限精细的电压值，而是将电压映射到有限数量的数字等级，这一步叫量化。以有符号 16 位存储为例，一个整数可表示 −32768～32767。</p>
-<p>采样决定“什么时候测”，量化决定“用多少等级表示测量值”。两者是不同的过程。超出 ADC 输入范围会出现饱和，增加 FFT 点数无法恢复饱和前的波形。</p>
-<p>实际芯片的有效 ADC 位数和文件中的存储位宽可能不同，需要同时核对配置。整数码值也不等于以伏特或瓦特表示的物理测量值。</p>
+<p>采样决定“什么时候测”，量化决定“用多少等级表示测量值”。电压超出 ADC 输入范围时，输出会卡在最大或最小码值，称为饱和。多个不同电压被记成同一个数，原来的高低差别已经丢失，因此后续补零或 FFT 无法恢复它们。</p>
+<p>ADC 的量化位数和文件的存储位宽可能不同，例如较少位数的采样值也可以装在 16 位整数中。解析时须核对有效位数与符号扩展方式。整数表示 ADC 码值；换算成电压需要量程和增益，进一步换算成功率还需要阻抗及接收链标定。</p>
 <h2 id="_3">混叠<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>离散采样不能区分相差整数倍采样率的复正弦频率。因为：</p>
 <div class="arithmatex">\[
@@ -1567,7 +1579,7 @@ e^{j2\pi(f+F_s)n/F_s}
 =e^{j2\pi fn/F_s}e^{j2\pi n}
 =e^{j2\pi fn/F_s}.
 \]</div>
-<p>例如，8 MHz 采样时，1 MHz 和 9 MHz 的复正弦给出相同的采样序列。采样前的模拟滤波用于限制进入 ADC 的频率范围。</p>
+<p>例如，8 MHz 采样时，1 MHz 和 9 MHz 的复正弦给出相同的采样序列。单看这些点，程序无法判断原来是哪一个频率。采样前的模拟滤波因此要压低有效频带之外的信号，减少它们混入测量频带的机会。</p>
 <p>复数采样常用 <span class="arithmatex">\([-F_s/2,F_s/2)\)</span> 作为频率显示区间。雷达的实际有效拍频范围还受模拟滤波器和采集模式限制，应按配置确定。</p>
 <p>IWR1443 与 IWR1843 都需要区分实数采样和复数采样模式。这里及后续示例使用复数 I/Q 数据。格式说明见 <a href="https://www.ti.com/lit/an/swra581b/swra581b.pdf">TI ADC 数据文档</a>。</p>
 

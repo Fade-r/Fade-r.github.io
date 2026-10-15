@@ -1617,17 +1617,21 @@
 <h1 id="_1">目标检测<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>距离—多普勒频谱中的峰可能来自目标，也可能来自噪声、静态背景或旁瓣。目标检测的任务是根据频谱和背景水平，选出需要进一步分析的位置。</p>
 <h2 id="_2">幅度与功率<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">距离—多普勒结果</p>
+<p><a href="../processing/doppler.html">速度测量</a>的输出为 <span class="arithmatex">\(D[k,\ell,p]\)</span>，对应 <code>doppler_cube</code>。<span class="arithmatex">\(k\)</span>、<span class="arithmatex">\(\ell\)</span>、<span class="arithmatex">\(p\)</span> 分别表示距离格、速度格和通道。每个元素都是复数，可以写成 <span class="arithmatex">\(X=I+jQ=Ae^{j\phi}\)</span>。</p>
+</div>
 <p>FFT 输出是复数 <span class="arithmatex">\(X\)</span>，常用的幅度和功率分别为：</p>
 <div class="arithmatex">\[
 A=|X|,\qquad P=|X|^2.
 \]</div>
-<p>如果采用幅度分贝，计算 <span class="arithmatex">\(20\log_{10}(A/A_{\mathrm{ref}})\)</span>；采用功率分贝，计算 <span class="arithmatex">\(10\log_{10}(P/P_{\mathrm{ref}})\)</span>。参考值必须说明，未标定的 FFT 输出不能直接标成 dBm。</p>
+<p>这里 <span class="arithmatex">\(P=I^2+Q^2\)</span> 是与功率成比例的数值。若采用幅度分贝，计算 <span class="arithmatex">\(20\log_{10}(A/A_{\mathrm{ref}})\)</span>；采用功率分贝，计算 <span class="arithmatex">\(10\log_{10}(P/P_{\mathrm{ref}})\)</span>。当 <span class="arithmatex">\(P_{\mathrm{ref}}=A_{\mathrm{ref}}^2\)</span> 时，两式相同，因为 <span class="arithmatex">\(\log_{10}(A^2/A_{\mathrm{ref}}^2)=2\log_{10}(A/A_{\mathrm{ref}})\)</span>。dBm 专指相对于 1 mW 的物理功率；未经接收增益等标定的 FFT 数值，应写相对 dB，并说明参考值。</p>
 <p>对多个通道进行非相干积累，可以将各通道功率相加：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">power_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">doppler_cube</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">powerMap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dopplerCube</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
 </span></code></pre></div>
-<p><code>power_map</code> 的两个轴是距离和速度。它用于检测位置；测角仍要从原来的复数 <code>doppler_cube</code> 取各通道数据，不能用功率图代替。</p>
+<p><code>power_map</code> 的两个轴是距离和速度，计算的是 <span class="arithmatex">\(P[k,\ell]=\sum_p|D[k,\ell,p]|^2\)</span>。这称为非相干积累，因为各通道先取模平方再相加，不要求它们相位一致。这样能得到检测位置，但取模已消去相位、求和又合并了通道；测角所需的通道间相位差必须从保留的 <code>doppler_cube</code> 取出。</p>
 <h2 id="_3">固定阈值<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>最简单的检测方法是判断某个频谱格的功率是否大于阈值：</p>
 <div class="arithmatex">\[
@@ -1643,7 +1647,7 @@ P[k]&gt;\eta.
 <div class="arithmatex">\[
 \widehat P_n=\frac1N\sum_{i=1}^N P_i.
 \]</div>
-<p>阈值为 <span class="arithmatex">\(\eta=\alpha\widehat P_n\)</span>。当各训练格为独立、同分布的指数噪声功率，且 CUT 只有同类噪声时：</p>
+<p>阈值为 <span class="arithmatex">\(\eta=\alpha\widehat P_n\)</span>。<span class="arithmatex">\(\alpha\)</span> 决定阈值比背景高多少；希望误报更少，就要用更大的 <span class="arithmatex">\(\alpha\)</span>。若各训练格及 CUT 都是相互独立、同分布的指数噪声功率，则：</p>
 <div class="arithmatex">\[
 P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
 \]</div>
@@ -1651,8 +1655,18 @@ P_{\mathrm{FA}}=(1+\alpha/N)^{-N}.
 <div class="arithmatex">\[
 \alpha=N\left(P_{\mathrm{FA}}^{-1/N}-1\right).
 \]</div>
-<p>这里的 <span class="arithmatex">\(P_{\mathrm{FA}}\)</span> 是设定的单格虚警概率，不是某次有限数据上一定出现的误报比例。加窗、杂波和多通道积累会改变统计条件，需要相应调整检测器。</p>
+<p>这里的 <span class="arithmatex">\(P_{\mathrm{FA}}\)</span> 表示“只有噪声时，一个格超过阈值”的概率。例如 <span class="arithmatex">\(P_{\mathrm{FA}}=0.001\)</span> 意味着大量同类噪声格平均每 1000 次判决约有 1 次误报，有限数据的实际次数会波动。</p>
+<p>一种常用的噪声模型是：I、Q 分别服从均值为零、方差相同的高斯分布，且彼此独立，合起来称为圆对称复高斯噪声。它的模平方 <span class="arithmatex">\(I^2+Q^2\)</span> 服从指数分布。多个独立、同等噪声水平通道的功率相加后，得到的是这些指数变量之和，服从 Gamma 分布，不再满足这里的单通道公式；加窗也可能使邻近格相关。</p>
+<p>因此，下面的阈值系数先用于独立、单通道噪声模型；用于前述多通道功率图时，应按积累后的分布重新计算系数，或用纯背景数据检验并校准实际虚警率。</p>
 <h3 id="_4">虚警概率公式的推导<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<div class="admonition formula-recap">
+<p class="admonition-title">超过随机阈值的概率</p>
+<div class="arithmatex">\[
+\eta=\frac{\alpha}{N}\sum_{i=1}^{N}P_i,\qquad
+P_{\mathrm{FA}}=\Pr(P_{\mathrm{CUT}}&gt;\eta\mid\text{只有噪声}).
+\]</div>
+<p><span class="arithmatex">\(N\)</span> 是训练格总数，<span class="arithmatex">\(P_i\)</span> 是训练格功率。<span class="arithmatex">\(\Pr\)</span> 表示概率；下面的 <span class="arithmatex">\(\mathbb E\)</span> 表示按各种可能取值的概率求平均。先固定训练格求概率，再对训练格取平均。</p>
+</div>
 <p>设噪声功率的均值为 <span class="arithmatex">\(\mu\)</span>，单个训练格 <span class="arithmatex">\(P_i\)</span> 的概率密度为 <span class="arithmatex">\(p(u)=\mu^{-1}e^{-u/\mu}\)</span>，<span class="arithmatex">\(u\ge0\)</span>。指数分布的尾概率为：</p>
 <div class="arithmatex">\[
 \Pr(P_{\mathrm{CUT}}&gt;h)
@@ -1738,10 +1752,10 @@ e^{-(1+\alpha/N)u/\mu}\,du\\
 </span></code></pre></div>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">moving</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">rangeCube</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">mean</span><span class="p">(</span><span class="n">rangeCube</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 </span></code></pre></div>
-<p>减均值会压低零多普勒分量，也会削弱静止目标。它是针对测量目的的选择，不是每次处理都必须加入的步骤。</p>
+<p>对固定距离格和通道，设序列为 <span class="arithmatex">\(u[m]\)</span>，均值为 <span class="arithmatex">\(\bar u=N_c^{-1}\sum_m u[m]\)</span>。减均值后的零频 DFT 值为 <span class="arithmatex">\(\sum_m(u[m]-\bar u)=0\)</span>，所以它能去掉不随轮次变化的分量。静止目标也属于这种分量；若要保留静止反射器或分析微动，就不能不加区分地去掉它。后续加窗会改变各点权重，此时零频结果不一定严格为零。</p>
 <h2 id="_7">检测格与目标数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <p>一个目标的主瓣可能覆盖多个相邻格，因此检出三个格并不等于有三个目标。检测后通常还需要选局部峰值、合并邻近检测，并在时间上关联目标。</p>
-<p>实际距离—多普勒图常使用二维 CFAR。这里的一维实现用于说明训练格、保护格和阈值计算，不把它直接当作完整点云算法。</p>
+<p>本页的一维 CFAR 沿一条频谱取两侧训练格。二维 CFAR 则在距离—多普勒平面围绕 CUT 取训练区域，并留出保护区域。生成点云还需把相邻检出格合并为目标，为每个目标估计角度，再将距离和方向换成空间坐标。</p>
 <p>原理参考：H. Rohling, “Radar CFAR Thresholding in Clutter and Multiple Target Situations,” IEEE TAES, 1983, <a href="https://doi.org/10.1109/TAES.1983.309350">doi:10.1109/TAES.1983.309350</a>。</p>
 
 

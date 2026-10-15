@@ -16,7 +16,20 @@
 \tau=\frac{30}{3\times10^8}=10^{-7}\ \mathrm{s}=0.1\ \mu\mathrm{s}.
 \]
 
-在时刻 $t$ 收到的回波，对应的是 $t-\tau$ 时发出的信号。忽略噪声和额外反射相位，可以写成：
+!!! formula-recap "发射波形"
+
+    [发射信号](transmit.md)中的相位和波形为：
+
+    \[
+    \begin{aligned}
+    \phi_{\mathrm{tx}}(t)&=\phi_0+2\pi\left(f_0t+\frac{St^2}{2}\right),\\
+    s_{\mathrm{tx}}(t)&=A\cos\phi_{\mathrm{tx}}(t).
+    \end{aligned}
+    \]
+
+    $f_0$ 为起始频率，$S$ 为扫频斜率，$\phi_0$ 为初始相位，$t$ 从这次扫频起点计时。
+
+在时刻 $t$ 收到的回波，对应的是 $t-\tau$ 时发出的信号。因此，把发射公式中每个 $t$ 替换为 $t-\tau$，再把发射幅度 $A$ 换为接收幅度 $a$。忽略噪声和额外反射相位，得到：
 
 \[
 s_{\mathrm{rx}}(t)=a\cos\left[\phi_0+2\pi\left(f_0(t-\tau)+\frac{S(t-\tau)^2}{2}\right)\right].
@@ -61,7 +74,7 @@ f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 
 ## 混频器怎样提取拍频
 
-混频器将回波与本机参考信号相乘。两个余弦相乘，可用积化和差公式展开：
+本机参考信号由雷达自身提供，与发射扫频同步。混频器将它与回波相乘。记两者相位为 $\phi_{\mathrm{tx}}(t)$、$\phi_{\mathrm{rx}}(t)$，暂时省略时间参数和幅度系数，两个余弦相乘可展开为：
 
 \[
 \cos\phi_{\mathrm{tx}}\cos\phi_{\mathrm{rx}}
@@ -69,11 +82,23 @@ f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 +\frac12\cos(\phi_{\mathrm{tx}}+\phi_{\mathrm{rx}}).
 \]
 
-右边包含两部分：一部分随相位差变化，频率较低；另一部分随相位和变化，频率很高。低通滤波器去掉高频部分，留下用于测距的拍频信号。
+右边第一项的频率是发射与回波的频率差，第二项的频率是两者之和。例如，两路都在 77 GHz 附近、相差 3 MHz 时，差频约为 3 MHz，和频约为 154 GHz。低通滤波器让低频分量通过、衰减高频分量，因而留下用于测距的拍频信号。
 
 对于 77 GHz 附近的雷达信号，混频后的拍频可以只有几 MHz。ADC 因而可以在较低的采样率下记录拍频，而无需直接采集 77 GHz 波形。
 
 ## 拍频信号的相位
+
+!!! formula-recap "相减的是哪两个相位"
+
+    \[
+    \begin{aligned}
+    \phi_{\mathrm{tx}}(t)&=\phi_0+2\pi(f_0t+St^2/2),\\
+    \phi_{\mathrm{rx}}(t)&=\phi_0+2\pi\big[f_0(t-\tau)+S(t-\tau)^2/2\big],\\
+    \phi_b(t)&=\phi_{\mathrm{tx}}(t)-\phi_{\mathrm{rx}}(t).
+    \end{aligned}
+    \]
+
+    低通滤波后保留 $\cos\phi_b(t)$；静止目标的延迟 $\tau=2R/c$ 在一次扫频内保持不变。
 
 先单独展开回波相位中的平方项：
 

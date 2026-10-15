@@ -4,6 +4,16 @@
 
 ## DFT 与 FFT
 
+!!! formula-recap "从采样点到频率"
+
+    [I/Q 与采样](sampling.md)中的单频序列为：
+
+    \[
+    z[n]=A e^{j(2\pi f_bn/F_s+\phi_c)}.
+    \]
+
+    $F_s$ 是采样率，$f_b$ 是待估计的拍频。下面用 $x[n]$ 泛指待分析的序列：它可以是这个单频信号，也可以包含多个目标和噪声。
+
 长度为 $N$ 的复数序列 $x[n]$，其离散傅里叶变换（DFT）为：
 
 \[
@@ -78,6 +88,14 @@ disp(k);
 
 ## DFT 的矩阵形式
 
+!!! formula-recap "每个频率格都是一次加权求和"
+
+    \[
+    X[k]=\sum_{n=0}^{N-1}\underbrace{e^{-j2\pi kn/N}}_{\text{第 }k\text{ 格的权重}}\,x[n].
+    \]
+
+    把同一个 $k$ 的权重排成一行，把不同 $k$ 的行叠起来，就得到下面的 DFT 矩阵。
+
 把输入的每个采样点放进列向量，DFT 就是矩阵乘法 $\mathbf X=\mathbf F_N\mathbf x$。矩阵第 $k$ 行、第 $n$ 列是 $e^{-j2\pi kn/N}$：每一行负责一个频率格，每一列对应一个输入采样点。
 
 以 4 点为例，$e^{-j2\pi/4}=-j$，展开各次幂可得：
@@ -145,10 +163,14 @@ assert(max(abs(F*x-fft(x))) < 1e-12);
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 频率 / MHz | 0 | 1 | 2 | 3 | −4 | −3 | −2 | −1 |
 
-后半段不是“更高的正频率”。`fftshift` 将负频率移到左边，零频率放在中间：
+为什么第 5 格写成 −3 MHz，而不是 5 MHz？[采样的混叠关系](sampling.md)表明，相差 $F_s$ 的频率产生相同的采样点。此处 $5-8=-3$ MHz，两种写法等价；选用 $[-F_s/2,F_s/2)$ 区间时，就把第 5 格记成 −3 MHz。`fftshift` 按这个区间重新排列频谱，把负频率移到左边，零频率放在中间。
+
+下面重新生成 8 点示例，避免沿用矩阵示例中的 4 点变量：
 
 ```python
 fs = 8e6
+x = np.exp(1j*2*np.pi*2*np.arange(8)/8)
+X = np.fft.fft(x)
 frequency = np.fft.fftshift(np.fft.fftfreq(8, d=1/fs))
 shifted = np.fft.fftshift(X)
 print(frequency / 1e6)
@@ -156,6 +178,8 @@ print(frequency / 1e6)
 
 ```matlab
 fs = 8e6;
+x = exp(1j*2*pi*2*(0:7)/8);
+X = fft(x);
 frequency = (-4:3)*fs/8;
 shifted = fftshift(X);
 disp(frequency/1e6);
@@ -167,7 +191,7 @@ disp(frequency/1e6);
 
 FFT 处理的是有限长度的数据。当信号频率不恰好落在某个频率格上时，频谱能量会分散到其他格，称为**频谱泄漏**。
 
-窗函数把序列两端的幅度压低，可以降低远处的旁瓣，但也会让主瓣变宽。对称 Hamming 窗为：
+频谱峰附近的主要隆起称为主瓣，周围较低的起伏称为旁瓣。窗函数把序列两端的幅度压低，减轻记录首尾截断带来的突变，通常能降低远处的旁瓣，但会让主瓣变宽。对称 Hamming 窗为：
 
 \[
 w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
@@ -182,16 +206,17 @@ X_windowed = np.fft.fft(x * window)
 
 ```matlab
 N = numel(x);
-window = 0.54-0.46*cos(2*pi*(0:N-1)/(N-1));
+x = x(:);
+window = 0.54-0.46*cos(2*pi*(0:N-1)'/(N-1));
 Xwindowed = fft(x.*window);
 ```
 
-这里的示例是行向量。处理多维数组时，应让窗函数只沿需要加窗的维度变化。
+MATLAB 示例先把 `x` 和窗都整理成列向量，确保逐点相乘；行向量乘列向量会被隐式扩展成矩阵。处理多维数组时，应让窗函数只沿需要加窗的维度变化。
 
 ## 补零
 
 将 $N$ 个采样点补零后计算 $N_{\mathrm{FFT}}$ 点 FFT，会把频率格间隔变为 $F_s/N_{\mathrm{FFT}}$。例如 256 点补到 1024 点，频谱格点会密 4 倍。
 
-补零没有延长实际观测时间，不能把原本无法分辨的两个频率真正分开。它主要用于更细致地显示或估计谱峰位置。
+补入的零不包含新的观测。它让同一条频谱曲线有更多计算位置，却没有缩窄由原记录时长和窗函数决定的主瓣，因此不能把原来重叠的两个主瓣真正分开。补零主要用于更细致地显示或估计谱峰位置。
 
 函数说明：[NumPy FFT](https://numpy.org/doc/stable/reference/routines.fft.html)、[MATLAB fft](https://www.mathworks.com/help/matlab/ref/fft.html)。

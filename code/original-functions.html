@@ -1518,7 +1518,7 @@
 </span><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151"></a>    <span class="n">complex_stream</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">raw_float</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span>
 </span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152"></a>    <span class="k">return</span> <span class="n">complex_stream</span>
 </span></code></pre></div></td></tr></table></div>
-<p>函数先把整数转为浮点数，再用步长为 4 的切片取出 I、Q。偶数和奇数复数位置分别填入两组配对结果。这是两 I、两 Q 的四元组格式，不是 xWR14xx 四 I、四 Q 的八元组格式。</p>
+<p>函数先把整数转为浮点数，再用步长为 4 的切片取出 I、Q。输入每组 <code>[I0,I1,Q0,Q1]</code>，输出 <code>[I0+jQ0,I1+jQ1]</code>，分别写到复数序列的偶数和奇数位置。xWR14xx 四路 RX 的示例格式却是 <code>[I0,I1,I2,I3,Q0,Q1,Q2,Q3]</code>；若把这种八元组送入本函数，就会把部分 I 值误当成 Q。格式对应关系见 <a href="../data/adc-iq-layout.html">ADC 数据读取</a>。</p>
 <h2 id="_parse_frame_matlab_view">_parse_frame_matlab_view<a class="headerlink" href="#_parse_frame_matlab_view" title="Permanent link">&para;</a></h2>
 <p>源码位置：<code>project/src/iwr1443_adc_utils.py</code>，第 155 行。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-155">155</a></span>
@@ -1558,6 +1558,13 @@
 </span></code></pre></div></td></tr></table></div>
 <p>先将数据分为实际 chirp、采样点和 RX，再每三个 chirp 组成一轮，将 TX 与 RX 合为虚拟通道。它与前一个函数共用四元组 I/Q 配对，因此二者比较并未覆盖八元组格式。</p>
 <h2 id="run_range_fft">run_range_fft<a class="headerlink" href="#run_range_fft" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">代码对应的距离 FFT</p>
+<div class="arithmatex">\[
+X_r[k,m,p]=\sum_{n=0}^{N_s-1}x[n,m,p]w[n]e^{-j2\pi kn/N_{\mathrm{FFT}}}.
+\]</div>
+<p><span class="arithmatex">\(n\)</span> 为采样点、<span class="arithmatex">\(m\)</span> 为轮次、<span class="arithmatex">\(p\)</span> 为通道；<code>cfg.range_bin</code> 对应 <span class="arithmatex">\(N_{\mathrm{FFT}}\)</span>。下面的乘窗和 <code>axis=0</code> 分别实现公式中的 <span class="arithmatex">\(w[n]\)</span> 和沿 <span class="arithmatex">\(n\)</span> 求和。推导见<a href="../processing/range.html">距离测量</a>。</p>
+</div>
 <p>源码位置：<code>project/src/iwr1443_adc_utils.py</code>，第 247 行。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-247">247</a></span>
 <span class="normal"><a href="#__codelineno-3-248">248</a></span>
@@ -1602,7 +1609,7 @@
 </span><span id="__span-4-267"><a id="__codelineno-4-267" name="__codelineno-4-267"></a>    <span class="p">)</span>
 </span><span id="__span-4-268"><a id="__codelineno-4-268" name="__codelineno-4-268"></a>    <span class="k">return</span> <span class="n">speed_profile</span>
 </span></code></pre></div></td></tr></table></div>
-<p>输出先全部置零，只对 :cfg.rx 范围计算多普勒。cfg.rx=4，所以 12 个通道中后 8 个始终为零。它复现了上游 MATLAB 的通道循环范围，不是测角前推荐的处理方式。</p>
+<p>输出先全部置零，只对 <code>:cfg.rx</code> 范围计算多普勒。<code>cfg.rx=4</code>，所以 12 个通道中后 8 个始终为零。测角需要比较选定阵元的相位，把未计算通道留为零就丢掉了这些观测。教学版在<a href="../processing/doppler.html">速度测量</a>中对全部通道沿轮次计算，之后再按实际阵列选择测角通道。</p>
 <h2 id="run_angle_fft_strict">run_angle_fft_strict<a class="headerlink" href="#run_angle_fft_strict" title="Permanent link">&para;</a></h2>
 <p>源码位置：<code>project/src/iwr1443_adc_utils.py</code>，第 271 行。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-271">271</a></span>
@@ -1613,8 +1620,14 @@
 </span><span id="__span-5-273"><a id="__codelineno-5-273" name="__codelineno-5-273"></a>    <span class="c1"># Strict MATLAB parity: angle FFT consumes the configured channel slice directly.</span>
 </span><span id="__span-5-274"><a id="__codelineno-5-274" name="__codelineno-5-274"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">selected</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">angle_bin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<p>函数只取前 8 个通道并补零到 180 点。由于多普勒结果中仅前 4 通道有效，实际输入是 4 个有效值加 4 个零。180 个格是空间频率采样点，不能直接标成角度。</p>
+<p>当前 <code>cfg.angle_channels</code> 选择前 8 个通道，函数把它们补零到 180 点。由于多普勒结果中仅前 4 通道有效，实际输入是 4 个有效值加 4 个零。对间距为 <span class="arithmatex">\(d\)</span> 的均匀线阵，第 <span class="arithmatex">\(q\)</span> 个有符号空间格应按 <span class="arithmatex">\(\theta=\arcsin(\lambda q/(180d))\)</span> 换算；直接把格编号标为角度会省略这个非线性关系。应用公式前还须确认选定通道确实构成该均匀线阵，详见<a href="../processing/angle.html">角度测量</a>。</p>
 <h2 id="compute_phase_displacement">compute_phase_displacement<a class="headerlink" href="#compute_phase_displacement" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">从复数相角恢复相对位移</p>
+<p><a href="../processing/phase.html">微位移测量</a>使用
+<span class="arithmatex">\(\Delta R=\lambda\Delta\phi/(4\pi)\)</span>。
+对输入 <code>trace</code> 的第 <span class="arithmatex">\(i\)</span> 个复数，先取相角并解缠，再令 <span class="arithmatex">\(\Delta\phi_i=\phi_i-\phi_0\)</span>；因此输出以第一点为位移零点。</p>
+</div>
 <p>源码位置：<code>project/src/iwr1443_adc_utils.py</code>，第 338 行。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-338">338</a></span>
 <span class="normal"><a href="#__codelineno-6-339">339</a></span>
@@ -1637,7 +1650,7 @@
 </span><span id="__span-7-323"><a id="__codelineno-7-323" name="__codelineno-7-323"></a>    <span class="n">imag_uniform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">uniform_time</span><span class="p">,</span> <span class="n">time_axis</span><span class="p">,</span> <span class="n">trace</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
 </span><span id="__span-7-324"><a id="__codelineno-7-324" name="__codelineno-7-324"></a>    <span class="k">return</span> <span class="n">real_uniform</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">imag_uniform</span><span class="p">,</span> <span class="n">uniform_time</span>
 </span></code></pre></div></td></tr></table></div>
-<p><code>np.arange</code> 按间隔 <code>dt</code> 建立均匀时间轴，两个 <code>np.interp</code> 分别对实部和虚部做线性插值，最后合成为复数。返回的序列可以直接送入要求等间隔采样的 FFT。</p>
+<p><code>np.arange</code> 按间隔 <code>dt</code> 建立均匀时间轴，两个 <code>np.interp</code> 分别对实部和虚部做线性插值，最后合成为复数。相邻观测为 <span class="arithmatex">\(z_i,z_{i+1}\)</span> 时，补点为 <span class="arithmatex">\(z(t)=(1-\alpha)z_i+\alpha z_{i+1}\)</span>，其中 <span class="arithmatex">\(\alpha=(t-t_i)/(t_{i+1}-t_i)\)</span>。这在复平面中连接两点的直线，不是沿真实相位轨迹补测。返回值虽满足 FFT 的等间隔输入形式，其频谱仍受这个连线假设影响。</p>
 <p>原记录的帧之间存在空隙。这个函数也会在空隙内连线补点，使 12,800 个实测点扩展为 49,628 个点，其中约 74% 是插值结果。插值没有增加测量信息；空隙较大时，补出的变化可能主导后续频谱。</p>
 
 

@@ -1561,6 +1561,14 @@
 <h1 id="fft">FFT 与频谱<a class="headerlink" href="#fft" title="Permanent link">&para;</a></h1>
 <p>采样后的波形随时间变化，频谱则表示信号包含哪些频率，以及各频率分量有多强。雷达测距需要从采样序列中找到拍频，这可以用离散傅里叶变换完成。</p>
 <h2 id="dft-fft">DFT 与 FFT<a class="headerlink" href="#dft-fft" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">从采样点到频率</p>
+<p><a href="sampling.html">I/Q 与采样</a>中的单频序列为：</p>
+<div class="arithmatex">\[
+z[n]=A e^{j(2\pi f_bn/F_s+\phi_c)}.
+\]</div>
+<p><span class="arithmatex">\(F_s\)</span> 是采样率，<span class="arithmatex">\(f_b\)</span> 是待估计的拍频。下面用 <span class="arithmatex">\(x[n]\)</span> 泛指待分析的序列：它可以是这个单频信号，也可以包含多个目标和噪声。</p>
+</div>
 <p>长度为 <span class="arithmatex">\(N\)</span> 的复数序列 <span class="arithmatex">\(x[n]\)</span>，其离散傅里叶变换（DFT）为：</p>
 <div class="arithmatex">\[
 X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N},\qquad k=0,\ldots,N-1.
@@ -1612,6 +1620,13 @@ X[k]&amp;=\frac{1-r^8}{1-r}.
 <figure><img src="../assets/lessons/fft-eight.svg" alt="8点FFT幅度在第2格为8，其他格为零"><figcaption>横轴目前是频率格编号。给出采样率后，才能换算成 Hz。</figcaption></figure>
 
 <h2 id="dft">DFT 的矩阵形式<a class="headerlink" href="#dft" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">每个频率格都是一次加权求和</p>
+<div class="arithmatex">\[
+X[k]=\sum_{n=0}^{N-1}\underbrace{e^{-j2\pi kn/N}}_{\text{第 }k\text{ 格的权重}}\,x[n].
+\]</div>
+<p>把同一个 <span class="arithmatex">\(k\)</span> 的权重排成一行，把不同 <span class="arithmatex">\(k\)</span> 的行叠起来，就得到下面的 DFT 矩阵。</p>
+</div>
 <p>把输入的每个采样点放进列向量，DFT 就是矩阵乘法 <span class="arithmatex">\(\mathbf X=\mathbf F_N\mathbf x\)</span>。矩阵第 <span class="arithmatex">\(k\)</span> 行、第 <span class="arithmatex">\(n\)</span> 列是 <span class="arithmatex">\(e^{-j2\pi kn/N}\)</span>：每一行负责一个频率格，每一列对应一个输入采样点。</p>
 <p>以 4 点为例，<span class="arithmatex">\(e^{-j2\pi/4}=-j\)</span>，展开各次幂可得：</p>
 <div class="arithmatex">\[
@@ -1686,21 +1701,26 @@ X[k]&amp;=\frac{1-r^8}{1-r}.
 </tr>
 </tbody>
 </table>
-<p>后半段不是“更高的正频率”。<code>fftshift</code> 将负频率移到左边，零频率放在中间：</p>
+<p>为什么第 5 格写成 −3 MHz，而不是 5 MHz？<a href="sampling.html">采样的混叠关系</a>表明，相差 <span class="arithmatex">\(F_s\)</span> 的频率产生相同的采样点。此处 <span class="arithmatex">\(5-8=-3\)</span> MHz，两种写法等价；选用 <span class="arithmatex">\([-F_s/2,F_s/2)\)</span> 区间时，就把第 5 格记成 −3 MHz。<code>fftshift</code> 按这个区间重新排列频谱，把负频率移到左边，零频率放在中间。</p>
+<p>下面重新生成 8 点示例，避免沿用矩阵示例中的 4 点变量：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">fs</span> <span class="o">=</span> <span class="mf">8e6</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">fs</span><span class="p">))</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">shifted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">frequency</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">frequency</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">fs</span><span class="p">))</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">shifted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">frequency</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">fs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">8e6</span><span class="p">;</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">frequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">fs</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">shifted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">disp</span><span class="p">(</span><span class="n">frequency</span><span class="o">/</span><span class="mf">1e6</span><span class="p">);</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span>1<span class="nb">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">);</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">X</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">frequency</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">fs</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">shifted</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">disp</span><span class="p">(</span><span class="n">frequency</span><span class="o">/</span><span class="mf">1e6</span><span class="p">);</span>
 </span></code></pre></div>
 <p>结果为 <code>[-4,-3,-2,-1,0,1,2,3]</code> MHz。频谱和频率轴要一起移位。</p>
 <h2 id="_2">加窗<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>FFT 处理的是有限长度的数据。当信号频率不恰好落在某个频率格上时，频谱能量会分散到其他格，称为<strong>频谱泄漏</strong>。</p>
-<p>窗函数把序列两端的幅度压低，可以降低远处的旁瓣，但也会让主瓣变宽。对称 Hamming 窗为：</p>
+<p>频谱峰附近的主要隆起称为主瓣，周围较低的起伏称为旁瓣。窗函数把序列两端的幅度压低，减轻记录首尾截断带来的突变，通常能降低远处的旁瓣，但会让主瓣变宽。对称 Hamming 窗为：</p>
 <div class="arithmatex">\[
 w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
 \]</div>
@@ -1709,13 +1729,14 @@ w[n]=0.54-0.46\cos\frac{2\pi n}{N-1}.
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">X_windowed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">window</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">N</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">numel</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.54</span><span class="o">-</span><span class="mf">0.46</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">Xwindowed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="o">.*</span><span class="n">window</span><span class="p">);</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">x</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">x</span><span class="p">(:);</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mf">0.54</span><span class="o">-</span><span class="mf">0.46</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&#39;/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">Xwindowed</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">x</span><span class="o">.*</span><span class="n">window</span><span class="p">);</span>
 </span></code></pre></div>
-<p>这里的示例是行向量。处理多维数组时，应让窗函数只沿需要加窗的维度变化。</p>
+<p>MATLAB 示例先把 <code>x</code> 和窗都整理成列向量，确保逐点相乘；行向量乘列向量会被隐式扩展成矩阵。处理多维数组时，应让窗函数只沿需要加窗的维度变化。</p>
 <h2 id="_3">补零<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>将 <span class="arithmatex">\(N\)</span> 个采样点补零后计算 <span class="arithmatex">\(N_{\mathrm{FFT}}\)</span> 点 FFT，会把频率格间隔变为 <span class="arithmatex">\(F_s/N_{\mathrm{FFT}}\)</span>。例如 256 点补到 1024 点，频谱格点会密 4 倍。</p>
-<p>补零没有延长实际观测时间，不能把原本无法分辨的两个频率真正分开。它主要用于更细致地显示或估计谱峰位置。</p>
+<p>补入的零不包含新的观测。它让同一条频谱曲线有更多计算位置，却没有缩窄由原记录时长和窗函数决定的主瓣，因此不能把原来重叠的两个主瓣真正分开。补零主要用于更细致地显示或估计谱峰位置。</p>
 <p>函数说明：<a href="https://numpy.org/doc/stable/reference/routines.fft.html">NumPy FFT</a>、<a href="https://www.mathworks.com/help/matlab/ref/fft.html">MATLAB fft</a>。</p>
 
 

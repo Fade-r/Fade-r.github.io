@@ -1459,10 +1459,13 @@
 
 
 <h1 id="_1">距离测量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>对于静止目标，拍频与距离成正比：</p>
+<div class="admonition formula-recap">
+<p class="admonition-title">延迟怎样变成拍频</p>
+<p><a href="../foundations/echo-and-mixing.html">回波与混频</a>中，往返延迟为 <span class="arithmatex">\(\tau=2R/c\)</span>，线性扫频的频率差为 <span class="arithmatex">\(f_b=S\tau\)</span>。<span class="arithmatex">\(S\)</span> 是扫频斜率，<span class="arithmatex">\(c\)</span> 是光速；两式相接即为：</p>
 <div class="arithmatex">\[
 f_b=\frac{2SR}{c},\qquad R=\frac{cf_b}{2S}.
 \]</div>
+</div>
 <p>实际处理中，<span class="arithmatex">\(S\)</span> 来自雷达配置，<span class="arithmatex">\(f_b\)</span> 从一次 chirp 的采样序列中估计。距离 FFT 就是沿这组采样点进行 FFT。</p>
 <h2 id="5-m">一个 5 m 目标<a class="headerlink" href="#5-m" title="Permanent link">&para;</a></h2>
 <p>取斜率 <span class="arithmatex">\(S=30\)</span> MHz/µs、采样率 <span class="arithmatex">\(F_s=8\)</span> MHz、采样点数 <span class="arithmatex">\(N_s=256\)</span>。目标距离为 5 m，则拍频为：</p>
@@ -1509,7 +1512,7 @@ f_b=\frac{2\times30\times10^{12}\times5}{3\times10^8}
 f_k=\frac{kF_s}{N_{\mathrm{FFT}}},\qquad
 R_k=\frac{cF_s}{2SN_{\mathrm{FFT}}}k.
 \]</div>
-<p>这里的换算分两步。DFT 的第 <span class="arithmatex">\(k\)</span> 行使用参考相位 <span class="arithmatex">\(2\pi kn/N_{\mathrm{FFT}}\)</span>，采样频率为 <span class="arithmatex">\(f\)</span> 的信号相位为 <span class="arithmatex">\(2\pi fn/F_s\)</span>。两者匹配时：</p>
+<p>这里的换算分两步。DFT 的第 <span class="arithmatex">\(k\)</span> 行使用参考相位 <span class="arithmatex">\(2\pi kn/N_{\mathrm{FFT}}\)</span>，频率为 <span class="arithmatex">\(f\)</span>、采样率为 <span class="arithmatex">\(F_s\)</span> 的信号相位为 <span class="arithmatex">\(2\pi fn/F_s\)</span>。两者匹配时：</p>
 <div class="arithmatex">\[
 \frac{f}{F_s}=\frac{k}{N_{\mathrm{FFT}}}
 \quad\Longrightarrow\quad f_k=\frac{kF_s}{N_{\mathrm{FFT}}}.
@@ -1526,7 +1529,7 @@ R_{k+1}-R_k
 =\frac{3\times10^8\times8\times10^6}{2\times30\times10^{12}\times256}
 =0.15625\ \mathrm{m}.
 \]</div>
-<p><code>k</code> 是从 0 开始的频率编号。MATLAB 数组从 1 开始，但物理坐标仍从 0 开始，不能把第一个元素标成一个距离格。</p>
+<p>这里取正拍频一侧的 <span class="arithmatex">\(k\)</span>。<code>k</code> 从 0 开始，MATLAB 的第一个元素对应 <span class="arithmatex">\(k=0\)</span>、频率为 0、距离为 0；用 MATLAB 下标直接代入会让所有距离都多出一格。</p>
 <h2 id="_3">处理整帧<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>设 <code>frame</code> 按 <code>[采样点,轮次,通道]</code> 排列，距离 FFT 应只作用于第一维：</p>
 <div class="arithmatex">\[
@@ -1541,7 +1544,7 @@ X_r[k,m,p]=\sum_{n=0}^{N_s-1}x[n,m,p]w[n]e^{-j2\pi kn/N_s}.
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="mf">0.54</span><span class="o">-</span><span class="mf">0.46</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">ns</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ns</span><span class="o">-</span><span class="mi">1</span><span class="p">)),[],</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">rangeCube</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fft</span><span class="p">(</span><span class="n">frame</span><span class="o">.*</span><span class="n">window</span><span class="p">,</span><span class="n">ns</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 </span></code></pre></div>
-<p>窗的尺寸为 <code>[采样点,1,1]</code>，因此会对每个轮次和通道使用相同的窗。输出尺寸不变，但第一维已从时间采样点变成距离格。<code>range_cube</code> 必须保留复数值，后续测速和测角还需要相位。</p>
+<p>窗的尺寸为 <code>[采样点,1,1]</code>，因此会对每个轮次和通道使用相同的窗。输出尺寸不变，但第一维已从时间采样点变成距离格。<span class="arithmatex">\(X_r[k,m,p]\)</span> 对应代码中的 <code>range_cube[k,m,p]</code>。它的模表示该频率分量的强弱，相角保留了不同轮次、不同通道的相位差；若此时只保存 <code>abs(range_cube)</code>，后面的测速和测角就失去了所需信息。</p>
 <h2 id="_4">距离分辨率<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>采样时间为 <span class="arithmatex">\(T_{\mathrm{ADC}}=N_s/F_s\)</span>，覆盖带宽为 <span class="arithmatex">\(B_{\mathrm{ADC}}=ST_{\mathrm{ADC}}\)</span>。代入后，未补零的距离格间隔可写为：</p>
 <div class="arithmatex">\[

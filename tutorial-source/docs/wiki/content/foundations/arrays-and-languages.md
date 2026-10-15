@@ -76,7 +76,7 @@ MATLAB 的 `.*` 表示逐元素相乘，`*` 是矩阵乘法；NumPy 普通数组
 
 ## 尺寸、索引与数值检查
 
-一是尺寸，例如距离 FFT 前后是否都为 `[256,128,12]`；二是轴的含义，原来的采样点轴是否已经变成距离格；三是数值是否合理，例如整条通道是否意外全零。只检查“不报错”远远不够。
+例如，未补零的距离 FFT 前后都应为 `[256,128,12]`，但第一轴的含义由采样点变成了距离格。还要查看每个通道的数值：下面将模平方沿前两个轴求和，得到各通道能量，可用来发现意外全零的通道。尺寸正确只说明数组能容纳这些值，无法证明数据来自正确的天线和时刻。
 
 ```python
 assert frame.shape == (256, 128, 12)
@@ -90,4 +90,4 @@ assert(all(isfinite(frame(:))));
 channel_energy = squeeze(sum(sum(abs(frame).^2,1),2));
 ```
 
-下一章：[读出 I/Q 并排成一帧](../data/adc-iq-layout.md)。语言细节可查 [NumPy reshape](https://numpy.org/doc/stable/reference/generated/numpy.reshape.html) 和 [MATLAB permute](https://www.mathworks.com/help/matlab/ref/permute.html)。
+这些操作在 [ADC 数据读取](../data/adc-iq-layout.md)中用于 I/Q 配对和帧重排。语言细节可查 [NumPy reshape](https://numpy.org/doc/stable/reference/generated/numpy.reshape.html) 和 [MATLAB permute](https://www.mathworks.com/help/matlab/ref/permute.html)。

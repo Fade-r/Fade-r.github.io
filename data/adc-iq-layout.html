@@ -1624,7 +1624,7 @@
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">&#39;capture.bin&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;i2&#39;</span><span class="p">)</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 </span></code></pre></div>
-<p><code>'&lt;i2'</code> 中，<code>&lt;</code> 表示小端，<code>i</code> 表示有符号整数，<code>2</code> 表示每个整数占 2 字节。</p>
+<p><code>'&lt;i2'</code> 中，<code>&lt;</code> 表示小端，<code>i</code> 表示有符号整数，<code>2</code> 表示每个整数占 2 字节。例如数值 1 的两个字节按低位在前保存为 <code>01 00</code>，按小端读取才能恢复为 1。这里假定负数已按 16 位有符号数存储；若有效 ADC 位数更少且没有符号扩展，要先按实际位数还原负值，再执行下列配对。</p>
 <h3 id="matlab">MATLAB<a class="headerlink" href="#matlab" title="Permanent link">&para;</a></h3>
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">fid</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fopen</span><span class="p">(</span><span class="s">&#39;capture.bin&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;ieee-le&#39;</span><span class="p">);</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">assert</span><span class="p">(</span><span class="n">fid</span><span class="w"> </span><span class="o">~=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;Cannot open ADC file&#39;</span><span class="p">);</span>
@@ -1634,6 +1634,10 @@
 </span></code></pre></div>
 <p><code>fopen</code> 打开文件，<code>fread</code> 读出全部整数并转换成浮点数，<code>fclose</code> 关闭文件。<code>Inf</code> 表示读到文件结束。</p>
 <h2 id="iwr1443-iq">IWR1443 四路接收的 I/Q 配对<a class="headerlink" href="#iwr1443-iq" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">一个复数需要哪两个数</p>
+<p><a href="../foundations/sampling.html">I/Q 与采样</a>用 <span class="arithmatex">\(z=I+jQ\)</span> 表示同一接收通道、同一时刻的两个分量。文件读取给出的是一长串整数，下面要按格式找出各自对应的 I 和 Q，再计算这个复数。</p>
+</div>
 <p>TI 的 SWRA581B 给出了 xWR14xx 四路 RX、复数采样、I-first 的示例格式：同一采样时刻先排列四路 I，再排列四路 Q。<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>I_RX1  I_RX2  I_RX3  I_RX4  Q_RX1  Q_RX2  Q_RX3  Q_RX4
 </span></code></pre></div>
@@ -1723,7 +1727,7 @@ g=(1\times3+1)\times2+1=9,\qquad p=4\times1+2=6.
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">words</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="nb">double</span><span class="p">(</span><span class="n">raw</span><span class="p">),</span><span class="mi">4</span><span class="p">,[]);</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">z</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">words</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>1<span class="nb">j</span><span class="o">*</span><span class="n">words</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">,:),[],</span><span class="mi">1</span><span class="p">);</span>
 </span></code></pre></div>
-<p>这是该参考代码采用的格式，不能仅根据“两条 LVDS”就确定任意 IWR1843 文件都符合它。实际还需核对采集软件版本、ADC 模式、I/Q 顺序和通道交织方式。SWRA581B 的旧版没有直接覆盖 IWR1843，应结合该设备的采集说明使用。</p>
+<p>两条 LVDS 只说明数据经几条线路传输，不能单独决定保存后 I、Q 与各 RX 的排列。上式采用参考代码的四元组格式；使用实测文件时，还需核对采集软件版本、ADC 模式、I/Q 顺序和通道交织方式。SWRA581B 的旧版没有直接覆盖 IWR1843，应结合该设备的采集说明使用。</p>
 <p>当前项目也沿用了四元组配对，尚未根据 IWR1443 的完整采集记录确认。原函数及其重排方式放在<a href="../code/code-map.html">项目代码分析</a>，不作为本章四路 RX 示例的正确性依据。</p>
 <h2 id="_3">检查读取结果<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>先用人工构造的小数组检查每个值的位置，再用已知距离的强反射目标检查距离谱。单纯得到 <code>(256,64,12)</code> 的形状并不能证明重排正确：不同排列都可能有相同尺寸。</p>

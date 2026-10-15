@@ -1528,7 +1528,7 @@
 </tr>
 </tbody>
 </table>
-<p>LVDS 是雷达输出高速数字数据的电气接口。它传输的是采样结果，不是空中的毫米波信号。串口输出的点云则通常已经经过芯片内部处理，与原始 ADC 数据不同。</p>
+<p>LVDS 是雷达输出高速数字数据的电气接口：接收机先把回波混频为拍频，ADC 把拍频电压转换成数字，再由 LVDS 传出这些数字。串口输出的点云通常已由芯片内的处理程序计算为目标坐标、速度等结果，不能送入后面的原始 I/Q 解析代码。</p>
 <h2 id="_3">配置一次采集<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>实际操作可分为以下步骤。接口名称与开关位置应以开发板手册及所用 mmWave Studio 版本为准。<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
 <ol>
@@ -1541,7 +1541,11 @@
 </ol>
 <p><strong>TX</strong> 表示发射通道，<strong>RX</strong> 表示接收通道。每次发射可由多个 RX 同时接收。多路 TX 依次发射的方式称为 TDM，后面测速时需要使用同一 TX 两次发射之间的间隔。</p>
 <h2 id="_4">采样时间与扫频时间<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>ADC 通常只在扫频中的一段时间采样。采 <span class="arithmatex">\(N_s\)</span> 个点、采样率为 <span class="arithmatex">\(F_s\)</span> 时，采样时长按 <span class="arithmatex">\(N_s/F_s\)</span> 计算：</p>
+<div class="admonition formula-recap">
+<p class="admonition-title">只计算 ADC 覆盖的那段扫频</p>
+<p><a href="../foundations/transmit.html">发射信号</a>中，<span class="arithmatex">\(f(t)=f_0+St\)</span>；持续时间为 <span class="arithmatex">\(T\)</span> 的线性扫频覆盖带宽 <span class="arithmatex">\(B=ST\)</span>。<a href="../foundations/sampling.html">采样</a>中，相邻点间隔为 <span class="arithmatex">\(1/F_s\)</span>。</p>
+</div>
+<p>ADC 通常在扫频开始后延迟一段时间，等待射频与接收链稳定，再采集指定点数。采 <span class="arithmatex">\(N_s\)</span> 个点、采样率为 <span class="arithmatex">\(F_s\)</span> 时，频谱分析所用的记录时长按 <span class="arithmatex">\(N_s/F_s\)</span> 计算：</p>
 <div class="arithmatex">\[
 T_{\mathrm{ADC}}=\frac{N_s}{F_s},\qquad
 B_{\mathrm{ADC}}=S T_{\mathrm{ADC}}.
@@ -1572,12 +1576,12 @@ B_{\mathrm{ADC}}=S T_{\mathrm{ADC}}.
 256\times64\times3\times4\times4=786432\ \text{字节}.
 \]</div>
 <p>这是四路接收均启用、没有额外数据段时的计算。实际格式若包含包头、填充或其他数据段，需要另行计入。</p>
-<p>文件长度可以检查少帧或参数不一致，但不能排除丢包后补零。丢包日志必须一同保留。</p>
+<p>文件长度可用于发现少帧或参数不一致。如果采集软件把丢失的数据补成零，长度仍可能正确，但相应时刻的回波已经丢失，因此还要查看并保存丢包日志。</p>
 <h2 id="adc">网络数据与 ADC 数据<a class="headerlink" href="#adc" title="Permanent link">&para;</a></h2>
 <p>以 SWRA581B 描述的 mmWave Studio 流程为例，网络接收数据需要经过数据包重排、缺失数据补零和元数据移除，才能得到按 ADC 格式排列的数据。处理前应确认采集软件是否已经完成这些操作，避免重复处理。<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
-<p>从此处开始，后续读取示例使用已经整理好的纯 ADC 文件。</p>
+<p>后续读取示例的输入是上述处理完成后的纯 ADC 文件：网络包头等传输信息已移除，剩余数值按 ADC 输出顺序排列。它仍需做 I/Q 配对和 TX/RX 重排，这正是<a href="adc-iq-layout.html">ADC 数据读取</a>要完成的步骤。</p>
 <h2 id="iwr1443-iwr1843">IWR1443 与 IWR1843<a class="headerlink" href="#iwr1443-iwr1843" title="Permanent link">&para;</a></h2>
-<p>两种芯片均有 3 路 TX、4 路 RX，但支持的 LVDS 数据通道数不同：IWR1443 为 4，IWR1843 为 2。这里的 LVDS 通道不是天线数量。<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></p>
+<p>两种芯片均有 3 路 TX、4 路 RX，但支持的 LVDS 数据通道数不同：IWR1443 为 4，IWR1843 为 2。LVDS 的 lane 是传输数字数据的线路；多根天线的数据可按规定顺序复用这些线路，所以 lane 数与天线数不必相同。<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></p>
 <p>解析数据时，应按芯片、ADC 模式、lane 配置和 I/Q 顺序选择格式，不能只把程序中的芯片名称替换一下。两种开发板的天线位置也要分别确认。</p>
 <div class="footnote">
 <hr />

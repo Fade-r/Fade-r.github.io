@@ -1481,15 +1481,30 @@
 
 
 <h1 id="_1">速度测量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>距离 FFT 之后，固定一个距离格和一个通道，每次 chirp 取出该格的复数值。目标运动会使这串复数的相位随时间变化，多普勒 FFT 用于估计这种变化的频率。</p>
+<p>距离 FFT 之后，固定一个距离格和一个通道，每次该通道重复观测时取出该格的复数值。目标运动会使这串复数的相位随时间变化，多普勒 FFT 用于估计这种变化的频率。</p>
+<div class="admonition formula-recap">
+<p class="admonition-title">距离 FFT 输出中保留了什么</p>
+<p><a href="range.html">距离测量</a>的输出记为 <span class="arithmatex">\(X_r[k,m,p]\)</span>，三个下标分别是距离格、轮次和通道。固定目标格 <span class="arithmatex">\(k_0\)</span> 与通道 <span class="arithmatex">\(p_0\)</span>，得到：</p>
+<div class="arithmatex">\[
+z[m]=X_r[k_0,m,p_0].
+\]</div>
+<p>这串复数就是本章的输入。一次 chirp 内的采样点 <span class="arithmatex">\(n\)</span> 已经经过 FFT；现在考察的是不同轮次 <span class="arithmatex">\(m\)</span> 之间的相位变化。</p>
+</div>
 <p>这里测得的是<strong>径向速度</strong>：目标沿雷达与目标连线方向的速度分量，而不是任意方向的总速度。</p>
 <h2 id="_2">位移与相位<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">从拍频相位中取出距离项</p>
+<p><a href="../foundations/echo-and-mixing.html">混频推导</a>给出
+<span class="arithmatex">\(\phi_b(t)=2\pi f_bt+2\pi(f_0\tau-S\tau^2/2)\)</span>，其中 <span class="arithmatex">\(\tau=2R/c\)</span>。
+载频对应的距离相位为 <span class="arithmatex">\(2\pi f_0\tau=4\pi f_0R/c\)</span>。用参考载频 <span class="arithmatex">\(f_c\)</span> 和波长 <span class="arithmatex">\(\lambda=c/f_c\)</span> 表示，即为 <span class="arithmatex">\(4\pi R/\lambda\)</span>。</p>
+<p>本章采用常用的窄带、帧内小位移近似：主要跟踪这项随轮次的变化，暂不计运动对单次 chirp 拍频和距离格位置的影响。</p>
+</div>
 <p>电磁波传播一个波长 <span class="arithmatex">\(\lambda\)</span>，相位变化 <span class="arithmatex">\(2\pi\)</span>。目标远离雷达 <span class="arithmatex">\(\Delta R\)</span>，往返路程增加 <span class="arithmatex">\(2\Delta R\)</span>，因此按本教程的解调约定：</p>
 <div class="arithmatex">\[
 \Delta\phi=2\pi\frac{2\Delta R}{\lambda}
 =\frac{4\pi\Delta R}{\lambda}.
 \]</div>
-<p>若径向速度 <span class="arithmatex">\(v\)</span> 恒定，经过时间 <span class="arithmatex">\(t\)</span> 后 <span class="arithmatex">\(\Delta R=vt\)</span>：</p>
+<p>若径向速度 <span class="arithmatex">\(v\)</span> 恒定，经过时间 <span class="arithmatex">\(t\)</span> 后 <span class="arithmatex">\(\Delta R=vt\)</span>。这里的 <span class="arithmatex">\(t\)</span> 从首次观测起累计，不再是每个 chirp 内重新计时的快时间：</p>
 <div class="arithmatex">\[
 \phi(t)=\phi_0+\frac{4\pi v}{\lambda}t
 =\phi_0+2\pi f_Dt.
@@ -1500,11 +1515,11 @@ f_D=\frac{2v}{\lambda},\qquad v=\frac{\lambda f_D}{2}.
 \]</div>
 <p>例如波长近似为 4 mm，目标每毫秒远离 0.5 mm。往返路程每毫秒增加 1 mm，即四分之一波长，相位每次增加 <span class="arithmatex">\(\pi/2\)</span>。4 ms 转一圈，所以 <span class="arithmatex">\(f_D=250\)</span> Hz，速度为 0.5 m/s。</p>
 <h2 id="_3">慢时间采样<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>设同一通道的重复间隔为 <span class="arithmatex">\(T_{\mathrm{slow}}\)</span>，第 <span class="arithmatex">\(m\)</span> 次观测的时刻为 <span class="arithmatex">\(mT_{\mathrm{slow}}\)</span>。单目标信号可以写成：</p>
+<p>设同一通道的重复间隔为 <span class="arithmatex">\(T_{\mathrm{slow}}\)</span>，把 <span class="arithmatex">\(t=mT_{\mathrm{slow}}\)</span> 代入上式，再用 <span class="arithmatex">\(z=Ae^{j\phi}\)</span> 表示复数值：</p>
 <div class="arithmatex">\[
 z[m]=A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}.
 \]</div>
-<p>这与前面估计拍频的形式相同，只是采样间隔由 <span class="arithmatex">\(1/F_s\)</span> 换成了 <span class="arithmatex">\(T_{\mathrm{slow}}\)</span>。</p>
+<p>其中 <span class="arithmatex">\(A\)</span> 是该距离格的幅度，<span class="arithmatex">\(\phi_0\)</span> 是第一次慢时间观测的相位，已包含传播、反射等固定相位，不仅是发射信号的初相位。这与估计拍频的形式相同，只是采样间隔由 <span class="arithmatex">\(1/F_s\)</span> 换成了 <span class="arithmatex">\(T_{\mathrm{slow}}\)</span>。</p>
 <h3 id="python">Python 示例<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -1535,6 +1550,14 @@ z[m]=A e^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})}.
 <figure><img src="../assets/lessons/doppler-peak.svg" alt="理想多普勒频谱对应的速度峰在约0.244米每秒处"><figcaption>零速度位于中央，正负速度分列两侧。示例以远离为正；实测符号应通过已知方向的运动确认。</figcaption></figure>
 
 <h2 id="_4">速度轴与无模糊范围<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">慢时间信号与测速换算</p>
+<div class="arithmatex">\[
+z[m]=Ae^{j(\phi_0+2\pi f_DmT_{\mathrm{slow}})},\qquad
+v=\frac{\lambda f_D}{2}.
+\]</div>
+<p><span class="arithmatex">\(N_c\)</span> 次观测组成一帧的慢时间序列。下面先用 DFT 估计 <span class="arithmatex">\(f_D\)</span>，再把频率格换算成速度。</p>
+</div>
 <p>慢时间序列代入 DFT 后，初始相位与幅度可以提出求和号：</p>
 <div class="arithmatex">\[
 \begin{aligned}
@@ -1579,7 +1602,7 @@ v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">window</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="mf">0.54</span><span class="o">-</span><span class="mf">0.46</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nc</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nc</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="mi">1</span><span class="p">,[],</span><span class="mi">1</span><span class="p">);</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">dopplerCube</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">fftshift</span><span class="p">(</span><span class="nb">fft</span><span class="p">(</span><span class="n">rangeCube</span><span class="o">.*</span><span class="n">window</span><span class="p">,</span><span class="n">nc</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">);</span>
 </span></code></pre></div>
-<p>输出的三个维度变为距离格、速度格和通道。这里处理所有通道，不只处理第一个 TX 对应的通道。</p>
+<p>输出记为 <span class="arithmatex">\(D[k,\ell,p]\)</span>，三个维度是距离格、速度格和通道，对应 <code>doppler_cube</code>。每个通道都沿自己的轮次序列处理；各通道的复数结果保留下来，供后面的测角使用。</p>
 <h2 id="tdm">TDM 发射间隔<a class="headerlink" href="#tdm" title="Permanent link">&para;</a></h2>
 <p>3 路 TX 轮流发射时，若相邻实际 chirp 间隔为 160 µs，则顺序为：</p>
 <table>
@@ -1604,7 +1627,12 @@ v_\ell=\frac{\lambda\ell}{2N_cT_{\mathrm{slow}}}.
 </table>
 <p>TX1 每 480 µs 才重复一次，因此 <span class="arithmatex">\(T_{\mathrm{slow}}=480\)</span> µs。若误用 160 µs，同一个频谱峰会被换算成 3 倍速度。</p>
 <p>IWR1443 与 IWR1843 都按实际发射时序计算这个间隔。单 TX、双 TX 轮发、三 TX 轮发以及 BPM 编码不能混用同一个时间参数。TDM 对测角相位的影响见<a href="angle.html">角度测量</a>。</p>
-<p>本章假设一帧内速度近似恒定，且目标没有明显跨越距离格。高速目标还会影响拍频，使单次扫频测距出现距离—速度耦合。推导采用相同符号时，拍频近似包含 <span class="arithmatex">\(2SR/c+f_D\)</span>。</p>
+<p>若目标在观测期间明显跨越距离格，固定一格就不能持续取得同一个目标，需先做目标跟踪或距离迁移校正。运动也会改变单次扫频的拍频：在相同符号约定和一阶近似下，<span class="arithmatex">\(f_b\approx2SR/c+f_D\)</span>。若仍直接用静止目标公式换算：</p>
+<div class="arithmatex">\[
+\widehat R=\frac{cf_b}{2S}
+\approx R+\frac{cf_D}{2S}.
+\]</div>
+<p>最后一项是速度造成的距离偏移，这就是距离—速度耦合。得到可靠的 <span class="arithmatex">\(f_D\)</span> 后，可先从拍频中减去它，再换算距离。本章短例忽略了这一小量，并假设一帧内速度近似恒定。</p>
 <p>参考：<a href="https://www.ti.com/lit/an/swra554a/swra554a.pdf">TI MIMO Radar</a>。</p>
 
 

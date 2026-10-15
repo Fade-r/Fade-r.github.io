@@ -1798,7 +1798,7 @@
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">S</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">load</span><span class="p">(</span><span class="s">&#39;workbench/experiments/wiki-build/frame_for_matlab.mat&#39;</span><span class="p">);</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">frame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">S</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
 </span></code></pre></div>
-<p>先比较解析后的复数，再比较距离 FFT，再比较速度和角度。上游一步不一致，后面的差异暂时没有解释价值。</p>
+<p>先比较解析后的复数，再比较距离 FFT，再比较速度和角度。如果解析后的同一位置已经取到了不同天线的数据，后续谱峰差异就可能来自输入错位，而非 FFT 算法；先定位第一个不一致的中间数组，才能分清原因。</p>
 
 
 

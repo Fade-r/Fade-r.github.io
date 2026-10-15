@@ -4,11 +4,16 @@
 
 ## 相位与位移
 
-目标位移 $\Delta R$ 引起往返路程变化 $2\Delta R$。按前面的相位约定：
+!!! formula-recap "相位为什么能表示位移"
 
-\[
-\Delta\phi=\frac{4\pi\Delta R}{\lambda}.
-\]
+    [速度测量](doppler.md)用到：传播路程每变化一个波长，相位变化 $2\pi$。目标径向移动 $\Delta R$，去程和回程各变化 $\Delta R$，所以：
+
+    \[
+    \Delta\phi=2\pi\frac{2\Delta R}{\lambda}
+    =\frac{4\pi\Delta R}{\lambda}.
+    \]
+
+    $\lambda=c/f_c$ 为参考载频对应的波长；沿用远离雷达时相位增加的约定。
 
 移项得到：
 
@@ -26,7 +31,9 @@
 
 ## 选取目标信号
 
-距离 FFT 之后，在目标所在的距离格、一个稳定通道上持续提取复数值：
+距离 FFT 输出为 $X_r[k,m,p]$。固定目标距离格 $k_0$ 和稳定通道 $p_0$，得到 $z[m]=X_r[k_0,m,p_0]$。此处取慢时间 FFT 之前的复数序列，因为需要保留每个观测时刻的相位。
+
+下面代码中的 `target_bin`、`channel` 是 Python 的零起始下标；MATLAB 对应下标 `targetIndex`、`channelIndex` 各加 1：
 
 ```python
 trace = range_cube[target_bin, :, channel]
@@ -42,7 +49,17 @@ trace = rangeCube(targetIndex,:,channelIndex);
 
 `angle` 返回的相位通常位于 $[-\pi,\pi]$。真实相位从 $0.9\pi$ 增长到 $1.1\pi$ 时，显示值会从 $0.9\pi$ 跳到 $-0.9\pi$。
 
-`unwrap` 在这种跳变处补上 $2\pi$，使相位连续。但它无法区分噪声突变和真实运动。基本条件是相邻样本的真实相位增量小于 $\pi$，且信号足够强、相位可连续跟踪。
+`unwrap` 在这种跳变处补上 $2\pi$，使相位连续。上例显示值之差为 $-1.8\pi$，加上 $2\pi$ 后变为 $0.2\pi$，与真实增量一致。
+
+同一对采样点也可能对应 $0.2\pi+2\pi$ 等更大的真实增量，仅靠两个相位值无法辨别。`unwrap` 选择相邻变化较小的解释，因此需要真实相位增量的绝对值小于 $\pi$，且噪声不能破坏这种连续性。代入位移公式：
+
+\[
+\left|\frac{4\pi\Delta R_{\mathrm{step}}}{\lambda}\right|<\pi
+\quad\Longrightarrow\quad
+|\Delta R_{\mathrm{step}}|<\frac{\lambda}{4}.
+\]
+
+这里限制的是相邻观测之间的位移，不是整段运动的总位移。
 
 ## 正弦微动示例
 
@@ -52,7 +69,17 @@ trace = rangeCube(targetIndex,:,channelIndex);
 d(t)=0.1\sin(2\pi\cdot0.25t)\ \mathrm{mm}.
 \]
 
-先由位移生成理想相位信号，再从信号恢复位移。
+!!! formula-recap "位移、相位和复数信号的对应关系"
+
+    \[
+    \begin{aligned}
+    \phi(t)&=\phi_{\mathrm{ref}}+\frac{4\pi d(t)}{\lambda},\\
+    z(t)&=Ae^{j\phi(t)},\\
+    d(t)-d(0)&=\frac{\lambda}{4\pi}\big[\phi(t)-\phi(0)\big].
+    \end{aligned}
+    \]
+
+    相位须先解缠。本例取 $A=1$、$\phi_{\mathrm{ref}}=0$、$d(0)=0$，先生成 $z(t)$，再恢复位移。程序统一用米，故 0.1 mm 写成 `0.1e-3`。
 
 ### Python
 
@@ -94,7 +121,7 @@ fprintf('最大误差：%.6f mm\n', error*1e3);
 
 如果每帧只选同一个 TX、同一个轮次的观测，则相邻点间隔为帧周期。例如帧周期为 80 ms，采样率为 12.5 Hz。只有在这些采样时刻均匀时，才能直接按该采样率计算 FFT。
 
-把帧间空隙补成大量插值点，不会增加观测信息。频谱分析应保留真实时刻，选择合适的均匀序列或非均匀采样分析方法。
+帧间空隙内没有测量值，插值只是按选定规则连接两端。若目标在空隙中有额外振动，这种连接无法恢复它。可先每帧固定取一个观测形成均匀序列；需要利用帧内所有点时，则保留真实时刻，并用适合非均匀采样的方法分析频谱。
 
 ## 实测影响因素
 

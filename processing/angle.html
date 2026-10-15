@@ -1460,6 +1460,14 @@
 
 <h1 id="_1">角度测量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>目标检测给出了距离格和速度格。取出该位置各天线通道的复数值，可以根据通道间的相位差估计来波方向。</p>
+<div class="admonition formula-recap">
+<p class="admonition-title">从检测位置取出各通道</p>
+<p><a href="doppler.html">多普勒 FFT</a>输出 <span class="arithmatex">\(D[k,\ell,p]\)</span>。若检测位置为 <span class="arithmatex">\((k_0,\ell_0)\)</span>，则测角输入为：</p>
+<div class="arithmatex">\[
+z[p]=D[k_0,\ell_0,p].
+\]</div>
+<p><span class="arithmatex">\(p\)</span> 是通道编号。检测使用的 <span class="arithmatex">\(\sum_p|D[k,\ell,p]|^2\)</span> 已去掉相位，而这里需要每个通道的原始复数值。</p>
+</div>
 <h2 id="_2">天线位置与相位差<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>设两个接收位置间距为 <span class="arithmatex">\(d\)</span>，目标足够远，回波可近似为平面波。角度 <span class="arithmatex">\(\theta\)</span> 从阵列正前方量起，两个位置的传播路程差为 <span class="arithmatex">\(d\sin\theta\)</span>。</p>
 <p>一个波长对应 <span class="arithmatex">\(2\pi\)</span> 相位，因此相邻位置的相位差大小为：</p>
@@ -1467,6 +1475,7 @@
 \Delta\phi=\frac{2\pi d\sin\theta}{\lambda}.
 \]</div>
 <p>相位正负取决于通道编号方向和解调约定。以下使用随通道编号增加而增加的正相位模型。</p>
+<p>这里为什么是 <span class="arithmatex">\(2\pi/\lambda\)</span>，而测速中是 <span class="arithmatex">\(4\pi/\lambda\)</span>？固定发射天线、比较两个接收位置时，发射到目标的路程相同，只有返回路程相差 <span class="arithmatex">\(d\sin\theta\)</span>；目标径向移动 <span class="arithmatex">\(\Delta R\)</span> 时，去程和回程各改变 <span class="arithmatex">\(\Delta R\)</span>，总变化才是 <span class="arithmatex">\(2\Delta R\)</span>。</p>
 <p>若 <span class="arithmatex">\(d=\lambda/2\)</span>、<span class="arithmatex">\(\theta=30^\circ\)</span>，由于 <span class="arithmatex">\(\sin30^\circ=1/2\)</span>：</p>
 <div class="arithmatex">\[
 \Delta\phi=\pi\sin30^\circ=\frac{\pi}{2}.
@@ -1526,6 +1535,14 @@ Z[q]
 <figure><img src="../assets/lessons/angle-peak.svg" alt="8阵元半波长均匀线阵的空间谱经角度换算后在30度附近出现峰值"><figcaption>横轴由空间频率取反正弦得到，角度格点不等距。图为理想均匀线阵模拟，不是 IWR1443 或 IWR1843 开发板的实际阵列。</figcaption></figure>
 
 <h2 id="tdm">TDM 运动补偿<a class="headerlink" href="#tdm" title="Permanent link">&para;</a></h2>
+<div class="admonition formula-recap">
+<p class="admonition-title">时间相位与空间相位</p>
+<p><a href="doppler.html">速度测量</a>给出时间差 <span class="arithmatex">\(\delta t\)</span> 对应的相位差 <span class="arithmatex">\(2\pi f_D\delta t\)</span>；本页均匀线阵的空间相位为：</p>
+<div class="arithmatex">\[
+\phi_{\mathrm{space},p}=\phi_0+\frac{2\pi pd\sin\theta}{\lambda}.
+\]</div>
+<p><span class="arithmatex">\(f_D\)</span> 是目标多普勒频率。TDM 通道既有位置差，也有观测时间差，所以两种相位会同时出现。</p>
+</div>
 <p>多路 TX 轮流发射时，不同虚拟通道的观测时刻有差别。移动目标在这段时间内产生额外相位，会与空间相位叠加。</p>
 <p>若第 <span class="arithmatex">\(p\)</span> 个通道比参考通道晚 <span class="arithmatex">\(\delta t_p\)</span>，多普勒频率估计为 <span class="arithmatex">\(\widehat f_D\)</span>，额外相位为 <span class="arithmatex">\(2\pi\widehat f_D\delta t_p\)</span>。按正相位模型补偿：</p>
 <div class="arithmatex">\[
@@ -1543,6 +1560,7 @@ e^{j2\pi(f_D-\widehat f_D)\delta t_p}.
 \end{aligned}
 \]</div>
 <p>估计准确时，后一个指数为 1，运动相位被抵消，空间相位保留。若多普勒估计有误差，残余相位会继续影响测角。</p>
+<p>以下代码接在实测目标的通道提取之后：<code>z</code> 必须是该目标的 12 个虚拟通道复数值，<code>fd_hat</code>（MATLAB 中为 <code>fdHat</code>）是其多普勒频率估计，单位 Hz。它们不同于前面的 8 阵元合成例。</p>
 <p>3 路 TX 按 160 µs 间隔轮发，每路对应 4 个 RX，且通道按 TX 分组时：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mf">160e-6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">z_comp</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">fd_hat</span><span class="o">*</span><span class="n">offsets</span><span class="p">)</span>
@@ -1550,7 +1568,7 @@ e^{j2\pi(f_D-\widehat f_D)\delta t_p}.
 <div class="language-matlab highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">offsets</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">repelem</span><span class="p">((</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="o">&#39;*</span><span class="mf">160e-6</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">zComp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">z</span><span class="p">(:)</span><span class="o">.*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span>1<span class="nb">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">fdHat</span><span class="o">*</span><span class="n">offsets</span><span class="p">);</span>
 </span></code></pre></div>
-<p>这里 <code>z</code> 是 12 个实测虚拟通道的向量，不是前面 8 阵元示例中的 <code>z</code>。<code>fd_hat</code> 来自目标所在的多普勒格，且要与解调符号一致。</p>
+<p><code>offsets</code> 的前 4 项为 0，中间 4 项为 160 µs，最后 4 项为 320 µs。它记录同一轮内各通道相对 TX1 的观测延迟；不是同一 TX 的 480 µs 重复间隔。<code>fd_hat</code> 的正负要与解调约定一致。</p>
 <h2 id="_4">实际阵列<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>IWR1443 和 IWR1843 都可以组成多个虚拟通道，但开发板上的 TX/RX 位置未必形成连续的一维半波长阵列。通常需要：</p>
 <ol>
@@ -1560,6 +1578,10 @@ e^{j2\pi(f_D-\widehat f_D)\delta t_p}.
 <li>对 TDM 移动目标补偿观测时间差。</li>
 <li>对符合均匀间距的子阵做 FFT，或按实际位置计算波束响应。</li>
 </ol>
+<div class="admonition formula-recap">
+<p class="admonition-title">将等间距位置换成实际位置</p>
+<p>均匀线阵使用 <span class="arithmatex">\(z[p]=Ae^{j\phi_0}e^{j2\pi pd\sin\theta/\lambda}\)</span>，其中 <span class="arithmatex">\(pd\)</span> 是第 <span class="arithmatex">\(p\)</span> 个阵元的位置。对于不等间距阵列，把 <span class="arithmatex">\(pd\)</span> 换成实际坐标 <span class="arithmatex">\(r_p\)</span> 即可；相位补偿后仍按同一位置坐标计算。</p>
+</div>
 <p>对于一维坐标 <span class="arithmatex">\(r_p\)</span>，候选方向的导向向量为：</p>
 <div class="arithmatex">\[
 a_p(\theta)=e^{j2\pi r_p\sin\theta/\lambda}.
@@ -1568,7 +1590,13 @@ a_p(\theta)=e^{j2\pi r_p\sin\theta/\lambda}.
 <div class="arithmatex">\[
 P(\theta)=\left|\sum_p a_p^*(\theta)z[p]\right|^2.
 \]</div>
-<p>方向匹配时，通道间相位差被抵消，相加结果较大。二维阵列还要使用两个空间坐标，不能只靠同一个一维角度轴得到俯仰角。</p>
+<p><span class="arithmatex">\(a_p^*\)</span> 表示复共轭，即将指数中的 <span class="arithmatex">\(j\)</span> 换成 <span class="arithmatex">\(-j\)</span>。若真实方向为 <span class="arithmatex">\(\theta_0\)</span>，每一项乘积为：</p>
+<div class="arithmatex">\[
+a_p^*(\theta)z[p]
+=Ae^{j\phi_0}
+\exp\left[j\frac{2\pi r_p}{\lambda}(\sin\theta_0-\sin\theta)\right].
+\]</div>
+<p>当 <span class="arithmatex">\(\theta=\theta_0\)</span> 时，随 <span class="arithmatex">\(p\)</span> 变化的相位为零，所有通道同相相加，输出较大。二维阵列还要把水平、垂直两个坐标都写入传播路程差，才能同时估计方位角和俯仰角。</p>
 <p>参考：<a href="https://www.ti.com/lit/an/swra554a/swra554a.pdf">TI MIMO Radar</a>。案例代码中的通道选择和角度轴问题见<a href="../code/code-map.html">代码分析</a>。</p>
 
 

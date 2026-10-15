@@ -22,6 +22,14 @@
 
 ## 派生参数 { #hands-on }
 
+!!! formula-recap "参数换算所用的关系"
+
+    [发射时序](../foundations/transmit.md)：$T_c=T_r+T_{\mathrm{idle}}$。
+
+    [采样时长与带宽](../data/capture.md)：$T_{\mathrm{ADC}}=N_s/F_s$，$B_{\mathrm{ADC}}=ST_{\mathrm{ADC}}$。
+
+    [距离格间隔](../processing/range.md)：未补零时 $\Delta R=c/(2B_{\mathrm{ADC}})$。下面把本页参数表的数值逐项代入。
+
 相邻实际 chirp 的间隔：
 
 \[
@@ -76,7 +84,7 @@ rangeResolution = c/(2*bandwidthValid);
 speedResolution = wavelength/(2*chirps*tc);
 ```
 
-最后一行保留了原程序的 `tc`，不是三路轮发时推荐的时间参数。原函数问题汇总见[代码分析](../code/code-map.md)。
+最后一行复现原程序的 `tc`。标准三路轮发时，同一 TX 每隔 `3*tc` 才再次观测，速度格间隔应按 $\lambda/[2N_c(3T_c)]$ 计算；原表达式少了分母中的 3，所以给出的速度尺度大三倍。原函数问题汇总见[代码分析](../code/code-map.md)。
 
 ## 数据尺寸
 

@@ -1625,7 +1625,7 @@
 <h1 id="_1">诊断图说明<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>这些图片来自项目原有的 <code>strict_matlab</code> 处理结果。图中幅度没有完成物理功率标定，单位只用于相同设置下的数值比较。</p>
 <h2 id="1">1. 原始采样值<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<figure><img loading="lazy" src="../assets/figures/raw_int16_segment.png" alt="原始采样值"><figcaption>横轴是整数在文件中的编号，纵轴是原始数值。数值长期停在量程端点可能表示饱和，连续零值可能提示采集异常；下半图只是奇偶位置拆分，不是 I/Q。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/raw_int16_segment.png" alt="原始采样值"><figcaption>横轴是整数在文件中的编号，纵轴是原始数值。数值长期停在量程端点可能表示饱和，连续零值可能提示采集异常。下半图按奇偶位置拆分；原代码假设的格式是 [I0,I1,Q0,Q1]，所以每条奇偶序列都混有 I 和 Q，不能把两条线分别称作 I、Q。</figcaption></figure>
 
 <p><a href="../data/adc-iq-layout.html">回到原理与代码</a>。</p>
 <h2 id="2-iq">2. 单次扫频的 I/Q<a class="headerlink" href="#2-iq" title="Permanent link">&para;</a></h2>
@@ -1637,7 +1637,7 @@
 
 <p><a href="../foundations/signal-and-fft.html">回到原理与代码</a>。</p>
 <h2 id="4">4. 单次距离谱<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<figure><img loading="lazy" src="../assets/figures/range_profile_frame000_chirp000_vc00.png" alt="单次距离谱"><figcaption>横轴是代码换算出的距离，纵轴是未标定的 FFT 幅度。峰的位置对应较强的频率分量；完整 FFT 的后半段不能直接当作更远距离。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/range_profile_frame000_chirp000_vc00.png" alt="单次距离谱"><figcaption>横轴是代码换算出的距离，纵轴是未标定的 FFT 幅度。峰的位置对应较强的频率分量。按本教程的正负频率区间，完整 FFT 的后半段表示负频率，应先按频率符号与有效拍频范围选择数据；把它全部套入递增距离轴会误标为更远的目标。</figcaption></figure>
 
 <p><a href="../processing/range.html">回到原理与代码</a>。</p>
 <h2 id="5">5. 平均距离谱<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
@@ -1657,7 +1657,7 @@
 
 <p><a href="../processing/phase.html">回到原理与代码</a>。</p>
 <h2 id="9">9. 时频图<a class="headerlink" href="#9" title="Permanent link">&para;</a></h2>
-<figure><img loading="lazy" src="../assets/figures/spectrogram_rangebin030_vc00.png" alt="时频图"><figcaption>一个方向是时间，另一个是频率，颜色表示短时频谱强弱。周期竖条可能与帧间空隙和插值有关；约 24.4 Hz 的频率格间距不足以研究亚赫兹运动。</figcaption></figure>
+<figure><img loading="lazy" src="../assets/figures/spectrogram_rangebin030_vc00.png" alt="时频图"><figcaption>一个方向是时间，另一个是频率，颜色表示短时频谱强弱。周期竖条可能与帧间空隙和插值有关。当前 256 点窗口按 160 µs 网格计算，时长约 0.041 s，频率格间距为 1/0.041≈24.4 Hz；而低于 1 Hz 的运动周期超过 1 s，需要更长的真实观测窗口，不能靠这张短窗图分辨。</figcaption></figure>
 
 <p><a href="../processing/phase.html">回到原理与代码</a>。</p>
 <h2 id="10-iq">10. 十二通道 I/Q<a class="headerlink" href="#10-iq" title="Permanent link">&para;</a></h2>
@@ -1669,6 +1669,13 @@
 
 <p><a href="../processing/phase.html">回到原理与代码</a>。</p>
 <h2 id="12">12. 通道相干矩阵<a class="headerlink" href="#12" title="Permanent link">&para;</a></h2>
+<p>矩阵比较的是不同通道在同一距离格的复数序列。记通道 <span class="arithmatex">\(a,b\)</span> 的序列为 <span class="arithmatex">\(z_a[i],z_b[i]\)</span>，图中数值为：</p>
+<div class="arithmatex">\[
+C_{ab}=
+\frac{\left|\sum_i z_a^*[i]z_b[i]\right|}
+{\sqrt{\sum_i|z_a[i]|^2}\sqrt{\sum_i|z_b[i]|^2}}.
+\]</div>
+<p>星号表示共轭。分母消除整体幅度大小的影响；两个非零序列若只相差固定复数倍数，结果为 1。这里没有减去均值，因此不是常见的 Pearson 相关系数。</p>
 <figure><img loading="lazy" src="../assets/figures/channel_correlation_rangebin030.png" alt="通道相干矩阵"><figcaption>横纵轴都是通道编号，数值越接近 1，表示两个复数序列的归一化内积模越大。当前非零序列与自身比较为 1；低非对角值可能来自噪声、排列错误或相位变化，不能单独定位原因。</figcaption></figure>
 
 <p><a href="../code/code-map.html">回到原理与代码</a>。</p>
