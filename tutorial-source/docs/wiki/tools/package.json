@@ -1,0 +1,12 @@
+{
+  "name": "radar-wiki-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build-time equation rendering; no browser CDN dependency",
+  "dependencies": {
+    "mathjax-full": "3.2.2"
+  },
+  "overrides": {
+    "@xmldom/xmldom": "0.9.12"
+  }
+}

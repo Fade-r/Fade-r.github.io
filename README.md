@@ -10,7 +10,7 @@
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-然后访问 <http://127.0.0.1:8000/>。公式使用 MathJax CDN，需要联网；其余主要页面资源随站点提供。
+然后访问 <http://127.0.0.1:8000/>。公式已在构建时生成内嵌 SVG，不依赖浏览器脚本、第三方 CDN 或字体下载。长公式可在公式区域横向滚动。
 
 GitHub 仓库页面不会直接运行 HTML。是否通过 GitHub Pages 上线，取决于仓库的 Pages 设置；本次更新不改变该设置。
 
@@ -30,14 +30,20 @@ GitHub 仓库页面不会直接运行 HTML。是否通过 GitHub Pages 上线，
 python -m pip install -r tutorial-source/docs/wiki/requirements.txt
 python -m pip install -r tutorial-source/project/requirements.txt
 cd tutorial-source
+npm ci --prefix docs/wiki/tools --ignore-scripts
 python -m mkdocs build -f docs/wiki/mkdocs.yml --strict --clean
 python workbench/experiments/wiki-build/verify_tutorial.py
 python workbench/experiments/wiki-build/verify_wiki.py
 python docs/wiki/examples/tutorial_pipeline.py
 node workbench/experiments/wiki-build/verify_signal_labs.cjs
+node workbench/experiments/wiki-build/verify_lab_fallbacks.cjs
+node workbench/experiments/wiki-build/verify_static_math.cjs
+python workbench/experiments/wiki-build/verify_static_site.py
 ```
 
 MATLAB 中运行 `tutorial-source/docs/wiki/examples/tutorial_pipeline.m`。新版 Python 示例已通过运行测试；MATLAB 版本尚未实际运行。构建后的网页位于 `tutorial-source/docs/wiki/site/`；发布更新时，将该目录的内容复制到分支根目录，保留 `tutorial-source/` 和本说明。
+
+构建需要 Node.js（本次验证版本 24.15.0）；它仅用于生成网站公式，教学语言仍为 MATLAB/Python。`package-lock.json` 固定构建依赖，`node_modules/` 不发布。阅读构建后的网站无需安装 Node.js。
 
 ## 🔍 数据与结果
 

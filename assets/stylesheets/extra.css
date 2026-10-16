@@ -10,6 +10,32 @@
 .md-typeset h3 { line-height: 1.5; }
 /* Keep MathJax's screen-reader-only MathML from widening narrow pages. */
 .md-typeset mjx-assistive-mml { width: 1px !important; height: 1px !important; }
+/* Pre-rendered SVG formulas work without JavaScript, CDN or web fonts. */
+.md-typeset div.arithmatex {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.3em 0;
+  -webkit-overflow-scrolling: touch;
+}
+.md-typeset span.arithmatex {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  vertical-align: middle;
+}
+.md-typeset mjx-container[jax="SVG"] { direction: ltr; }
+.md-typeset mjx-container[jax="SVG"] > svg { max-width: none; }
+.md-typeset div.arithmatex > mjx-container[display="true"] {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  margin: 0.6em 0;
+}
+.md-typeset div.arithmatex:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
 .md-typeset code { font-size: 0.83em; }
 .md-typeset pre { line-height: 1.65; }
 .md-typeset .admonition, .md-typeset details {
@@ -68,7 +94,7 @@
   border: 1px solid var(--md-default-fg-color--light);
   border-radius: 0.2rem;
   padding: 0.3rem 0.55rem;
-  min-height: 2.2rem;
+  min-height: 44px;
 }
 .signal-lab button:not(:disabled), .signal-lab select { cursor: pointer; }
 .signal-lab button:disabled { opacity: 0.45; }
@@ -99,4 +125,5 @@
 @media (max-width: 650px) {
   .signal-lab .lab-pair { grid-template-columns: minmax(0,1fr); }
   .signal-lab .lab-result { overflow-wrap: anywhere; }
+  .signal-lab select { font-size: 16px; }
 }

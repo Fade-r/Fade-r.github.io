@@ -5,6 +5,8 @@ docs_dir: content
 site_dir: site
 use_directory_urls: false
 strict: true
+hooks:
+  - hooks.py
 
 theme:
   name: material
@@ -67,13 +69,12 @@ markdown_extensions:
       custom_checkbox: true
 
 extra_css:
+  - assets/stylesheets/mathjax-svg.css
   - assets/stylesheets/extra.css
 
 extra_javascript:
   - assets/javascripts/theme-toggle.js
   - assets/javascripts/signal-labs.js
-  - assets/javascripts/mathjax.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
 
 nav:
   - 简介: index.md

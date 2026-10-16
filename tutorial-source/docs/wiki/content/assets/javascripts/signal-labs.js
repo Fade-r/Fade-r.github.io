@@ -75,7 +75,7 @@
     line(svg, left, top, left, bottom);
     line(svg, left, bottom, right, bottom);
     text(svg, (left + right) / 2, h - 3, "时间 / µs");
-    host.replaceChildren(svg);
+    replaceContent(host, svg);
     return { svg: svg, x: x, y: y };
   }
   function path(plot, points, cls) {
@@ -91,12 +91,20 @@
   }
   const view = (root, name) => root.querySelector('[data-view="' + name + '"]');
   const control = (root, name) => root.querySelector('[data-control="' + name + '"]');
+  function replaceContent(host, child) {
+    while (host.firstChild) host.removeChild(host.firstChild);
+    if (child) host.appendChild(child);
+  }
   function resize(root, render) {
     let width = -1;
-    new ResizeObserver((entries) => {
-      const next = entries[0].contentRect.width;
+    function update(next) {
       if (next !== width && next > 0) { width = next; render(); }
-    }).observe(root);
+    }
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver((entries) => update(entries[0].contentRect.width)).observe(root);
+    } else {
+      window.addEventListener("resize", () => update(root.getBoundingClientRect().width));
+    }
   }
   function mountEcho(root) {
     const input = control(root, "distance");
@@ -149,7 +157,7 @@
       line(svg, px, py, cx, py, "lab-projection");
       line(svg, cx, cy, px, py, "lab-vector");
       svg.append(svgEl("circle", { cx: px, cy: py, r: 5, class: "lab-current" }));
-      host.replaceChildren(svg);
+      replaceContent(host, svg);
       const p = chart(view(root, "wave"), "I/Q 波形，当前第 " + s.n + " 个采样点",
         "归一化幅度", 1, -1.2, 1.2, [-1, 0, 1]);
       const points = Array.from({ length: 129 }, (_, k) => k / 128);
@@ -186,7 +194,8 @@
         "系统启用了减少动态效果，可用滑块或上一点 / 下一点逐点查看。" :
         "每次前进一个采样间隔 0.125 µs；播放仅用于慢放观察。";
     }
-    reduced.addEventListener("change", motionPreference);
+    if (reduced.addEventListener) reduced.addEventListener("change", motionPreference);
+    else if (reduced.addListener) reduced.addListener(motionPreference);
     document.addEventListener("visibilitychange", () => { if (document.hidden) stop(); });
     window.addEventListener("pagehide", stop);
     motionPreference(); render(); resize(root, render);
@@ -194,7 +203,7 @@
   function mountLayout(root) {
     function render() {
       const s=layout(...["n","m","tx","rx"].map((k)=>Number(control(root,k).value)));
-      const words=view(root,"words"); words.replaceChildren();
+      const words=view(root,"words"); replaceContent(words);
       for (let k=0;k<8;k++) {
         const selected=k===s.rx || k===s.rx+4;
         const cell=html("div", { class:"lab-cell" + (selected ? " is-active" : "") });
@@ -217,7 +226,7 @@
         }
         table.append(row);
       }
-      view(root,"matrix").replaceChildren(table);
+      replaceContent(view(root,"matrix"), table);
       view(root,"result").textContent="选中值：" + s.i + " + " + s.q + "j；I 来自 raw[" +
         s.iIndex + "]，Q 来自 raw[" + s.qIndex + "]（零起始索引）。";
       view(root,"indices").textContent="Python：frame[" + [s.n,s.m,s.channel].join(", ") +
@@ -242,7 +251,7 @@
         const tr=html("tr",{class:"lab-product"}); tr.append(html("th",{scope:"row"},label));
         values.forEach((z)=>tr.append(html("td",{},complex(z)))); table.append(tr);
       });
-      view(root,"matrix").replaceChildren(table);
+      replaceContent(view(root,"matrix"), table);
       view(root,"result").textContent="选中行与输入逐项相乘，再求和：X[" + k + "] = " +
         s.products.map((z)=>"("+complex(z)+")").join(" + ") + " = " + complex(s.sum);
     }
@@ -251,9 +260,15 @@
   function mount() {
     document.querySelectorAll(".signal-lab[data-lab]").forEach((root)=>{
       if(root.dataset.ready) return;
-      root.hidden=false;
-      ({echo:mountEcho, iq:mountIQ, layout:mountLayout, dft:mountDFT})[root.dataset.lab](root);
-      root.dataset.ready="true";
+      try {
+        root.hidden=false;
+        ({echo:mountEcho, iq:mountIQ, layout:mountLayout, dft:mountDFT})[root.dataset.lab](root);
+        root.dataset.ready="true";
+      } catch (error) {
+        // A failed optional lab must not hide the lesson or block other labs.
+        root.hidden=true;
+        console.error("Teaching lab could not be initialized:", root.dataset.lab, error);
+      }
     });
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mount);
