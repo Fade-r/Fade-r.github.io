@@ -2,6 +2,7 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
+const {createHash} = require("node:crypto");
 const {mathjax} = require("mathjax-full/js/mathjax.js");
 const {TeX} = require("mathjax-full/js/input/tex.js");
 const {SVG} = require("mathjax-full/js/output/svg.js");
@@ -74,8 +75,21 @@ function build(site) {
   const total = pages.reduce((sum, page) => sum + page.count, 0);
   if (!total) throw new Error("No source equations found; run a clean MkDocs build first");
   const css = adaptor.textContent(svg.styleSheet(document));
-  for (const page of pages) fs.writeFileSync(page.file, page.html, "utf8");
   fs.writeFileSync(path.join(site, "assets/stylesheets/mathjax-svg.css"), css, "utf8");
+  // Browsers may cache the previous extra.css while receiving new HTML.
+  // Content hashes invalidate only the resources that actually changed.
+  const resources = [
+    "assets/stylesheets/mathjax-svg.css", "assets/stylesheets/extra.css",
+    "assets/javascripts/theme-toggle.js", "assets/javascripts/signal-labs.js",
+  ].map(file => [file, createHash("sha256").update(fs.readFileSync(path.join(site, file)))
+    .digest("hex").slice(0, 12)]);
+  for (const page of pages) {
+    let html = page.html;
+    for (const [file, hash] of resources) {
+      html = html.split(file + '"').join(file + "?v=" + hash + '"');
+    }
+    fs.writeFileSync(page.file, html, "utf8");
+  }
   console.log("Pre-rendered " + total + " equations across " + pages.filter(p=>p.count).length +
     " pages; SVG and accessible MathML are embedded, no browser math scripts.");
 }

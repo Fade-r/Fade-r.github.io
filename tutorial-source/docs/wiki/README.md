@@ -19,7 +19,7 @@ conda run -n radar-env python -m mkdocs serve -f docs/wiki/mkdocs.yml -a 127.0.0
 
 打开 http://127.0.0.1:8000/ ，用 Ctrl+C 停止服务。安装构建依赖需要网络，阅读已构建网页不再依赖第三方 CDN。公式在构建时转换为内嵌 SVG，禁用 JavaScript 仍可阅读；长公式可在公式区域横向滚动。
 
-构建环境需要 Node.js（本次使用 24.15.0）与现有 Python/MkDocs 环境。Node.js 仅用于网站构建，不改变教程中的 MATLAB/Python 实现。依赖版本保存在 `tools/package-lock.json`，`node_modules/` 不提交、不发布。
+构建环境需要 Node.js（本次使用 24.15.0）与现有 Python/MkDocs 环境。Node.js 仅用于网站构建，不改变教程中的 MATLAB/Python 实现。依赖版本保存在 `tools/package-lock.json`，`node_modules/` 不提交、不发布。自定义样式与脚本的链接带内容哈希，更新网页时会自动加载匹配版本，避免旧缓存与新公式混用。
 
 ## 构建与验证
 

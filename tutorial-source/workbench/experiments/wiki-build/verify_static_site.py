@@ -3,6 +3,8 @@ from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
 import json
+import hashlib
+from urllib.parse import urlsplit, parse_qs
 
 SITE = Path(__file__).resolve().parents[3] / "docs/wiki/site"
 
@@ -35,6 +37,13 @@ class Page(HTMLParser):
             url = a.get("src", a.get("href", ""))
             if url.startswith(("https://", "http://", "//")):
                 self.remote.append(url)
+            for resource in ("assets/stylesheets/mathjax-svg.css",
+                             "assets/stylesheets/extra.css",
+                             "assets/javascripts/theme-toggle.js",
+                             "assets/javascripts/signal-labs.js"):
+                if resource in url:
+                    expected = hashlib.sha256((SITE / resource).read_bytes()).hexdigest()[:12]
+                    assert parse_qs(urlsplit(url).query).get("v") == [expected], url
         if tag == "script":
             assert "mathjax" not in a.get("src", "").lower()
 
